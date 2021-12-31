@@ -11,10 +11,10 @@ public class PlayerStats : UnitStats
     public void Start()
     {
         SetTest();
-        if (staminaBar != null)
+        if (healthBar != null)
         {
-            staminaBar.SetMaxValue(maxHealth);
-            staminaBar.SetSliderValue(currentHealth);
+            healthBar.SetMaxValue(maxHealth);
+            healthBar.SetSliderValue(currentHealth);
         }
         if (meterBar != null)
         {

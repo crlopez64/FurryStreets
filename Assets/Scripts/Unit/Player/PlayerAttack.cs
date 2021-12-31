@@ -10,8 +10,6 @@ public class PlayerAttack : UnitAttack
     private Attack attackTree;      //The entire movelist while on the ground.
     private Attack attackToBuffer;  //The current attack for the attack buffer.
     private bool canPlayNextAttack;
-    private byte upperClothing;     //The less clothing, the more influential Lust attacks are in sending and receiving.
-    private byte lowerClothing;
     private float grabTimer;
 
     protected override void Awake()
@@ -22,8 +20,6 @@ public class PlayerAttack : UnitAttack
     {
         attacksBuffered = new Queue<int>(5);
         CreateAttacks();
-        upperClothing = 2;
-        lowerClothing = 2;
         grabTimer = 0f;
         attackToAnimate = rootAttack;
     }
@@ -161,62 +157,6 @@ public class PlayerAttack : UnitAttack
                 unitAnimationLayers.SetMovementLayer();
                 ResetAttacking();
             }
-        }
-    }
-    /// <summary>
-    /// Remove torso clothing (be it shirt or bra/crop undershirt).
-    /// </summary>
-    public void RemoveUpperClothing()
-    {
-        if (upperClothing - 1 <= 0)
-        {
-            upperClothing = 0;
-        }
-        else
-        {
-            upperClothing--;
-        }
-    }
-    /// <summary>
-    /// Remove legging clothing (be it pants or underwear/panties).
-    /// </summary>
-    public void RemoveLowerClothing()
-    {
-        if (lowerClothing - 1 <= 0)
-        {
-            lowerClothing = 0;
-        }
-        else
-        {
-            lowerClothing--;
-        }
-    }
-    /// <summary>
-    /// Restore torso clothing (be it shirt or bra/crop undershirt).
-    /// </summary>
-    public void RestoreUpperClothing()
-    {
-        if (upperClothing + 1 >= 2)
-        {
-            upperClothing = 2;
-        }
-        else
-        {
-            upperClothing++;
-        }
-    }
-    /// <summary>
-    /// Restore legging clothing (be it pants or underwear/panties).
-    /// </summary>
-    public void RestoreLowerClothing()
-    {
-        if (lowerClothing + 1 >= 2)
-        {
-            lowerClothing = 2;
-        }
-        else
-        {
-            lowerClothing++;
         }
     }
     /// <summary>

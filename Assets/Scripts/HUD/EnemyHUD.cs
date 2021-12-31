@@ -8,14 +8,14 @@ using TMPro;
 public class EnemyHUD : MonoBehaviour
 {
     private TextMeshProUGUI fountainPen;
-    private MeterBarStamina meterBarStamina;
+    private MeterBarHealth meterBarHealth;
     private Image portrait;
     private float canvasTimer;
 
     private void Awake()
     {
         portrait = GetComponentInChildren<Image>();
-        meterBarStamina = GetComponentInChildren<MeterBarStamina>();
+        meterBarHealth = GetComponentInChildren<MeterBarHealth>();
         fountainPen = GetComponentInChildren<TextMeshProUGUI>();
     }
     void Start()
@@ -43,9 +43,9 @@ public class EnemyHUD : MonoBehaviour
         //get portait sprites from enemy
         portrait.enabled = true;
         Debug.Log("Stamina: " + unitStats.CurrentHealth() + "/" + unitStats.MaxHealth());
-        meterBarStamina.gameObject.SetActive(true);
-        meterBarStamina.SetMaxValue(unitStats.MaxHealth());
-        meterBarStamina.SetSliderValue(unitStats.CurrentHealth());
+        meterBarHealth.gameObject.SetActive(true);
+        meterBarHealth.SetMaxValue(unitStats.MaxHealth());
+        meterBarHealth.SetSliderValue(unitStats.CurrentHealth());
         canvasTimer = 5f;
     }
     /// <summary>
@@ -55,7 +55,7 @@ public class EnemyHUD : MonoBehaviour
     {
         portrait.enabled = false;
         portrait.sprite = null;
-        meterBarStamina.gameObject.SetActive(false);
+        meterBarHealth.gameObject.SetActive(false);
         fountainPen.text = "";
     }
 }

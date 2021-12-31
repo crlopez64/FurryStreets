@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Script in charge of keeping track of a Unit's Lust on the HUD. Drain appears when Lust is increasing.
 /// </summary>
-public class MeterBarLust : MeterBar
+public class MeterBarSpecial : MeterBar
 {
     private void Awake()
     {

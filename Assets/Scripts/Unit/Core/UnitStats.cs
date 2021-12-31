@@ -10,18 +10,19 @@ public class UnitStats : MonoBehaviour
     protected EnemyHUD enemyHUD;        //For Player, this will always be empty
     protected UnitAttack unitAttack;    //Used for Stun
     protected byte statAttack;          //Physical Attack
+    protected byte statDefense;         //Physical Defense
     protected byte statGrabChance = 50; //For Enemy, not to exceed 100. Chance on being grabbed
-    protected byte grabWorks;           //For Enemy, checks which Normal Grab actually works against an enemy.
+    protected byte grabWorks;           //For Enemy, checks which Grab actually works against an enemy.
     protected int maxStun = 20;         //Stun
     protected float grabTimer = 2f;     //Grab timer; if not stunned, double grab timer.
-    public int maxHealth;              //Health
-    public int maxMeter;               //Meter to do Special Moves
-    protected int currentHealth;       //If stamina goes to 0, KO
+    protected int maxHealth;            //Health
+    protected int maxMeter;             //Meter to do Special Moves
+    protected int currentHealth;        //If health goes to 0, KO
     protected int currentStun;          //If stun goes to max, get stunned.
     protected int currentMeter;         //Current Meter for Special moves
 
-    public MeterBarStamina staminaBar;
-    public MeterBarLust meterBar;
+    public MeterBarHealth healthBar;
+    public MeterBarSpecial meterBar;
 
     protected virtual void Awake()
     {
@@ -46,25 +47,24 @@ public class UnitStats : MonoBehaviour
             currentHealth = 0;
             Debug.LogWarning("Zero health! KO!!");
         }
-        //currentMeter += damageSpecial;
+        currentMeter += 3;
         if (currentMeter >= maxMeter)
         {
             currentMeter = maxMeter;
-            Debug.LogWarning("Max Meter! Heavy Stun!!");
         }
         currentStun += damagePhysical;
         if (enemyHUD != null)
         {
             enemyHUD.TurnOnHUD(this);
         }
-        //if (staminaBar != null)
-        //{
-        //    staminaBar.SetSliderValue(currentStamina);
-        //}
-        if (meterBar != null)
+        if (healthBar != null)
         {
-            meterBar.SetSliderValue(currentMeter);
+            healthBar.SetSliderValue(currentHealth);
         }
+        //if (meterBar != null)
+        //{
+        //    meterBar.SetSliderValue(currentMeter);
+        //}
         return currentStun >= maxStun;
     }
     /// <summary>
@@ -72,30 +72,30 @@ public class UnitStats : MonoBehaviour
     /// </summary>
     /// <param name="healthRestore"></param>
     /// <param name="specialRestore"></param>
-    public void RestoreUnit(int healthRestore, int specialRestore)
+    public void RestoreUnit(int healthRestore, int meterRestore)
     {
         currentHealth += healthRestore;
         if (currentHealth >= maxHealth)
         {
             currentHealth = maxHealth;
         }
-        currentMeter -= specialRestore;
-        if (currentMeter <= 0)
+        currentMeter += meterRestore;
+        if (currentMeter >= maxMeter)
         {
-            currentMeter = 0;
+            currentMeter = maxMeter;
         }
         if (enemyHUD != null)
         {
             enemyHUD.TurnOnHUD(this);
         }
-        if (staminaBar != null)
+        if (healthBar != null)
         {
-            staminaBar.SetSliderValue(currentHealth);
+            healthBar.SetSliderValue(currentHealth);
         }
-        if (meterBar != null)
-        {
-            meterBar.SetSliderValue(currentMeter);
-        }
+        //if (meterBar != null)
+        //{
+        //    meterBar.SetSliderValue(currentMeter);
+        //}
     }
     /// <summary>
     /// Rest the Unit up and max out their health bars.
@@ -103,16 +103,16 @@ public class UnitStats : MonoBehaviour
     public void RestAll()
     {
         currentHealth = maxHealth;
-        currentMeter = 0;
+        currentMeter = maxMeter;
         currentStun = 0;
-        if (staminaBar != null)
+        if (healthBar != null)
         {
-            staminaBar.SetSliderValue(currentHealth);
+            healthBar.SetSliderValue(currentHealth);
         }
-        if (meterBar != null)
-        {
-            meterBar.SetSliderValueNoDrain(currentMeter);
-        }
+        //if (meterBar != null)
+        //{
+        //    meterBar.SetSliderValueNoDrain(currentMeter);
+        //}
     }
     /// <summary>
     /// Reset this Unit's stun.
@@ -213,24 +213,11 @@ public class UnitStats : MonoBehaviour
             return 4;
         }
     }
-    protected void TestStatsPlayer()
-    {
-        statAttack = 1;
-        //statDefense = 1;
-        //statResistance = 0;
-        //statSpecial = 1;
-        //statResistance = 0;
-        maxHealth = 100;
-        maxMeter = 100;
-    }
 
     public void SetTest()
     {
         statAttack = 5;
-        //statDefense = 2;
-        //statResistance = 1;
-        //statSpecial = 3;
-        //statResistance = 1;
+        statDefense = 2;
         currentHealth = maxHealth;
         currentMeter = 0;
     }

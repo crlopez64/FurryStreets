@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Script in charge of keeping track of a Unit's stamina on the HUD. Drain appears when Stamina is draining.
 /// </summary>
-public class MeterBarStamina : MeterBar
+public class MeterBarHealth : MeterBar
 {
     private void Awake()
     {

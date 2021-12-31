@@ -40,6 +40,7 @@ public class UserInput : MonoBehaviour
         }
         //Movement
         directionalInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        //Action/Jump
         if (Input.GetKeyDown(KeyCode.Space))
         {
             if (playerAction.HasInteractable())
@@ -73,12 +74,13 @@ public class UserInput : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.U))
         {
             //Grab
+            //TODO: Make Punch + Kick
             playerAttack.MakeAttack(GetFlippedByte(DirectionByte()), 3);
         }
         if (Input.GetKeyDown(KeyCode.I))
         {
-            //Seduce Grab
-            playerAttack.MakeAttack(GetFlippedByte(DirectionByte()), 4);
+            //TODO: Make Special
+            //playerAttack.MakeAttack(GetFlippedByte(DirectionByte()), 4);
         }
 
         //Debugging Commands

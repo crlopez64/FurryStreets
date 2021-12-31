@@ -100,25 +100,10 @@ public class Item
                     currentStat = "attack";
                     break;
                 case 1:
-                    currentStat = "defense";
-                    break;
-                case 2:
-                    currentStat = "charm";
-                    break;
-                case 3:
-                    currentStat = "purity";
-                    break;
-                case 4:
                     currentStat = "currentHealth";
                     break;
-                case 5:
-                    currentStat = "currentLust";
-                    break;
-                case 6:
+                case 2:
                     currentStat = "maxHealth";
-                    break;
-                case 7:
-                    currentStat = "maxLust";
                     break;
             }
             byte valueReceived;
