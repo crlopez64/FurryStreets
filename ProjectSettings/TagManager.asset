@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Attack_FromPlayer
+  - Attack_FromEnemy
+  - EnemyHurtbox
+  - PlayerHurtbox
+  - Interactable
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - Unit_GroundedPlayer
+  - Unit_GroundedEnemy
+  - Unit_AirbornePlayer
+  - Unit_AirborneEnemy
+  - Background
+  - Ground
+  - Hurtbox
+  - Unwalkable
+  - Teleport
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 1026841693
+    locked: 0
+  - name: Middleground
+    uniqueID: 3459939363
+    locked: 0
+  - name: Units
+    uniqueID: 3827368993
+    locked: 0
+  - name: Flashiness
+    uniqueID: 2307108255
+    locked: 0
+  - name: Foreground
+    uniqueID: 2895163349
+    locked: 0
+  - name: EnemyHUD
+    uniqueID: 3355916847
+    locked: 0

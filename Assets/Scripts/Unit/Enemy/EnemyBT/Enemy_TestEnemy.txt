@@ -1,0 +1,36 @@
+tree("Root")
+	repeat
+		sequence
+			not KnockedOut
+			not MeterMaxedOut
+			fallback
+				tree "Attack"
+				tree "Move"
+
+tree("Move")
+	fallback
+		sequence
+			Move
+
+tree("Attack")
+	sequence
+		WithinDistance
+		random(0.2, 0.8)
+			tree "MakeIdle"
+			fallback
+				sequence
+					fallback
+						sequence
+							not CanAttack
+							tree "MakeIdle"
+						sequence
+							CanAttack
+							MakeAttack1
+							//random(0.7, 0.25, 0.15)
+								//MakeAttack1
+								//MakeAttack2
+								//MakeAttack3
+
+tree("MakeIdle")
+	sequence
+		Wait(2.0)

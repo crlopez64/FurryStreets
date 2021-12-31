@@ -1,0 +1,485 @@
+fileFormatVersion: 2
+guid: eb71dca062d62bb4dacd3dd35df0b1ce
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 1183897115464068851
+    second: HitLow_0
+  - first:
+      213: 3694562660589725903
+    second: HitLow_1
+  - first:
+      213: -4857258655230977323
+    second: HitLow_2
+  - first:
+      213: -2915146601168070307
+    second: HitHigh_0
+  - first:
+      213: 5537556685071319272
+    second: HitHigh_1
+  - first:
+      213: -2107215445913918879
+    second: HitHigh_2
+  - first:
+      213: -2726048810210010239
+    second: knockbackLand_0
+  - first:
+      213: 7613095905057123852
+    second: knockbackHigh_2
+  - first:
+      213: -6323014940044599881
+    second: knockbackHigh_1
+  - first:
+      213: 4791179190909282582
+    second: knockbackHigh_0
+  - first:
+      213: 7178138010295899130
+    second: knockbackDistal_2
+  - first:
+      213: -6093601201093413214
+    second: knockbackDistal_1
+  - first:
+      213: 8923024357305918204
+    second: knockbackDistal_0
+  - first:
+      213: 7492159206162994020
+    second: HitZeroHealth0
+  - first:
+      213: -5323945170083767176
+    second: HitZeroHealth1
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 0
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: HitLow_0
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 2931
+        width: 359
+        height: 539
+      alignment: 9
+      pivot: {x: 0.61281335, y: 0.0445269}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3fe68d9672c0e6010800000000000000
+      internalID: 1183897115464068851
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HitLow_1
+      rect:
+        serializedVersion: 2
+        x: 435
+        y: 2931
+        width: 358
+        height: 539
+      alignment: 9
+      pivot: {x: 0.5027933, y: 0.0445269}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fc86fd84a29b54330800000000000000
+      internalID: 3694562660589725903
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HitLow_2
+      rect:
+        serializedVersion: 2
+        x: 794
+        y: 2931
+        width: 345
+        height: 540
+      alignment: 9
+      pivot: {x: 0.49275362, y: 0.044444446}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5da14c8ecfc879cb0800000000000000
+      internalID: -4857258655230977323
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HitHigh_0
+      rect:
+        serializedVersion: 2
+        x: 58
+        y: 3507
+        width: 400
+        height: 560
+      alignment: 9
+      pivot: {x: 0.75, y: 0.042857144}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d5990318c915b87d0800000000000000
+      internalID: -2915146601168070307
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HitHigh_1
+      rect:
+        serializedVersion: 2
+        x: 458
+        y: 3507
+        width: 356
+        height: 560
+      alignment: 9
+      pivot: {x: 0.64606744, y: 0.042857144}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8e00441477a59dc40800000000000000
+      internalID: 5537556685071319272
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HitHigh_2
+      rect:
+        serializedVersion: 2
+        x: 814
+        y: 3507
+        width: 361
+        height: 560
+      alignment: 9
+      pivot: {x: 0.4875346, y: 0.042857144}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 162a51967baa1c2e0800000000000000
+      internalID: -2107215445913918879
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knockbackLand_0
+      rect:
+        serializedVersion: 2
+        x: 1175
+        y: 3491
+        width: 305
+        height: 476
+      alignment: 9
+      pivot: {x: 0.91803277, y: 0.025210084}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 18b5e03ec012b2ad0800000000000000
+      internalID: -2726048810210010239
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knockbackHigh_2
+      rect:
+        serializedVersion: 2
+        x: 1480
+        y: 3491
+        width: 407
+        height: 497
+      alignment: 9
+      pivot: {x: 0.6403941, y: 0.02414487}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c0e29e5c36627a960800000000000000
+      internalID: 7613095905057123852
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knockbackHigh_1
+      rect:
+        serializedVersion: 2
+        x: 1887
+        y: 3492
+        width: 581
+        height: 473
+      alignment: 9
+      pivot: {x: 0.48192772, y: -0.2706131}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7bd572da9632048a0800000000000000
+      internalID: -6323014940044599881
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knockbackHigh_0
+      rect:
+        serializedVersion: 2
+        x: 2468
+        y: 3490
+        width: 257
+        height: 596
+      alignment: 9
+      pivot: {x: 0.46692607, y: 0.020134227}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6192461e610bd7240800000000000000
+      internalID: 4791179190909282582
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knockbackDistal_2
+      rect:
+        serializedVersion: 2
+        x: 2782
+        y: 3537
+        width: 341
+        height: 393
+      alignment: 9
+      pivot: {x: 0.17595308, y: 0.030534351}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: af39a6c2d7edd9360800000000000000
+      internalID: 7178138010295899130
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knockbackDistal_1
+      rect:
+        serializedVersion: 2
+        x: 3158
+        y: 3536
+        width: 355
+        height: 352
+      alignment: 9
+      pivot: {x: 0.16901408, y: 0.03409091}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2a6feed2efd2f6ba0800000000000000
+      internalID: -6093601201093413214
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knockbackDistal_0
+      rect:
+        serializedVersion: 2
+        x: 3545
+        y: 3540
+        width: 341
+        height: 352
+      alignment: 9
+      pivot: {x: 0.17595308, y: 0.03409091}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cf2a0637063f4db70800000000000000
+      internalID: 8923024357305918204
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HitZeroHealth0
+      rect:
+        serializedVersion: 2
+        x: 1208
+        y: 2929
+        width: 273
+        height: 525
+      alignment: 9
+      pivot: {x: 0.5860806, y: 0.022857143}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 46394045a1f79f760800000000000000
+      internalID: 7492159206162994020
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HitZeroHealth1
+      rect:
+        serializedVersion: 2
+        x: 1481
+        y: 2929
+        width: 336
+        height: 530
+      alignment: 9
+      pivot: {x: 0.5952381, y: 0.02264151}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 87c1085431c8d16b0800000000000000
+      internalID: -5323945170083767176
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      knockbackDistal_1: -6093601201093413214
+      HitHigh_2: -2107215445913918879
+      knockbackHigh_0: 4791179190909282582
+      knockbackDistal_2: 7178138010295899130
+      HitZeroHealth1: -5323945170083767176
+      HitLow_2: -4857258655230977323
+      knockbackLand_0: -2726048810210010239
+      HitHigh_1: 5537556685071319272
+      HitZeroHealth0: 7492159206162994020
+      HitLow_1: 3694562660589725903
+      HitLow_0: 1183897115464068851
+      knockbackHigh_1: -6323014940044599881
+      knockbackHigh_2: 7613095905057123852
+      HitHigh_0: -2915146601168070307
+      knockbackDistal_0: 8923024357305918204
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

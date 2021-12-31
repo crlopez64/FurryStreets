@@ -1,0 +1,8 @@
+ART STYLE:
+	CHARACTERS: Flat Shade, Smearing on in-between frames.
+	ENVIRONMENT: Can have full shade.
+	HUD: Flat Shade, cartoony-looking
+
+TO DO LIST:
+-> Controls: [P]unch, [K]ick, [A]ction/Jump, [S]pecial
+-> Redo move list for fighter (will eventually change depending on characters)

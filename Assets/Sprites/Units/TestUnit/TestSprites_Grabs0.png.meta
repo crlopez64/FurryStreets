@@ -1,0 +1,485 @@
+fileFormatVersion: 2
+guid: ff1fb0cb058583343a12c51a3617cf47
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -7901632921136732348
+    second: GrabNormalPrep_0
+  - first:
+      213: 1557420903538343164
+    second: GrabNormalPrep_1
+  - first:
+      213: 5461546673860913656
+    second: GrabNormalPrep_2
+  - first:
+      213: 3450879052062362705
+    second: GrabNormalChoice0_0
+  - first:
+      213: 7473624478051256648
+    second: GrabNormalChoice0_1
+  - first:
+      213: 469641151054641291
+    second: GrabNormalChoice1_0
+  - first:
+      213: -2233011687763820827
+    second: GrabNormalChoice1_1
+  - first:
+      213: -1780372428286055792
+    second: GrabNormalChoice1_2
+  - first:
+      213: 1106667944116873025
+    second: GrabNormalChoice1_3
+  - first:
+      213: 2808248670312978729
+    second: GrabNormalChoice3_0
+  - first:
+      213: -8469344394117434026
+    second: GrabNormalChoice3_1
+  - first:
+      213: 4763562293622885831
+    second: GrabNormalChoice3_2
+  - first:
+      213: 6325741901130000615
+    second: GrabNormalChoice3_3
+  - first:
+      213: -4949856020191155586
+    second: GrabNormalChoice3_4
+  - first:
+      213: -2422874562095594253
+    second: GrabNormalChoice3_5
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 0
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: GrabNormalPrep_0
+      rect:
+        serializedVersion: 2
+        x: 138
+        y: 3512
+        width: 397
+        height: 542
+      alignment: 9
+      pivot: {x: 0.4534005, y: 0.022140222}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 447ec1e09b2c75290800000000000000
+      internalID: -7901632921136732348
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GrabNormalPrep_1
+      rect:
+        serializedVersion: 2
+        x: 536
+        y: 3512
+        width: 470
+        height: 536
+      alignment: 9
+      pivot: {x: 0.29787233, y: 0.03358209}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cfcbb296f021d9510800000000000000
+      internalID: 1557420903538343164
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GrabNormalPrep_2
+      rect:
+        serializedVersion: 2
+        x: 1006
+        y: 3512
+        width: 345
+        height: 538
+      alignment: 9
+      pivot: {x: 0.4347826, y: 0.03717472}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8f922bb63cf4bcb40800000000000000
+      internalID: 5461546673860913656
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GrabNormalChoice0_0
+      rect:
+        serializedVersion: 2
+        x: 1394
+        y: 3512
+        width: 296
+        height: 527
+      alignment: 9
+      pivot: {x: 0.6081081, y: 0.0227704}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 15c830dd63cf3ef20800000000000000
+      internalID: 3450879052062362705
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GrabNormalChoice0_1
+      rect:
+        serializedVersion: 2
+        x: 1695
+        y: 3512
+        width: 347
+        height: 462
+      alignment: 9
+      pivot: {x: 0.4610951, y: 0.038961038}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 849c8e6add5a7b760800000000000000
+      internalID: 7473624478051256648
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GrabNormalChoice1_0
+      rect:
+        serializedVersion: 2
+        x: 2064
+        y: 3511
+        width: 343
+        height: 503
+      alignment: 9
+      pivot: {x: 0.40816328, y: 0.02385686}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b88748c7320848600800000000000000
+      internalID: 469641151054641291
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GrabNormalChoice1_1
+      rect:
+        serializedVersion: 2
+        x: 2441
+        y: 3511
+        width: 474
+        height: 518
+      alignment: 9
+      pivot: {x: 0.2742616, y: -0.19305019}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5eeba8373bfb201e0800000000000000
+      internalID: -2233011687763820827
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GrabNormalChoice1_2
+      rect:
+        serializedVersion: 2
+        x: 2919
+        y: 3514
+        width: 292
+        height: 520
+      alignment: 9
+      pivot: {x: 0.5, y: 0.023076924}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 09a2c1495b8da47e0800000000000000
+      internalID: -1780372428286055792
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GrabNormalChoice1_3
+      rect:
+        serializedVersion: 2
+        x: 3213
+        y: 3511
+        width: 314
+        height: 520
+      alignment: 9
+      pivot: {x: 0.43312103, y: 0.023076924}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 147e56db1acab5f00800000000000000
+      internalID: 1106667944116873025
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GrabNormalChoice3_0
+      rect:
+        serializedVersion: 2
+        x: 142
+        y: 2925
+        width: 321
+        height: 573
+      alignment: 9
+      pivot: {x: 0.5981308, y: 0.020942409}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 929d7f27947e8f620800000000000000
+      internalID: 2808248670312978729
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GrabNormalChoice3_1
+      rect:
+        serializedVersion: 2
+        x: 470
+        y: 2925
+        width: 321
+        height: 572
+      alignment: 9
+      pivot: {x: 0.6542056, y: -0.14685315}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6553f246528d67a80800000000000000
+      internalID: -8469344394117434026
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GrabNormalChoice3_2
+      rect:
+        serializedVersion: 2
+        x: 809
+        y: 2925
+        width: 424
+        height: 571
+      alignment: 9
+      pivot: {x: 0.3301887, y: -0.2591944}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7cd46d8eaa29b1240800000000000000
+      internalID: 4763562293622885831
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GrabNormalChoice3_3
+      rect:
+        serializedVersion: 2
+        x: 1240
+        y: 2925
+        width: 378
+        height: 571
+      alignment: 9
+      pivot: {x: 0, y: -0.2591944}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7e868ad6ebc89c750800000000000000
+      internalID: 6325741901130000615
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GrabNormalChoice3_4
+      rect:
+        serializedVersion: 2
+        x: 1618
+        y: 2925
+        width: 270
+        height: 570
+      alignment: 9
+      pivot: {x: 0, y: -0.25964913}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e7a6d23dc249e4bb0800000000000000
+      internalID: -4949856020191155586
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GrabNormalChoice3_5
+      rect:
+        serializedVersion: 2
+        x: 1893
+        y: 2925
+        width: 375
+        height: 571
+      alignment: 9
+      pivot: {x: 0.34133333, y: -0.11208406}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3f446f63c68306ed0800000000000000
+      internalID: -2422874562095594253
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      GrabNormalChoice3_5: -2422874562095594253
+      GrabNormalChoice0_1: 7473624478051256648
+      GrabNormalChoice1_0: 469641151054641291
+      GrabNormalChoice1_1: -2233011687763820827
+      GrabNormalChoice3_2: 4763562293622885831
+      GrabNormalChoice3_3: 6325741901130000615
+      GrabNormalChoice1_2: -1780372428286055792
+      GrabNormalChoice1_3: 1106667944116873025
+      GrabNormalPrep_1: 1557420903538343164
+      GrabNormalChoice3_0: 2808248670312978729
+      GrabNormalChoice3_4: -4949856020191155586
+      GrabNormalPrep_2: 5461546673860913656
+      GrabNormalPrep_0: -7901632921136732348
+      GrabNormalChoice0_0: 3450879052062362705
+      GrabNormalChoice3_1: -8469344394117434026
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
