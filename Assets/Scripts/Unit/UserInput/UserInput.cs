@@ -7,10 +7,8 @@ using UnityEngine;
 /// </summary>
 public class UserInput : MonoBehaviour
 {
-    /* In a calm area, Controls restricted to Move, Action, and maybe Lust
+    /* In a calm area, Controls restricted to Move, Action
      * In streets, can attack
-     * 
-     * 
      */
     private PlayerMove playerMove;
     private PlayerAttack playerAttack;

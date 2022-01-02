@@ -193,6 +193,7 @@ public class UnitStats : MonoBehaviour
     {
         statAttack = 5;
         statDefense = 2;
+        maxHealth = 100;
         currentHealth = maxHealth;
         currentMeter = 0;
     }

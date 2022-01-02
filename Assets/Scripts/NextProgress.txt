@@ -6,3 +6,10 @@ ART STYLE:
 TO DO LIST:
 -> Controls: [P]unch, [K]ick, [A]ction/Jump, [S]pecial
 -> Redo move list for fighter (will eventually change depending on characters)
+
+ITEMS:
+-> Can decrease Meter use (by Percentage %)
+-> Can increase Max Meter (by whole amount)
+-> Can increase Attack Power (by Percentage %)
+-> Can decrease Damage intake (by Percentage %, minimum 1 unit)
+-> Can increase Max Health (by whole amount)
