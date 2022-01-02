@@ -6,15 +6,19 @@ using UnityEngine;
 /// </summary>
 public class Inventory : MonoBehaviour
 {
+    //TODO: Adjust equipped inventory based on Selected character.
     private List<Item> currentInventory;
     private List<Item> storageInventory;
-    private Item[] equippedInventory;
+    private Item[] equippedInventoryWolf;
+    private Item[] equippedInventoryFox;
+    private Item[] equippedInventoryBunny;
+    private Item[] equippedInventoryFour;
 
     private void Awake()
     {
         currentInventory  = new List<Item>(12);
         storageInventory  = new List<Item>(80);
-        equippedInventory = new Item[8];
+        equippedInventoryWolf = new Item[5];
     }
 
     /// <summary>
@@ -80,10 +84,10 @@ public class Inventory : MonoBehaviour
         {
             return false;
         }
-        if (equippedInventory[item.GetEquipTo()] != null)
+        if (equippedInventoryWolf[item.GetEquipTo()] != null)
         {
             Item toEquip = RemoveItem(item);
-            equippedInventory[toEquip.GetEquipTo()] = toEquip;
+            equippedInventoryWolf[toEquip.GetEquipTo()] = toEquip;
             return true;
         }
         else
@@ -98,7 +102,7 @@ public class Inventory : MonoBehaviour
     /// <returns></returns>
     public bool EquipSpotTaken(int position)
     {
-        return equippedInventory[position] != null;
+        return equippedInventoryWolf[position] != null;
     }
     /// <summary>
     /// Unequip an item. Return -1 if item does not exist, 0 if current inventory is maxed out, or 1 if successful.
@@ -107,7 +111,7 @@ public class Inventory : MonoBehaviour
     /// <returns></returns>
     public int UnEquipItem(Item item)
     {
-        if (equippedInventory[item.GetEquipTo()] == null)
+        if (equippedInventoryWolf[item.GetEquipTo()] == null)
         {
             return -1;
         }
@@ -115,8 +119,8 @@ public class Inventory : MonoBehaviour
         {
             return 0;
         }
-        Item unequipped = equippedInventory[item.GetEquipTo()];
-        equippedInventory[item.GetEquipTo()] = null;
+        Item unequipped = equippedInventoryWolf[item.GetEquipTo()];
+        equippedInventoryWolf[item.GetEquipTo()] = null;
         currentInventory.Add(unequipped);
         return 1;
     }
@@ -127,14 +131,14 @@ public class Inventory : MonoBehaviour
     /// <returns></returns>
     public bool SwapEquip(Item item)
     {
-        if (equippedInventory[item.GetEquipTo()] == null)
+        if (equippedInventoryWolf[item.GetEquipTo()] == null)
         {
-            equippedInventory[item.GetEquipTo()] = item;
+            equippedInventoryWolf[item.GetEquipTo()] = item;
             currentInventory.Remove(item);
             return true;
         }
-        Item unequipped = equippedInventory[item.GetEquipTo()];
-        equippedInventory[item.GetEquipTo()] = item;
+        Item unequipped = equippedInventoryWolf[item.GetEquipTo()];
+        equippedInventoryWolf[item.GetEquipTo()] = item;
         currentInventory.Remove(item);
         currentInventory.Add(unequipped);
         return true;

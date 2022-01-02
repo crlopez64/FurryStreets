@@ -5,18 +5,6 @@ Grab (Normal) to Enemy:
 	-> Not all enemies react to all buttons
 	! No CPU Struggle Meter
 
-Grab (Seduce) to Enemy:
-	-> On Grab: Can auto-fail
-	-> If successful: timer for CPU to get out of grab.
-	-> Follow up with A, B, X, Y
-	-> Not all enemies react to all buttons
-	! CPU Struggle Meter, Keep pressing that button to increase struggle
-	! On near orgasm, temporarily disable all (enemy won't leave), press different button to finish, or another button to blue ball
-
 Grabbed (Normal) by Enemy:
 	-> Struggle Meter before actually thrown (with A, B, X, Y)
 	-> Can be KO'd on landing
-
-Grabbed (Seduce) by Enemy:
-	-> Struggle Meter on actual action
-	-> Seduced KO'd (think of a different term?) on Heat Meter maxing out.

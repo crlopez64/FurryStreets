@@ -4,16 +4,16 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+/// <summary>
+/// Script in charge of keeping track of currency.
+/// </summary>
 public class HUDCurrencyHolder : MonoBehaviour
 {
     private float timer;
     private int moneyAmount;
-    private int noviAmount;
 
     public Image moneyImage;
-    public Image noviImage;
     public TextMeshProUGUI moneyText;
-    public TextMeshProUGUI noviText;
 
     void Update()
     {
@@ -27,15 +27,6 @@ public class HUDCurrencyHolder : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Set the novi amount and turn on the canvas.
-    /// </summary>
-    /// <param name="novi"></param>
-    public void SetNovi(int novi)
-    {
-        noviAmount = novi;
-        TurnOnVisuals();
-    }
     /// <summary>
     /// Set the money amount and turn on the canvas.
     /// </summary>
@@ -52,11 +43,8 @@ public class HUDCurrencyHolder : MonoBehaviour
     {
         timer = 5f;
         moneyText.text = moneyAmount.ToString();
-        noviText.text = noviAmount.ToString();
         moneyImage.enabled = true;
-        noviImage.enabled = true;
         moneyText.enabled = true;
-        noviText.enabled = true;
         gameObject.SetActive(true);
     }
     /// <summary>
@@ -65,9 +53,7 @@ public class HUDCurrencyHolder : MonoBehaviour
     public void TurnOffVisuals()
     {
         moneyImage.enabled = false;
-        noviImage.enabled = false;
         moneyText.enabled = false;
-        noviText.enabled = false;
         gameObject.SetActive(false);
     }
 }

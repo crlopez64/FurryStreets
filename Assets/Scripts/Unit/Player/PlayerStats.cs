@@ -11,15 +11,15 @@ public class PlayerStats : UnitStats
     public void Start()
     {
         SetTest();
-        if (healthBar != null)
-        {
-            healthBar.SetMaxValue(maxHealth);
-            healthBar.SetSliderValue(currentHealth);
-        }
-        if (meterBar != null)
-        {
-            meterBar.SetMaxValue(maxMeter);
-            meterBar.SetSliderValue(currentMeter);
-        }
+        //if (healthBar != null)
+        //{
+        //    healthBar.SetMaxValue(maxHealth);
+        //    healthBar.SetSliderValue(currentHealth);
+        //}
+        //if (meterBar != null)
+        //{
+        //    meterBar.SetMaxValue(maxMeter);
+        //    meterBar.SetSliderValue(currentMeter);
+        //}
     }
 }

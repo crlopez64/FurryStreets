@@ -21,8 +21,8 @@ public class UnitStats : MonoBehaviour
     protected int currentStun;          //If stun goes to max, get stunned.
     protected int currentMeter;         //Current Meter for Special moves
 
-    public MeterBarHealth healthBar;
-    public MeterBarSpecial meterBar;
+    //public MeterBarHealth healthBar;
+    //public MeterBarSpecial meterBar;
 
     protected virtual void Awake()
     {
@@ -57,10 +57,10 @@ public class UnitStats : MonoBehaviour
         {
             enemyHUD.TurnOnHUD(this);
         }
-        if (healthBar != null)
-        {
-            healthBar.SetSliderValue(currentHealth);
-        }
+        //if (healthBar != null)
+        //{
+        //    healthBar.SetSliderValue(currentHealth);
+        //}
         //if (meterBar != null)
         //{
         //    meterBar.SetSliderValue(currentMeter);
@@ -88,10 +88,10 @@ public class UnitStats : MonoBehaviour
         {
             enemyHUD.TurnOnHUD(this);
         }
-        if (healthBar != null)
-        {
-            healthBar.SetSliderValue(currentHealth);
-        }
+        //if (healthBar != null)
+        //{
+        //    healthBar.SetSliderValue(currentHealth);
+        //}
         //if (meterBar != null)
         //{
         //    meterBar.SetSliderValue(currentMeter);
@@ -105,10 +105,10 @@ public class UnitStats : MonoBehaviour
         currentHealth = maxHealth;
         currentMeter = maxMeter;
         currentStun = 0;
-        if (healthBar != null)
-        {
-            healthBar.SetSliderValue(currentHealth);
-        }
+        //if (healthBar != null)
+        //{
+        //    healthBar.SetSliderValue(currentHealth);
+        //}
         //if (meterBar != null)
         //{
         //    meterBar.SetSliderValueNoDrain(currentMeter);
@@ -189,31 +189,6 @@ public class UnitStats : MonoBehaviour
     {
         return grabTimer * (unitAttack.Stunned() ? 2 : 1);
     }
-    /// <summary>
-    /// Return the Meter level of the player. Will influence how Unit walks and idles.
-    /// </summary>
-    /// <returns></returns>
-    public int MeterLevel()
-    {
-        int quartile = maxMeter / 4;
-        if (currentMeter < quartile)
-        {
-            return 1;
-        }
-        else if ((currentMeter >= quartile) && (currentMeter < (quartile * 2)))
-        {
-            return 2;
-        }
-        else if ((currentMeter >= (quartile * 2)) && (currentMeter < (quartile * 3)))
-        {
-            return 3;
-        }
-        else
-        {
-            return 4;
-        }
-    }
-
     public void SetTest()
     {
         statAttack = 5;
