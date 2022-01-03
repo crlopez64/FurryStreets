@@ -2,7 +2,6 @@ tree("Root")
 	repeat
 		sequence
 			not KnockedOut
-			not MeterMaxedOut
 			fallback
 				tree "Attack"
 				tree "Move"

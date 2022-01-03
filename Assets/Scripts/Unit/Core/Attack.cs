@@ -7,19 +7,18 @@ using UnityEngine;
 public class Attack
 {
     private readonly List<Attack> nextAttacks;
-    private bool finalUniqueAttack;
     private bool unlocked;
     private bool canAddAttack;
+    private bool finalUniqueAttack;
     private readonly Vector2 knockback;
-    private readonly Vector2 hitboxDimensions;
     private readonly Vector2 unitToMove;
+    private readonly Vector2 hitboxDimensions;
     private readonly bool mustUnlock;
     private readonly byte hitType;
-    private readonly byte requiredAttack;   //1 = Punch, 2 = Kick; 5 is Idle, Numbers 1-9 is direction input
+    private readonly byte requiredAttack; //1 = Punch, 2 = Kick; 5 is Idle, Numbers 1-9 is direction input
+    private readonly int damage;
     private readonly int animationID;
-    private readonly int attackPowerMeter;
-    private readonly int attackPowerPhysical;
-    private readonly int attackPowerMeterSelf;
+    private readonly int meterCost;
     private readonly string attackName;
 
     /// <summary>
@@ -30,9 +29,8 @@ public class Attack
     /// <param name="unlocked"></param>
     /// <param name="requiredDirection"></param>
     /// <param name="requiredAttack"></param>
-    /// <param name="attackPowerPhysical"></param>
-    /// <param name="attackPowerMeter"></param>
-    /// <param name="attackPowerMeterSelf"></param>
+    /// <param name="damage"></param>
+    /// <param name="meterCost"></param>
     /// <param name="animationID"></param>
     /// <param name="hitboxWidth"></param>
     /// <param name="hitboxHeight"></param>
@@ -43,7 +41,7 @@ public class Attack
     /// <param name="moveY"></param>
     /// <param name="finalUniqueAttack"></param>
     public Attack(string attackName, bool mustUnlock, bool unlocked, byte requiredDirection, byte requiredAttack,
-        int attackPowerPhysical, int attackPowerMeter, int attackPowerMeterSelf, int animationID,
+        int damage, int meterCost, int animationID,
         float hitboxWidth, float hitboxHeight, byte hitType, float knockbackDistance, float knockbackHeight, float moveX, float moveY,
         bool finalUniqueAttack)
     {
@@ -64,9 +62,8 @@ public class Attack
         {
             this.requiredAttack = (byte)((requiredDirection << 4) | requiredAttack);
         }
-        this.attackPowerPhysical = attackPowerPhysical;
-        this.attackPowerMeter = attackPowerMeter;
-        this.attackPowerMeterSelf = attackPowerMeterSelf;
+        this.damage = damage;
+        this.meterCost = meterCost;
         this.animationID = animationID;
         this.attackName = attackName;
         hitboxDimensions = new Vector2(hitboxWidth, hitboxHeight);
@@ -138,6 +135,23 @@ public class Attack
         return mustUnlock;
     }
     /// <summary>
+    /// Does this move have any Meter cost to them?
+    /// </summary>
+    /// <returns></returns>
+    public bool HasMeterCost()
+    {
+        return meterCost == 0;
+    }
+    /// <summary>
+    /// Can the Unit use this move?
+    /// </summary>
+    /// <param name="currentMeter"></param>
+    /// <returns></returns>
+    public bool CanUseMove(int currentMeter)
+    {
+        return currentMeter >= meterCost;
+    }
+    /// <summary>
     /// Return if the move has been unlocked. If the move does not require to be unlocked, return true.
     /// </summary>
     /// <returns></returns>
@@ -171,7 +185,7 @@ public class Attack
         return (byte)(requiredAttack >> 4);
     }
     /// <summary>
-    /// Return the required attack button of the attack.
+    /// Return the required attack button of the attack. 1(01): Punch, 2(10): Kick, 3(11): Throw, 4(100): Special
     /// </summary>
     /// <returns></returns>
     public byte RequiredAttack()
@@ -187,28 +201,12 @@ public class Attack
         return requiredAttack;
     }
     /// <summary>
-    /// Get the Physical Attack power to return.
+    /// Get the Damage to give incoming Enemies to return.
     /// </summary>
     /// <returns></returns>
-    public int GetAttackPowerPhysical()
+    public int Damage()
     {
-        return attackPowerPhysical;
-    }
-    /// <summary>
-    /// Get the Meter Attack power to return.
-    /// </summary>
-    /// <returns></returns>
-    public int GetAttackPowerMeter()
-    {
-        return attackPowerMeter;
-    }
-    /// <summary>
-    /// Get the Meter Attack power recoil to return.
-    /// </summary>
-    /// <returns></returns>
-    public int GetAttackPowerMeterSelf()
-    {
-        return attackPowerMeterSelf;
+        return damage;
     }
     /// <summary>
     /// Get the animation ID to return.

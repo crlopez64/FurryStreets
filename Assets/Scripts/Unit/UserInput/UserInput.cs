@@ -10,6 +10,7 @@ public class UserInput : MonoBehaviour
     /* In a calm area, Controls restricted to Move, Action
      * In streets, can attack
      */
+    private byte attacksPressed;
     private PlayerMove playerMove;
     private PlayerAttack playerAttack;
     private PlayerAction playerAction;
@@ -62,23 +63,32 @@ public class UserInput : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.J))
         {
             //Punch
-            playerAttack.MakeAttack(GetFlippedByte(DirectionByte()), 1);
+            //playerAttack.MakeAttack(GetFlippedByte(DirectionByte()), 1);
+            attacksPressed |= 0x1;
         }
         if (Input.GetKeyDown(KeyCode.K))
         {
             //Kick
-            playerAttack.MakeAttack(GetFlippedByte(DirectionByte()), 2);
+            //playerAttack.MakeAttack(GetFlippedByte(DirectionByte()), 2);
+            attacksPressed |= 0x2;
         }
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            //Grab
-            //TODO: Make Punch + Kick
-            playerAttack.MakeAttack(GetFlippedByte(DirectionByte()), 3);
-        }
+        //if (Input.GetKeyDown(KeyCode.U))
+        //{
+        //    //Grab
+        //    //TODO: Make Punch + Kick
+        //    playerAttack.MakeAttack(GetFlippedByte(DirectionByte()), 3);
+        //}
         if (Input.GetKeyDown(KeyCode.I))
         {
             //TODO: Make Special
             //playerAttack.MakeAttack(GetFlippedByte(DirectionByte()), 4);
+            attacksPressed |= 0x4;
+        }
+        Debug.Log("Attack Pressed: " + attacksPressed);
+        if (attacksPressed > 0)
+        {
+            attacksPressed = 0;
+            playerAttack.MakeAttack(GetFlippedByte(DirectionByte()), attacksPressed);
         }
 
         //Debugging Commands

@@ -31,7 +31,18 @@ public class MeterDrain : MonoBehaviour
     /// </summary>
     public void Drain()
     {
-        drain.fillAmount -= Time.deltaTime * 0.3f;
+        drain.fillAmount -= Time.deltaTime * 0.1f;
+    }
+    /// <summary>
+    /// Set the max value for a stat.
+    /// </summary>
+    /// <param name="maxValue"></param>
+    public void SetMaxValue(float maxValue)
+    {
+        if (drain != null)
+        {
+            drain.fillAmount = maxValue / 200;
+        }
     }
     /// <summary>
     /// Adjust drain value to specified amount.
@@ -39,7 +50,10 @@ public class MeterDrain : MonoBehaviour
     /// <param name="value"></param>
     public void SetValue(float value)
     {
-        drain.fillAmount = value;
+        if (drain != null)
+        {
+            drain.fillAmount = value / 200;
+        }
     }
     /// <summary>
     /// Get the percentage float.

@@ -7,44 +7,35 @@ using UnityEngine;
 /// </summary>
 public class HUDMeters : MonoBehaviour
 {
+    private MeterPortrait portrait;
+    private MeterFrame meterFrame;
     private HealthBar healthBar;
     private MeterBar meterBar;
 
     private void Awake()
     {
+        portrait = GetComponentInChildren<MeterPortrait>();
+        meterFrame = GetComponentInChildren<MeterFrame>();
         healthBar = GetComponentInChildren<HealthBar>();
         meterBar = GetComponentInChildren<MeterBar>();
     }
 
-    private void Update()
+    /// <summary>
+    /// Adjust HUD based on the character chosen. Mateo(Wolf) = 0, Fox(Fox) = 1
+    /// </summary>
+    /// <param name="characterChosen"></param>
+    public void AdjustHUD(byte characterChosen)
     {
-        if (Input.GetKeyDown(KeyCode.H))
+        if (characterChosen > 4)
         {
-            SetHealthBarCurrent(50);
-            SetMeterBarCurrent(30);
+            characterChosen = 4;
         }
+        portrait.SetPortrait(characterChosen);
+        meterFrame.SetMeterFrame(characterChosen);
+        healthBar.SetMeterMask(characterChosen);
+        meterBar.SetMeterMask(characterChosen);
     }
 
-    /// <summary>
-    /// Set the Health bar.
-    /// </summary>
-    /// <param name="maxValue"></param>
-    /// <param name="currentValue"></param>
-    public void SetHealthBar(float maxValue, float currentValue)
-    {
-        healthBar.SetMaxValue(maxValue);
-        healthBar.SetValue(currentValue);
-    }
-    /// <summary>
-    /// Set the Meter bar.
-    /// </summary>
-    /// <param name="maxValue"></param>
-    /// <param name="currentValue"></param>
-    public void SetMeterBar(float maxValue, float currentValue)
-    {
-        meterBar.SetMaxValue(maxValue);
-        meterBar.SetValue(currentValue);
-    }
     /// <summary>
     /// Set the health bar visually.
     /// </summary>
@@ -60,5 +51,21 @@ public class HUDMeters : MonoBehaviour
     public void SetMeterBarCurrent(float currentValue)
     {
         meterBar.SetValue(currentValue);
+    }
+    /// <summary>
+    /// Set the meters if playing with Mateo (wolf).
+    /// </summary>
+    public void SetMetersWolf()
+    {
+        healthBar.SetMaxValue(100);
+        meterBar.SetMaxValue(65);
+    }
+    /// <summary>
+    /// Set the meters if palying with Fox (fox).
+    /// </summary>
+    public void SetMetersFox()
+    {
+        healthBar.SetMaxValue(80);
+        meterBar.SetMaxValue(100);
     }
 }

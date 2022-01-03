@@ -190,11 +190,6 @@ public class EnemyAI : MonoBehaviour
     {
         return enemyStats.StaminaEmpty();
     }
-    [Task]
-    public bool MeterMaxedOut()
-    {
-        return enemyStats.MeterMaxedOut();
-    }
 
     private void CheckDetourPaths()
     {

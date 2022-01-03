@@ -9,27 +9,48 @@ public class UnitStats : MonoBehaviour
 {
     protected EnemyHUD enemyHUD;        //For Player, this will always be empty
     protected UnitAttack unitAttack;    //Used for Stun
+    protected byte grabWorks;           //For Enemy, checks which Grab actually works against an enemy.
+    protected byte meterDelay;          //Meter delay before actual recharge
     protected byte statAttack;          //Physical Attack
     protected byte statDefense;         //Physical Defense
+    protected byte statMeterGain;       //Meter gain, stat * 0.5f;
     protected byte statGrabChance = 50; //For Enemy, not to exceed 100. Chance on being grabbed
-    protected byte grabWorks;           //For Enemy, checks which Grab actually works against an enemy.
     protected int maxStun = 20;         //Stun
     protected float grabTimer = 2f;     //Grab timer; if not stunned, double grab timer.
+    protected float meterDelayTimer;    //Timer before Meter can recharge.
     protected int maxHealth;            //Health
     protected int maxMeter;             //Meter to do Special Moves
     protected int currentHealth;        //If health goes to 0, KO
     protected int currentStun;          //If stun goes to max, get stunned.
     protected int currentMeter;         //Current Meter for Special moves
 
-    //public MeterBarHealth healthBar;
-    //public MeterBarSpecial meterBar;
+    public HUDMeters meters;
 
     protected virtual void Awake()
     {
         enemyHUD = FindObjectOfType<EnemyHUD>();
         unitAttack = GetComponent<UnitAttack>();
     }
-
+    protected virtual void Start()
+    {
+        meterDelay = 3;
+    }
+    protected virtual void Update()
+    {
+        if (currentMeter < maxMeter)
+        {
+            if (meterDelayTimer > 0f)
+            {
+                meterDelayTimer -= Time.deltaTime;
+            }
+            else
+            {
+                RestoreUnit(0, statMeterGain);
+                meterDelayTimer = meterDelay;
+            }
+        }
+        
+    }
     /// <summary>
     /// Have the Unit take Damage. Accounts for all Damage.
     /// Returns true if Current Stun equals Max Stun (unit is now stunned).
@@ -39,9 +60,9 @@ public class UnitStats : MonoBehaviour
     /// <returns></returns>
     public bool TakeDamage(Attack incomingAttack, UnitStats attackingUnit)
     {
-        int damagePhysical = 0;
-
-        currentHealth -= damagePhysical;
+        int totalDamage = 0;
+        totalDamage = incomingAttack.Damage();
+        currentHealth -= totalDamage;
         if (currentHealth <= 0)
         {
             currentHealth = 0;
@@ -52,28 +73,38 @@ public class UnitStats : MonoBehaviour
         {
             currentMeter = maxMeter;
         }
-        currentStun += damagePhysical;
-        if (enemyHUD != null)
+        currentStun += totalDamage;
+        if (meters != null)
         {
-            enemyHUD.TurnOnHUD(this);
+            meters.SetHealthBarCurrent(currentHealth);
         }
-        //if (healthBar != null)
-        //{
-        //    healthBar.SetSliderValue(currentHealth);
-        //}
-        //if (meterBar != null)
-        //{
-        //    meterBar.SetSliderValue(currentMeter);
-        //}
         return currentStun >= maxStun;
     }
     /// <summary>
-    /// Have the Unit restore Stamina and/or Sexual store.
+    /// Spend meter.
+    /// </summary>
+    /// <param name="meterBurn"></param>
+    public bool MeterBurn(int meterBurn)
+    {
+        if (currentMeter < meterBurn)
+        {
+            return false;
+        }
+        currentMeter -= meterBurn;
+        if (meters != null)
+        {
+            meters.SetMeterBarCurrent(currentMeter);
+        }
+        return true;
+    }
+    /// <summary>
+    /// Have the Unit restore Stamina and/or Meter.
     /// </summary>
     /// <param name="healthRestore"></param>
-    /// <param name="specialRestore"></param>
+    /// <param name="meterRestore"></param>
     public void RestoreUnit(int healthRestore, int meterRestore)
     {
+        Debug.Log("Current Meter: " + currentMeter);
         currentHealth += healthRestore;
         if (currentHealth >= maxHealth)
         {
@@ -84,18 +115,11 @@ public class UnitStats : MonoBehaviour
         {
             currentMeter = maxMeter;
         }
-        if (enemyHUD != null)
+        if (meters != null)
         {
-            enemyHUD.TurnOnHUD(this);
+            meters.SetHealthBarCurrent(currentHealth);
+            meters.SetMeterBarCurrent(currentMeter);
         }
-        //if (healthBar != null)
-        //{
-        //    healthBar.SetSliderValue(currentHealth);
-        //}
-        //if (meterBar != null)
-        //{
-        //    meterBar.SetSliderValue(currentMeter);
-        //}
     }
     /// <summary>
     /// Rest the Unit up and max out their health bars.
@@ -105,14 +129,11 @@ public class UnitStats : MonoBehaviour
         currentHealth = maxHealth;
         currentMeter = maxMeter;
         currentStun = 0;
-        //if (healthBar != null)
-        //{
-        //    healthBar.SetSliderValue(currentHealth);
-        //}
-        //if (meterBar != null)
-        //{
-        //    meterBar.SetSliderValueNoDrain(currentMeter);
-        //}
+        if (meters != null)
+        {
+            meters.SetHealthBarCurrent(currentHealth);
+            meters.SetMeterBarCurrent(currentMeter);
+        }
     }
     /// <summary>
     /// Reset this Unit's stun.
@@ -189,10 +210,21 @@ public class UnitStats : MonoBehaviour
     {
         return grabTimer * (unitAttack.Stunned() ? 2 : 1);
     }
+
+    /// <summary>
+    /// Get HUD for some player.
+    /// </summary>
+    /// <param name="whichPlayer"></param>
+    protected void GetMeter(byte whichPlayer)
+    {
+        meters = FindObjectOfType<HUDMetersGrid>().GetMeter(whichPlayer);
+    }
+
     public void SetTest()
     {
         statAttack = 5;
         statDefense = 2;
+        statMeterGain = 1;
         maxHealth = 100;
         currentHealth = maxHealth;
         currentMeter = 0;

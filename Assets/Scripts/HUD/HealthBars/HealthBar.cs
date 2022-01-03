@@ -1,17 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// Script in charge of showing visual Health.
 /// </summary>
 public class HealthBar : MonoBehaviour
 {
+    private Image meterMask;
     private MeterFill fill;
     private MeterDrain drain;
 
     private void Awake()
     {
+        meterMask = GetComponent<Image>();
         fill = GetComponentInChildren<MeterFill>();
         drain = GetComponentInChildren<MeterDrain>();
     }
@@ -29,6 +32,24 @@ public class HealthBar : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Adjust the health mask based on the character chosen. Mateo(Wolf) = 0, Fox(Fox) = 1
+    /// </summary>
+    /// <param name="characterChosen"></param>
+    public void SetMeterMask(byte characterChosen)
+    {
+        switch (characterChosen)
+        {
+            case 0:
+                meterMask.sprite = Resources.Load<Sprite>("HUD/HealthBars/HealthMeterWolf/HealthMeterFillWolf0");
+                break;
+            case 1:
+                meterMask.sprite = Resources.Load<Sprite>("HUD/HealthBars/HealthMeterFox/HealthMeterFillFox0");
+                break;
+            default:
+                break;
+        }
+    }
     /// <summary>
     /// Set the whole value for Health.
     /// </summary>
@@ -48,5 +69,6 @@ public class HealthBar : MonoBehaviour
     public void SetMaxValue(float maxValue)
     {
         fill.SetMaxValue(maxValue);
+        drain.SetMaxValue(maxValue);
     }
 }

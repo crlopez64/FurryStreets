@@ -2,14 +2,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Script in charge of Player attacking
+/// Script in charge of Player attacking.
 /// </summary>
 public class PlayerAttack : UnitAttack
 {
+    //TODO: Cancel normal moves to Special moves
     private Queue<int> attacksBuffered;  //The next attacks buffered in.
     private Attack attackTree;      //The entire movelist while on the ground.
     private Attack attackToBuffer;  //The current attack for the attack buffer.
     private bool canPlayNextAttack;
+    private bool currentlyPlayingSpecial; //If true, cannot cancel Special into another Special.
     private float grabTimer;
 
     protected override void Awake()
@@ -51,6 +53,7 @@ public class PlayerAttack : UnitAttack
     public override void ResetAttacking()
     {
         attacking = false;
+        currentlyPlayingSpecial = false;
         attackToBuffer = rootAttack;
         attackToAnimate = rootAttack;
         attacksBuffered.Clear();
@@ -62,7 +65,14 @@ public class PlayerAttack : UnitAttack
     /// <param name="attackInput"></param>
     public void MakeAttack(byte directionalInput, byte attackInput)
     {
-        //BASE CASE: If hit or on an ender attack, do not buffer in attacks
+        //BASE CASE: If attack input includes Special, consider this first
+        if (((attackInput & 0x4) >> 2) == 0x1)
+        {
+            Debug.Log("Pressed Special move.");
+            currentlyPlayingSpecial = true;
+        }
+
+        //BASE CASE: If hit or on an ender attack, and does not have Special Attack Input, do not buffer in attacks
         if (IsAttacked() ||
             ((!CurrentlyGrabbing()) && (!attackToBuffer.HasOptions())))
         {
@@ -85,6 +95,7 @@ public class PlayerAttack : UnitAttack
             //Debug.Log("Did not find attack...");
             return;
         }
+
         //Check if current attack is valid to buffer and animate
         //Check if directional input AND attack input matches
         //If not, redo the check without the directional input
@@ -105,6 +116,15 @@ public class PlayerAttack : UnitAttack
                 }
                 if (nextInString[j].RequiredAttack() == attackInput)
                 {
+                    //Base Case: If not enough meter, cannot use the move.
+                    if (nextInString[j].HasMeterCost())
+                    {
+                        if (!nextInString[j].CanUseMove(unitStats.CurrentMeter()))
+                        {
+                            Debug.Log("Do not have enough meter to use!");
+                            continue;
+                        }
+                    }
                     if (attacking)
                     {
                         //If already attacking, buffer the attack into the queue
@@ -198,7 +218,7 @@ public class PlayerAttack : UnitAttack
     /// </summary>
     protected override void CreateAttacks()
     {
-        attackTree = new Attack("Starting Null", false, false, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, false);
+        attackTree = new Attack("Starting Null", false, false, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, false);
         rootAttack = attackTree;
         attackToBuffer = attackTree;
         if (textMoveList == null)
@@ -234,9 +254,9 @@ public class PlayerAttack : UnitAttack
                     bool isFinalUniqueAttack = i == attackString.Length - 1;
                     Attack newAttack = new Attack(moveName, bool.Parse(attackData[0]), bool.Parse(attackData[1]),
                         byte.Parse(attackData[2]), byte.Parse(attackData[3]),
-                        int.Parse(attackData[4]), int.Parse(attackData[5]), int.Parse(attackData[6]), int.Parse(attackData[7]),
-                        float.Parse(attackData[8]), float.Parse(attackData[9]), byte.Parse(attackData[10]),
-                        float.Parse(attackData[11]), float.Parse(attackData[12]), float.Parse(attackData[13]), float.Parse(attackData[14]),
+                        int.Parse(attackData[4]), int.Parse(attackData[5]), int.Parse(attackData[6]),
+                        float.Parse(attackData[7]), float.Parse(attackData[8]), byte.Parse(attackData[9]),
+                        float.Parse(attackData[10]), float.Parse(attackData[11]), float.Parse(attackData[12]), float.Parse(attackData[13]),
                         isFinalUniqueAttack);
                     currentAttackInString.AddAttack(newAttack);
                     if (i < (attackString.Length - 1))
@@ -263,9 +283,9 @@ public class PlayerAttack : UnitAttack
                     bool isFinalUniqueAttack = i == attackString.Length - 1;
                     Attack newAttack = new Attack(moveName, bool.Parse(attackData[0]), bool.Parse(attackData[1]),
                         byte.Parse(attackData[2]), byte.Parse(attackData[3]),
-                        int.Parse(attackData[4]), int.Parse(attackData[5]), int.Parse(attackData[6]), int.Parse(attackData[7]),
-                        float.Parse(attackData[8]), float.Parse(attackData[9]), byte.Parse(attackData[10]),
-                        float.Parse(attackData[11]), float.Parse(attackData[12]), float.Parse(attackData[13]), float.Parse(attackData[14]),
+                        int.Parse(attackData[4]), int.Parse(attackData[5]), int.Parse(attackData[6]),
+                        float.Parse(attackData[7]), float.Parse(attackData[8]), byte.Parse(attackData[9]),
+                        float.Parse(attackData[10]), float.Parse(attackData[11]), float.Parse(attackData[12]), float.Parse(attackData[13]),
                         isFinalUniqueAttack);
                     whereToDeviate.AddAttack(newAttack);
                     if (i == 0)

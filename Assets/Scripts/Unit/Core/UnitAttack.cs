@@ -445,7 +445,7 @@ public class UnitAttack : MonoBehaviour
         attacking = false;
         hitTypeRecord = (hitType >= 3) ? hitType : (byte)4;
         hitType = (!unitMove.Grounded()) ? hitTypeRecord : attack.GetHitType();
-        isMetered = (attack.GetAttackPowerMeter() > 0) || isMetered;
+        isMetered = (attack.HasMeterCost()) || isMetered;
         if (Stunned())
         {
             StopStun();
