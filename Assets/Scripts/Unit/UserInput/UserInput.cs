@@ -60,35 +60,26 @@ public class UserInput : MonoBehaviour
             playerMove.Move(directionalInput);
         }
         //Attacking
+        //TO GRAB: Punch + Kick
         if (Input.GetKeyDown(KeyCode.J))
         {
             //Punch
-            //playerAttack.MakeAttack(GetFlippedByte(DirectionByte()), 1);
             attacksPressed |= 0x1;
         }
         if (Input.GetKeyDown(KeyCode.K))
         {
             //Kick
-            //playerAttack.MakeAttack(GetFlippedByte(DirectionByte()), 2);
             attacksPressed |= 0x2;
         }
-        //if (Input.GetKeyDown(KeyCode.U))
-        //{
-        //    //Grab
-        //    //TODO: Make Punch + Kick
-        //    playerAttack.MakeAttack(GetFlippedByte(DirectionByte()), 3);
-        //}
         if (Input.GetKeyDown(KeyCode.I))
         {
             //TODO: Make Special
-            //playerAttack.MakeAttack(GetFlippedByte(DirectionByte()), 4);
             attacksPressed |= 0x4;
         }
-        Debug.Log("Attack Pressed: " + attacksPressed);
         if (attacksPressed > 0)
         {
-            attacksPressed = 0;
             playerAttack.MakeAttack(GetFlippedByte(DirectionByte()), attacksPressed);
+            attacksPressed = 0;
         }
 
         //Debugging Commands
