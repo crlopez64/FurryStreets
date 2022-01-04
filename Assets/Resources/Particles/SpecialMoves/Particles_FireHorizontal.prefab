@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5078012455859351844}
   - component: {fileID: 5078012455859351845}
   - component: {fileID: 5078012455859351846}
+  - component: {fileID: 4628634470041421529}
   m_Layer: 0
   m_Name: Particles_FireHorizontal
   m_TagString: Untagged
@@ -285,7 +286,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 12
+      scalar: 16
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -1031,7 +1032,7 @@ ParticleSystem:
       repeatInterval: 1
       probability: 1
   SizeModule:
-    enabled: 1
+    enabled: 0
     curve:
       serializedVersion: 2
       minMaxState: 1
@@ -4876,3 +4877,15 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &4628634470041421529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5078012455859351847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f311f9e0a1dfee44cbb3024b97fc9d98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

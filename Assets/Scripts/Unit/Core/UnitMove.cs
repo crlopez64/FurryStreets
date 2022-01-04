@@ -81,7 +81,7 @@ public class UnitMove : MonoBehaviour
     }
     protected virtual void FixedUpdate()
     {
-        //Airborne Physics
+        //Landing back to ground after being in air
         if ((!grounded) && CanCheckGround())
         {
             GetComponent<SpriteRenderer>().sortingOrder = 1;
@@ -123,6 +123,8 @@ public class UnitMove : MonoBehaviour
         }
         else
         {
+            Debug.Log("Not grounded");
+            //velocity.x = Mathf.Clamp(velocity.x, -30, 30);
             rb2D.velocity = new Vector2(velocity.x, rb2D.velocity.y);
         }
     }

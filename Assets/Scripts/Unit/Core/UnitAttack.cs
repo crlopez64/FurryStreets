@@ -21,6 +21,8 @@ public class UnitAttack : MonoBehaviour
     protected Hitbox airborneHitbox;
     protected UnitMove unitMove;
     protected UnitMove grabbedUnit;
+    protected Attack[] airbornAttacks; //TODO: Add for Punch, Kick, and Special
+    protected Attack[] specialAttacks; //TODO: Neutral, Forward, Down, Up
     protected Attack rootAttack;
     /// <summary>
     /// The current attack to animate.
@@ -354,6 +356,14 @@ public class UnitAttack : MonoBehaviour
                 }
             }
         }
+    }
+    /// <summary>
+    /// Spawn a special move particle.
+    /// </summary>
+    /// <param name="whichSpecial"></param>
+    public void SpawnParticleSpecial(int whichSpecial)
+    {
+        particlePooler.SpawnParticleSpecial((byte)whichSpecial, particlePooler.transform.position, transform.localScale.x);
     }
     /// <summary>
     /// Have the Unit escape from the grab position.

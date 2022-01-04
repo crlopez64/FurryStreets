@@ -36,5 +36,6 @@ public class PlayerStats : UnitStats
         currentMeter = maxMeter;
         meters.SetHealthBarCurrent(currentHealth);
         meters.SetMeterBarCurrent(currentMeter);
+        GetComponentInChildren<ParticlePooler>().SetParticlesSpecialMovesWolf();
     }
 }

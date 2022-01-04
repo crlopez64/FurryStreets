@@ -70,6 +70,7 @@ public class PlayerAttack : UnitAttack
         {
             Debug.Log("Pressed Special move.");
             currentlyPlayingSpecial = true;
+            //unitStats.MeterBurn()
         }
 
         //BASE CASE: If hit or on an ender attack, and does not have Special Attack Input, do not buffer in attacks
