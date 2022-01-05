@@ -10,9 +10,12 @@ public class PlayerAttack : UnitAttack
     private Queue<int> attacksBuffered;  //The next attacks buffered in.
     private Attack attackTree;      //The entire movelist while on the ground.
     private Attack attackToBuffer;  //The current attack for the attack buffer.
+    private Attack specialBuffered; //The special attack buffered.
     private bool canPlayNextAttack;
-    private bool currentlyPlayingSpecial; //If true, cannot cancel Special into another Special.
+    private bool playingSpecialMove;
     private float grabTimer;
+
+    public bool specialMoveBuffered;
 
     protected override void Awake()
     {
@@ -28,9 +31,11 @@ public class PlayerAttack : UnitAttack
     protected override void Update()
     {
         base.Update();
+        //TODO: Test Code to remove
+        specialMoveBuffered = (specialBuffered != null);
         if (canPlayNextAttack)
         {
-            if (HasAttacksBuffered())
+            if (HasAttacksBuffered() || (specialBuffered != null))
             {
                 PlayNextAttack();
             }
@@ -53,10 +58,18 @@ public class PlayerAttack : UnitAttack
     public override void ResetAttacking()
     {
         attacking = false;
-        currentlyPlayingSpecial = false;
         attackToBuffer = rootAttack;
         attackToAnimate = rootAttack;
+        playingSpecialMove = false;
+        specialBuffered = null;
         attacksBuffered.Clear();
+    }
+    /// <summary>
+    /// Animator playing Special move.
+    /// </summary>
+    public void PlayingSpecialMove()
+    {
+        playingSpecialMove = true;
     }
     /// <summary>
     /// Make the player attack.
@@ -65,12 +78,67 @@ public class PlayerAttack : UnitAttack
     /// <param name="attackInput"></param>
     public void MakeAttack(byte directionalInput, byte attackInput)
     {
-        //BASE CASE: If attack input includes Special, consider this first
+        //BASE CASE: If Special was buffered in, stop doing anything.
+        if (specialBuffered != null)
+        {
+            return;
+        }
+        //BASE CASE: If attack input includes Special, consider this first. OK if last attack buffered was Ender.
         if (((attackInput & 0x4) >> 2) == 0x1)
         {
-            Debug.Log("Pressed Special move.");
-            currentlyPlayingSpecial = true;
-            //unitStats.MeterBurn()
+            if (specialAttacks.Count == 0)
+            {
+                Debug.LogError("ERROR: No Special moves!!");
+                return;
+            }
+            //unitStats.MeterBurn();
+            if ((directionalInput == 3) || (directionalInput == 9))
+            {
+                directionalInput = 6;
+            }
+            if ((directionalInput == 1) || (directionalInput == 7))
+            {
+                directionalInput = 4;
+            }
+            switch (directionalInput)
+            {
+                case 2: //Down Special
+                    if (specialAttacks[2].CanUseMove(unitStats.CurrentMeter()))
+                    {
+                        specialBuffered = specialAttacks[2];
+                    }
+                    break;
+                case 4: //Forward Special
+                    if (specialAttacks[1].CanUseMove(unitStats.CurrentMeter()))
+                    {
+                        specialBuffered = specialAttacks[1];
+                    }
+                    break;
+                case 5: //Neutral Special
+                    if (specialAttacks[0].CanUseMove(unitStats.CurrentMeter()))
+                    {
+                        specialBuffered = specialAttacks[0];
+                    }
+                    break;
+                case 6: //Forward Special
+                    if (specialAttacks[1].CanUseMove(unitStats.CurrentMeter()))
+                    {
+                        specialBuffered = specialAttacks[1];
+                    }
+                    break;
+                case 8: //Up Special
+                    if (specialAttacks[3].CanUseMove(unitStats.CurrentMeter()))
+                    {
+                        specialBuffered = specialAttacks[3];
+                    }
+                    break;
+                default: //Neutral Special
+                    if (specialAttacks[0].CanUseMove(unitStats.CurrentMeter()))
+                    {
+                        specialBuffered = specialAttacks[0];
+                    }
+                    break;
+            }
         }
 
         //BASE CASE: If hit or on an ender attack, and does not have Special Attack Input, do not buffer in attacks
@@ -143,6 +211,11 @@ public class PlayerAttack : UnitAttack
                         unitAnimationLayers.SetAttackLayer();
                         unitMove.StopMoving();
                     }
+                    //If attack enqueued was a Special, declare it.
+                    if (attackToBuffer.RequiredAttack() == 4)
+                    {
+                        specialBuffered = attackToBuffer;
+                    }
                     return;
                 }
             }
@@ -170,13 +243,23 @@ public class PlayerAttack : UnitAttack
             {
                 canPlayNextAttack = false;
                 attackToAnimate = attackToAnimate.GetNextAttack(attacksBuffered.Dequeue());
-                //Debug.LogWarning("AttackID: " + attackToAnimate.GetAnimationID());
             }
             else
             {
-                canPlayNextAttack = false;
-                unitAnimationLayers.SetMovementLayer();
-                ResetAttacking();
+                //If nothing else is buffered, check if a special move was buffered.
+                if (specialBuffered != null)
+                {
+                    canPlayNextAttack = false;
+                    attackToAnimate = specialBuffered;
+                    playingSpecialMove = true;
+                }
+                else
+                {
+                    canPlayNextAttack = false;
+                    unitAnimationLayers.SetMovementLayer();
+                    ResetAttacking();
+                }
+                
             }
         }
     }
@@ -222,6 +305,8 @@ public class PlayerAttack : UnitAttack
         attackTree = new Attack("Starting Null", false, false, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, false);
         rootAttack = attackTree;
         attackToBuffer = attackTree;
+        specialAttacks = new List<Attack>();
+        airbornAttacks = new Attack[4];
         if (textMoveList == null)
         {
             Debug.LogWarning("NOTE: Unit does not have a MoveList to reference.");
@@ -247,7 +332,6 @@ public class PlayerAttack : UnitAttack
                 //Branch the attack strings from the root
                 string[] attackString = linePrep[1].Split(';');
 
-                //Debug.Log("Count: " + attackString.Length);
                 for(int i = 0; i < attackString.Length; i++)
                 {
                     string moveName = (i != attackString.Length - 1) ? linePrep[0] + " Partial" : linePrep[0];
@@ -264,22 +348,41 @@ public class PlayerAttack : UnitAttack
                     {
                         currentAttackInString = newAttack;
                     }
+                    //If a Special move, move it to its own list. It's fine if it branches from Root.
+                    if (newAttack.RequiredAttack() == 4)
+                    {
+                        newAttack.StopAddingAttacks();
+                        specialAttacks.Add(newAttack);
+                    }
                 }
             }
             else
             {
                 //Split from the next n attacks of the last known attack string branching from the root
-                //1. (from a 3 Attack String): Deviate the original route from the first attack (P,P,P to P,K,-)
-                //2. (from a 3 Attack String): Deviate the original route from the second attack (P,P,P to P,P,K)
-                Attack whereToDeviate = rootAttack.GetNextAttack(rootAttack.GetNextAttacks().Count - 1);
-                for(int i = 0; i < int.Parse(lineBranching[0]); i++)
+                //(Move); (Move); (Move)
+                //*.(Move): Deviate from last attack, starting from Root.
+                Attack whereToDeviate = rootAttack;
+                //Find the pathway
+                for (int i = 0; i < (lineBranching.Length - 1); i++)
                 {
-                    whereToDeviate = whereToDeviate.GetNextAttack(0);
+                    //If star, branch from the most recent attack in the list.
+                    if (lineBranching[i][0] == '*')
+                    {
+                        whereToDeviate = whereToDeviate.GetNextAttack(whereToDeviate.Length() - 1);
+                        continue;
+                    }
+                    if (int.TryParse(lineBranching[i], out int intParsed))
+                    {
+                        whereToDeviate = whereToDeviate.GetNextAttack(intParsed);
+                    }
                 }
+
+                //Place in the attacks
                 string[] attackString = linePrep[1].Split(';');
                 for (int i = 0; i < attackString.Length; i++)
                 {
-                    string moveName = (i != attackString.Length - 1) ? lineBranching[1] + " Partial" : lineBranching[1];
+                    string moveName = (i != attackString.Length - 1) ? lineBranching[lineBranching.Length - 1] + " Partial":
+                        lineBranching[lineBranching.Length - 1];
                     string[] attackData = attackString[i].Split(',');
                     bool isFinalUniqueAttack = i == attackString.Length - 1;
                     Attack newAttack = new Attack(moveName, bool.Parse(attackData[0]), bool.Parse(attackData[1]),
@@ -296,7 +399,7 @@ public class PlayerAttack : UnitAttack
                 }
             }
         }
-        //Debug.Log("Move List created.");
+        Debug.Log("Move List created.");
     }
     /// <summary>
     /// Stop adding attacks for all the moves in the list.

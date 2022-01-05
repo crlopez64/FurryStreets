@@ -22,7 +22,7 @@ public class UnitAttack : MonoBehaviour
     protected UnitMove unitMove;
     protected UnitMove grabbedUnit;
     protected Attack[] airbornAttacks; //TODO: Add for Punch, Kick, and Special
-    protected Attack[] specialAttacks; //TODO: Neutral, Forward, Down, Up
+    protected List<Attack> specialAttacks; //TODO: Neutral, Forward, Down, Up
     protected Attack rootAttack;
     /// <summary>
     /// The current attack to animate.
@@ -61,6 +61,7 @@ public class UnitAttack : MonoBehaviour
         unitStats = GetComponent<UnitStats>();
         particlePooler = GetComponentInChildren<ParticlePooler>();
         physicalCollider = GetComponent<BoxCollider2D>();
+        specialAttacks = new List<Attack>();
         Hitbox[] hitboxes = GetComponentsInChildren<Hitbox>();
         foreach (Hitbox hitbox in hitboxes)
         {

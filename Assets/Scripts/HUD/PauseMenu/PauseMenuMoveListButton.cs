@@ -63,7 +63,7 @@ public class PauseMenuMoveListButton : PauseMenuButton, IPointerEnterHandler, IS
                     visualString.text += "G ";
                     break;
                 case 4:
-                    visualString.text += "X ";
+                    visualString.text += "S ";
                     break;
             }
         }
