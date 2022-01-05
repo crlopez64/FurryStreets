@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("Disabling mouse");
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        //Time.timeScale = 0.25f;
     }
     private void Start()
     {

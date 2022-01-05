@@ -11,6 +11,8 @@ public class HUDMeters : MonoBehaviour
     private MeterFrame meterFrame;
     private HealthBar healthBar;
     private MeterBar meterBar;
+    private MeterBackground healthBarBackground;
+    private MeterBackground meterBarBackground;
 
     private void Awake()
     {
@@ -18,6 +20,8 @@ public class HUDMeters : MonoBehaviour
         meterFrame = GetComponentInChildren<MeterFrame>();
         healthBar = GetComponentInChildren<HealthBar>();
         meterBar = GetComponentInChildren<MeterBar>();
+        healthBarBackground = healthBar.GetComponent<MeterBackground>();
+        meterBarBackground = meterBar.GetComponent<MeterBackground>();
     }
 
     /// <summary>
@@ -48,9 +52,23 @@ public class HUDMeters : MonoBehaviour
     /// Set the meter bar visually.
     /// </summary>
     /// <param name="currentValue"></param>
-    public void SetMeterBarCurrent(float currentValue)
+    public void SetMeterBarCurrent(float currentValue, bool meterBurned)
     {
-        meterBar.SetValue(currentValue);
+        meterBar.SetValue(currentValue, meterBurned);
+    }
+    /// <summary>
+    /// Light up the Health bar for Danger reasons.
+    /// </summary>
+    public void LightUpHealth()
+    {
+        healthBarBackground.LightUp();
+    }
+    /// <summary>
+    /// Light up the Meter bar to show there's not enough meter.
+    /// </summary>
+    public void LightUpMeter()
+    {
+        meterBarBackground.LightUp();
     }
     /// <summary>
     /// Set the meters if playing with Mateo (wolf).

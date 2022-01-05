@@ -91,7 +91,6 @@ public class PlayerAttack : UnitAttack
                 Debug.LogError("ERROR: No Special moves!!");
                 return;
             }
-            //unitStats.MeterBurn();
             if ((directionalInput == 3) || (directionalInput == 9))
             {
                 directionalInput = 6;
@@ -107,11 +106,19 @@ public class PlayerAttack : UnitAttack
                     {
                         specialBuffered = specialAttacks[2];
                     }
+                    else
+                    {
+                        unitStats.NotEnoughMeter();
+                    }
                     break;
                 case 4: //Forward Special
                     if (specialAttacks[1].CanUseMove(unitStats.CurrentMeter()))
                     {
                         specialBuffered = specialAttacks[1];
+                    }
+                    else
+                    {
+                        unitStats.NotEnoughMeter();
                     }
                     break;
                 case 5: //Neutral Special
@@ -119,11 +126,19 @@ public class PlayerAttack : UnitAttack
                     {
                         specialBuffered = specialAttacks[0];
                     }
+                    else
+                    {
+                        unitStats.NotEnoughMeter();
+                    }
                     break;
                 case 6: //Forward Special
                     if (specialAttacks[1].CanUseMove(unitStats.CurrentMeter()))
                     {
                         specialBuffered = specialAttacks[1];
+                    }
+                    else
+                    {
+                        unitStats.NotEnoughMeter();
                     }
                     break;
                 case 8: //Up Special
@@ -131,11 +146,19 @@ public class PlayerAttack : UnitAttack
                     {
                         specialBuffered = specialAttacks[3];
                     }
+                    else
+                    {
+                        unitStats.NotEnoughMeter();
+                    }
                     break;
                 default: //Neutral Special
                     if (specialAttacks[0].CanUseMove(unitStats.CurrentMeter()))
                     {
                         specialBuffered = specialAttacks[0];
+                    }
+                    else
+                    {
+                        unitStats.NotEnoughMeter();
                     }
                     break;
             }
@@ -208,6 +231,14 @@ public class PlayerAttack : UnitAttack
                         attacking = true;
                         attackToAnimate = attackToAnimate.GetNextAttack(j);
                         attackToBuffer = attackToBuffer.GetNextAttack(j);
+                        if (attackToAnimate.HasMeterCost())
+                        {
+                            unitStats.MeterBurn(attackToAnimate.MeterCost());
+                        }
+                        else
+                        {
+                            unitStats.NotEnoughMeter();
+                        }
                         unitAnimationLayers.SetAttackLayer();
                         unitMove.StopMoving();
                     }
@@ -243,6 +274,10 @@ public class PlayerAttack : UnitAttack
             {
                 canPlayNextAttack = false;
                 attackToAnimate = attackToAnimate.GetNextAttack(attacksBuffered.Dequeue());
+                if (attackToAnimate.HasMeterCost())
+                {
+                    unitStats.MeterBurn(attackToAnimate.MeterCost());
+                }
             }
             else
             {
@@ -251,6 +286,10 @@ public class PlayerAttack : UnitAttack
                 {
                     canPlayNextAttack = false;
                     attackToAnimate = specialBuffered;
+                    if (attackToAnimate.HasMeterCost())
+                    {
+                        unitStats.MeterBurn(attackToAnimate.MeterCost());
+                    }
                     playingSpecialMove = true;
                 }
                 else

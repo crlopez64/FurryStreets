@@ -93,9 +93,19 @@ public class UnitStats : MonoBehaviour
         currentMeter -= meterBurn;
         if (meters != null)
         {
-            meters.SetMeterBarCurrent(currentMeter);
+            meters.SetMeterBarCurrent(currentMeter, true);
         }
         return true;
+    }
+    /// <summary>
+    /// Light up the Meter Bar if there's not enough Meter to use.
+    /// </summary>
+    public void NotEnoughMeter()
+    {
+        if (meters != null)
+        {
+            meters.LightUpMeter();
+        }
     }
     /// <summary>
     /// Have the Unit restore Stamina and/or Meter.
@@ -118,7 +128,7 @@ public class UnitStats : MonoBehaviour
         if (meters != null)
         {
             meters.SetHealthBarCurrent(currentHealth);
-            meters.SetMeterBarCurrent(currentMeter);
+            meters.SetMeterBarCurrent(currentMeter, false);
         }
     }
     /// <summary>
@@ -132,7 +142,7 @@ public class UnitStats : MonoBehaviour
         if (meters != null)
         {
             meters.SetHealthBarCurrent(currentHealth);
-            meters.SetMeterBarCurrent(currentMeter);
+            meters.SetMeterBarCurrent(currentMeter, false);
         }
     }
     /// <summary>

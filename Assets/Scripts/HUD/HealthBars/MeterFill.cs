@@ -8,15 +8,29 @@ using UnityEngine.UI;
 /// </summary>
 public class MeterFill : MonoBehaviour
 {
+    protected Color currentTrueColor;
+    protected Color currentLerpColor;
     protected Color maxValueColor;
     protected Color minValueColor;
     private Image fill;
+    private float percentage;
     private float maxStatValue;
     private float maxFillValue;
+    private float meterBurnTimer;
 
     private void Awake()
     {
         fill = GetComponent<Image>();
+    }
+    private void Update()
+    {
+        currentLerpColor = Color.Lerp(minValueColor, maxValueColor, percentage);
+        if (meterBurnTimer >= 0)
+        {
+            meterBurnTimer -= Time.deltaTime * 1.25f;
+        }
+        currentTrueColor = Color.Lerp(currentLerpColor, Color.white, meterBurnTimer);
+        fill.color = currentTrueColor;
     }
 
     /// <summary>
@@ -56,14 +70,18 @@ public class MeterFill : MonoBehaviour
     /// Set the whole Slider value relative to its max stat value.
     /// </summary>
     /// <param name="value"></param>
-    public void SetSliderValue(float value)
+    public void SetSliderValue(float value, bool meterBurned)
     {
         if (value > maxStatValue)
         {
             value = maxStatValue;
         }
-        float percentage = value / maxStatValue;
+        percentage = value / maxStatValue;
         fill.fillAmount = percentage * maxFillValue;
+        if (meterBurned)
+        {
+            meterBurnTimer = 1f;
+        }
     }
     /// <summary>
     /// Get the percentage float.

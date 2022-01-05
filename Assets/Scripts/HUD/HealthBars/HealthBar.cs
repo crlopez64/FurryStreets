@@ -56,7 +56,7 @@ public class HealthBar : MonoBehaviour
     /// <param name="value"></param>
     public void SetValue(float value)
     {
-        fill.SetSliderValue(value);
+        fill.SetSliderValue(value, false);
         if (fill.GetValue() > drain.GetValue())
         {
             drain.SetValue(value);

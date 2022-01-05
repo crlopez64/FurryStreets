@@ -140,7 +140,7 @@ public class Attack
     /// <returns></returns>
     public bool HasMeterCost()
     {
-        return meterCost == 0;
+        return meterCost > 0;
     }
     /// <summary>
     /// Can the Unit use this move?
@@ -207,6 +207,14 @@ public class Attack
     public int Damage()
     {
         return damage;
+    }
+    /// <summary>
+    /// The Meter cost it takes to use this move.
+    /// </summary>
+    /// <returns></returns>
+    public int MeterCost()
+    {
+        return meterCost;
     }
     /// <summary>
     /// Get the animation ID to return.

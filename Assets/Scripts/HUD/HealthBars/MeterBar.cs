@@ -20,8 +20,8 @@ public class MeterBar : MonoBehaviour
     }
     private void Start()
     {
-        fill.SetMaxColor(0f, 1f, 1f);
-        fill.SetMinColor(0f, 0.6f, 1f);
+        fill.SetMaxColor(0f, 0.9f, 0.9f);
+        fill.SetMinColor(0f, 0.3f, 1.0f);
         drain.SetColor(0.3f, 0.4f, 0.6f);
     }
     private void Update()
@@ -54,9 +54,9 @@ public class MeterBar : MonoBehaviour
     /// Set the whole value for Meter.
     /// </summary>
     /// <param name="value"></param>
-    public void SetValue(float value)
+    public void SetValue(float value, bool meterBurned)
     {
-        fill.SetSliderValue(value);
+        fill.SetSliderValue(value, meterBurned);
         if (fill.GetValue() > drain.GetValue())
         {
             drain.SetValue(value);
