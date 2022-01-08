@@ -31,7 +31,7 @@ public class MeterDrain : MonoBehaviour
     /// </summary>
     public void Drain()
     {
-        drain.fillAmount -= Time.deltaTime * 0.1f;
+        drain.fillAmount -= Time.deltaTime * 0.2f;
     }
     /// <summary>
     /// Set the max value for a stat.

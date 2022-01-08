@@ -7,21 +7,27 @@ using UnityEngine;
 /// </summary>
 public class HUDMeters : MonoBehaviour
 {
-    private MeterPortrait portrait;
+    private MeterPortraitMask portrait;
     private MeterFrame meterFrame;
     private HealthBar healthBar;
     private MeterBar meterBar;
     private MeterBackground healthBarBackground;
     private MeterBackground meterBarBackground;
+    private HUDSpecialGraphic specialGraphic;
 
     private void Awake()
     {
-        portrait = GetComponentInChildren<MeterPortrait>();
+        portrait = GetComponentInChildren<MeterPortraitMask>();
         meterFrame = GetComponentInChildren<MeterFrame>();
         healthBar = GetComponentInChildren<HealthBar>();
         meterBar = GetComponentInChildren<MeterBar>();
         healthBarBackground = healthBar.GetComponent<MeterBackground>();
         meterBarBackground = meterBar.GetComponent<MeterBackground>();
+        specialGraphic = GetComponentInChildren<HUDSpecialGraphic>();
+    }
+    private void Start()
+    {
+        specialGraphic.TurnOffGraphic();
     }
 
     /// <summary>
@@ -55,6 +61,11 @@ public class HUDMeters : MonoBehaviour
     public void SetMeterBarCurrent(float currentValue, bool meterBurned)
     {
         meterBar.SetValue(currentValue, meterBurned);
+        if (meterBurned)
+        {
+            specialGraphic.MeterBurn();
+            specialGraphic.gameObject.SetActive(true);
+        }
     }
     /// <summary>
     /// Light up the Health bar for Danger reasons.

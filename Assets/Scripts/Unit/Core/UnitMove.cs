@@ -24,6 +24,7 @@ public class UnitMove : MonoBehaviour
     private bool canFlip;
     private bool moveSmoothing;
     private int gravityScale;
+    private float hitstunTimer;
     private float groundCheckTimer;
 
     protected UnitAttack unitAttack;
@@ -123,7 +124,6 @@ public class UnitMove : MonoBehaviour
         }
         else
         {
-            Debug.Log("Not grounded");
             //velocity.x = Mathf.Clamp(velocity.x, -30, 30);
             rb2D.velocity = new Vector2(velocity.x, rb2D.velocity.y);
         }

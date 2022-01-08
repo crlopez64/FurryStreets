@@ -20,7 +20,7 @@ public class HealthBar : MonoBehaviour
     }
     private void Start()
     {
-        fill.SetMaxColor(1f, 0f, 0f);
+        fill.SetMaxColor(1f, 0.2f, 0.2f);
         fill.SetMinColor(0.4f, 0f, 0f);
         drain.SetColor(1f, 1f, 1f);
     }

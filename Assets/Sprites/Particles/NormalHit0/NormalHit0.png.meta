@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 12f96fd3149d3274a888dbf4f99c4b1e
+guid: 084563556ebb3554b8c4f629026501f9
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -42,12 +42,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 0
-  alignment: 9
-  spritePivot: {x: 0.3828125, y: 0.12109375}
-  spritePixelsToUnits: 128
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -66,7 +66,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 1024
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -102,18 +102,106 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: NormalHit0_0
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 352
+        width: 83
+        height: 329
+      alignment: 9
+      pivot: {x: 0.28915662, y: 0.4620061}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e69da8452c4fc5f4f8274c9cda818e62
+      internalID: -1261377182
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NormalHit0_1
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 311
+        width: 185
+        height: 400
+      alignment: 9
+      pivot: {x: 0.118836686, y: 0.47999993}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 66086b82a611b98489d7111a55ca7e12
+      internalID: 889595561
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NormalHit0_2
+      rect:
+        serializedVersion: 2
+        x: 387
+        y: 224
+        width: 301
+        height: 579
+      alignment: 9
+      pivot: {x: -0.068949446, y: 0.46719792}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6f86793e7af8e1c46b9d8c146f4f1362
+      internalID: -504108319
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NormalHit0_3
+      rect:
+        serializedVersion: 2
+        x: 691
+        y: 190
+        width: 280
+        height: 655
+      alignment: 9
+      pivot: {x: -0.32713884, y: 0.45730996}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 14f32b6cd78efa542aa1e40458cd95a7
+      internalID: -1302390609
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
-    internalID: 1537655665
+    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      NormalHit0_3: -1302390609
+      NormalHit0_2: -504108319
+      NormalHit0_1: 889595561
+      NormalHit0_0: -1261377182
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

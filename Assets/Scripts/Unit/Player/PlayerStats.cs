@@ -7,6 +7,8 @@ using UnityEngine;
 /// </summary>
 public class PlayerStats : UnitStats
 {
+    private int highestCombo;
+    private int comboHits;
 
     protected override void Awake()
     {
@@ -22,6 +24,25 @@ public class PlayerStats : UnitStats
     protected override void Update()
     {
         base.Update();
+    }
+
+    /// <summary>
+    /// Add one hit to this Player's Combo.
+    /// </summary>
+    public void AddToCombo()
+    {
+        comboHits++;
+        if (comboHits > highestCombo)
+        {
+            highestCombo = comboHits;
+        }
+    }
+    /// <summary>
+    /// Reset the Combo is taking too long or taken damage.
+    /// </summary>
+    public void ResetCombo()
+    {
+        comboHits = 0;
     }
 
     public void SetTestWolf()
