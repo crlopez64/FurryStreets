@@ -4,8 +4,14 @@ ART STYLE:
 	HUD: Flat Shade, cartoony-looking
 
 TO DO LIST:
--> Controls: [P]unch, [K]ick, [A]ction/Jump, [S]pecial
--> Redo move list for fighter (will eventually change depending on characters)
+-> Controls: 
+-> Redo move list for Wolf/Mateo (will eventually change depending on characters)
+-> Name Fox Ally
+-> Special Move Particles On Hit
+-> More special moves for Wolf
+-> Redo Attack. Add Attributes (Heavy Stun (Double Stun DMG), Knockback Normal, Knockback Special 1(Magnum Blast), Pop Up)
+	-> Attack Enders: Give 1.3x stun.
+	-? how to determine knockback when hitting airborne enemies?
 
 ITEMS:
 -> Can decrease Meter use (by Percentage %)

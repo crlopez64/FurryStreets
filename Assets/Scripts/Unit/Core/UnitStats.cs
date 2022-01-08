@@ -236,6 +236,7 @@ public class UnitStats : MonoBehaviour
         statDefense = 2;
         statMeterGain = 1;
         maxHealth = 100;
+        maxStun = 40;
         currentHealth = maxHealth;
         currentMeter = 0;
     }

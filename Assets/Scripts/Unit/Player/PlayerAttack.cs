@@ -233,11 +233,14 @@ public class PlayerAttack : UnitAttack
                         attackToBuffer = attackToBuffer.GetNextAttack(j);
                         if (attackToAnimate.HasMeterCost())
                         {
-                            unitStats.MeterBurn(attackToAnimate.MeterCost());
-                        }
-                        else
-                        {
-                            unitStats.NotEnoughMeter();
+                            if (attackToAnimate.CanUseMove(unitStats.CurrentMeter()))
+                            {
+                                unitStats.MeterBurn(attackToAnimate.MeterCost());
+                            }
+                            else
+                            {
+                                unitStats.NotEnoughMeter();
+                            }
                         }
                         unitAnimationLayers.SetAttackLayer();
                         unitMove.StopMoving();
