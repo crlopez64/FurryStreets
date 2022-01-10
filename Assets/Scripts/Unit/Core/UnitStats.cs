@@ -18,6 +18,10 @@ public class UnitStats : MonoBehaviour
     protected int maxStun = 20;         //Stun
     protected float grabTimer = 2f;     //Grab timer; if not stunned, double grab timer.
     protected float meterDelayTimer;    //Timer before Meter can recharge.
+    protected float multiplierPunch;    //Extra damage from Punches, will not influence stun damage
+    protected float multiplierKick;     //Extra damage from Kicks, will not influence stun damage
+    protected float multiplierSpecial;  //Extra damage from Special, will not influence stun damage
+    protected float multiplierStun;     //Extra stun damage from normal attacks, punch or kick
     protected int maxHealth;            //Health
     protected int maxMeter;             //Meter to do Special Moves
     protected int currentHealth;        //If health goes to 0, KO

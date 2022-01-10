@@ -24,6 +24,7 @@ public class UnitMove : MonoBehaviour
     private bool canFlip;
     private bool moveSmoothing;
     private int gravityScale;
+    //TODO: Add hit stun timer.
     private float hitstunTimer;
     private float groundCheckTimer;
 
