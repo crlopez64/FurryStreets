@@ -31,7 +31,6 @@ public class PlayerAttack : UnitAttack
     protected override void Update()
     {
         base.Update();
-        //TODO: Test Code to remove
         specialMoveBuffered = (specialBuffered != null);
         if (canPlayNextAttack)
         {

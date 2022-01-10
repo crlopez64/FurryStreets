@@ -25,6 +25,7 @@ public class UnitStats : MonoBehaviour
     protected int currentMeter;         //Current Meter for Special moves
 
     public HUDMeters meters;
+    public ComboCounter comboCounter;
 
     protected virtual void Awake()
     {
@@ -228,6 +229,14 @@ public class UnitStats : MonoBehaviour
     protected void GetMeter(byte whichPlayer)
     {
         meters = FindObjectOfType<HUDMetersGrid>().GetMeter(whichPlayer);
+    }
+    /// <summary>
+    /// Get Combo Counter for some player.
+    /// </summary>
+    /// <param name="whichPlayer"></param>
+    protected void GetComboCounter(byte whichPlayer)
+    {
+        comboCounter = FindObjectOfType<HUDCombosGrid>().GetComboCounter(whichPlayer);
     }
 
     public void SetTest()

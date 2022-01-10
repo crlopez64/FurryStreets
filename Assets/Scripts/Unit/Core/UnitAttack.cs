@@ -32,7 +32,6 @@ public class UnitAttack : MonoBehaviour
     protected UnitAnimationLayers unitAnimationLayers;
     protected Animator animator;
     protected bool isHit; //Use for UnitMove purposes
-    protected bool isMetered;
     protected bool attacking;
     protected bool stunArmor;
     protected bool attackStance; //If true, being idle or walking will have a different stance. Only visual.
@@ -98,7 +97,6 @@ public class UnitAttack : MonoBehaviour
         //Animator
         animator.SetBool("IsHit", isHit);
         animator.SetBool("Stunned", Stunned());
-        animator.SetBool("IsMetered", isMetered);
         animator.SetBool("Attacking", attacking);
         animator.SetBool("AttackStance", attackStance);
         animator.SetBool("StayDowned", unitStats.StaminaEmpty());
@@ -291,16 +289,32 @@ public class UnitAttack : MonoBehaviour
                 (!hit.GetComponentInParent<UnitMove>().Grounded())))
             {
                 hit.GetComponentInParent<UnitAttack>().TakeHit(transform, attackToAnimate);
+                //If an enemy, add combo counter to player
+                //Else if a player, reset their combo
+                if (hit.GetComponentInParent<EnemyAttack>() != null)
+                {
+                    if (unitStats.GetComponent<PlayerStats>() != null)
+                    {
+                        unitStats.GetComponent<PlayerStats>().AddToCombo();
+                    }
+                }
+                else if (hit.GetComponentInParent<PlayerAttack>() != null)
+                {
+                    if (hit.GetComponent<PlayerStats>() != null)
+                    {
+                        hit.GetComponent<PlayerStats>().ResetComboHit();
+                    }
+                }
             }
             if (hit.GetComponentInParent<UnitAttack>() != null)
             {
+                Debug.LogWarning("NOTE: This item does not have a Unit Attack! " + hit.name);
                 hit.GetComponentInParent<UnitAttack>().ResetAttacking();
             }
             hit.GetComponentInParent<UnitAnimationLayers>().SetHitLayer();
             if (particlePooler != null)
             {
                 particlePooler.SpawnParticle(0, (Vector2)groundedHitbox.transform.position + Random.insideUnitCircle * 0.5f);
-
             }
         }
     }
@@ -456,7 +470,6 @@ public class UnitAttack : MonoBehaviour
         attacking = false;
         hitTypeRecord = (hitType >= 3) ? hitType : (byte)4;
         hitType = (!unitMove.Grounded()) ? hitTypeRecord : attack.GetHitType();
-        isMetered = (attack.HasMeterCost()) || isMetered;
         if (Stunned())
         {
             StopStun();
