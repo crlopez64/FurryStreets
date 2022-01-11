@@ -7,26 +7,27 @@ using UnityEngine;
 /// </summary>
 public class UnitStats : MonoBehaviour
 {
-    protected EnemyHUD enemyHUD;        //For Player, this will always be empty
-    protected UnitAttack unitAttack;    //Used for Stun
-    protected byte grabWorks;           //For Enemy, checks which Grab actually works against an enemy.
-    protected byte meterDelay;          //Meter delay before actual recharge
-    protected byte statAttack;          //Physical Attack
-    protected byte statDefense;         //Physical Defense
-    protected byte statMeterGain;       //Meter gain, stat * 0.5f;
-    protected byte statGrabChance = 50; //For Enemy, not to exceed 100. Chance on being grabbed
-    protected int maxStun = 20;         //Stun
-    protected float grabTimer = 2f;     //Grab timer; if not stunned, double grab timer.
-    protected float meterDelayTimer;    //Timer before Meter can recharge.
-    protected float multiplierPunch;    //Extra damage from Punches, will not influence stun damage
-    protected float multiplierKick;     //Extra damage from Kicks, will not influence stun damage
-    protected float multiplierSpecial;  //Extra damage from Special, will not influence stun damage
-    protected float multiplierStun;     //Extra stun damage from normal attacks, punch or kick
-    protected int maxHealth;            //Health
-    protected int maxMeter;             //Meter to do Special Moves
-    protected int currentHealth;        //If health goes to 0, KO
-    protected int currentStun;          //If stun goes to max, get stunned.
-    protected int currentMeter;         //Current Meter for Special moves
+    protected EnemyHUD enemyHUD;                //For Player, this will always be empty
+    protected UnitAttack unitAttack;            //Used for Stun
+    protected byte grabWorks;                   //For Enemy, checks which Grab actually works against an enemy.
+    protected byte meterDelay;                  //Meter delay before actual recharge
+    protected byte statAttack;                  //Physical Attack
+    protected byte statDefense;                 //Physical Defense
+    protected byte statMeterGain;               //Meter gain, stat * 0.5f;
+    protected byte statGrabChance = 50;         //For Enemy, not to exceed 100. Chance on being grabbed
+    protected int maxStun = 20;                 //Stun
+    protected float grabTimer = 2f;             //Grab timer; if not stunned, double grab timer.
+    protected float meterDelayTimer;            //Timer before Meter can recharge.
+    protected float multiplierPunch;            //Extra damage from Punches, will not influence stun damage
+    protected float multiplierKick;             //Extra damage from Kicks, will not influence stun damage
+    protected float multiplierSpecial;          //Extra damage from Special, will not influence stun damage
+    protected float multiplierStun;             //Extra stun damage from normal attacks, punch or kick
+    protected float multiplierSpecialDiscount;  //Discount of Meter from using Specials
+    protected int maxHealth;                    //Health
+    protected int maxMeter;                     //Meter to do Special Moves
+    protected int currentHealth;                //If health goes to 0, KO
+    protected int currentStun;                  //If stun goes to max, get stunned.
+    protected int currentMeter;                 //Current Meter for Special moves
 
     public HUDMeters meters;
     public ComboCounter comboCounter;

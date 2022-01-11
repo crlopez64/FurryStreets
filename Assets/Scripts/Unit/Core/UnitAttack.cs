@@ -308,7 +308,6 @@ public class UnitAttack : MonoBehaviour
             }
             if (hit.GetComponentInParent<UnitAttack>() != null)
             {
-                Debug.LogWarning("NOTE: This item does not have a Unit Attack! " + hit.name);
                 hit.GetComponentInParent<UnitAttack>().ResetAttacking();
             }
             hit.GetComponentInParent<UnitAnimationLayers>().SetHitLayer();

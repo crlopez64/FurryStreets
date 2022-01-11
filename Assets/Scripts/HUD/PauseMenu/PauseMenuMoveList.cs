@@ -52,11 +52,6 @@ public class PauseMenuMoveList : MonoBehaviour
         {
             foreach(Attack nextAttack in currentAttack.GetNextAttacks())
             {
-                //If attack string has not been unlocked yet, ignore
-                if (!nextAttack.Unlocked())
-                {
-                    continue;
-                }
                 if (currentAttack.IsFinalUniqueAttack())
                 {
                     buttons[moveListIndex].SetMove(newStack);

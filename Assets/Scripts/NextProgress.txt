@@ -16,6 +16,7 @@ TO DO LIST:
 -> Redo Attack. Add Attributes (Heavy Stun (Double Stun DMG), Knockback Normal, Knockback Special 1(Magnum Blast), Pop Up)
 	-> Attack Enders: Give 1.3x stun.
 	-? how to determine knockback when hitting airborne enemies?
+	-> Implement knockback depending on Attributes
 
 MAYBE:
 -> Increase HP and Meter by 10x to get multipliers to work

@@ -87,7 +87,7 @@ public class EnemyAttack : UnitAttack
     {
         //Use a similar scheme as the Player txt move list
         //For every line, each chain is self contained in the attack
-        rootAttack = new Attack("Starting Null", false, false, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, false);
+        rootAttack = new Attack("Starting Null", 5, "noAttack", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, false, null);
         if (textMoveList == null)
         {
             Debug.LogWarning("NOTE: Unit does not have a MoveList to reference.");
@@ -115,12 +115,14 @@ public class EnemyAttack : UnitAttack
             {
                 string[] attackData = attackString[i].Split(',');
                 bool isFinalUniqueAttack = i == attackString.Length - 1;
-                Attack newAttack = new Attack(linePrep[0], bool.Parse(attackData[0]), bool.Parse(attackData[1]),
-                    byte.Parse(attackData[2]), byte.Parse(attackData[3]),
-                    int.Parse(attackData[4]), int.Parse(attackData[5]), int.Parse(attackData[6]),
-                    float.Parse(attackData[7]), float.Parse(attackData[8]), byte.Parse(attackData[9]),
-                    float.Parse(attackData[10]), float.Parse(attackData[11]), float.Parse(attackData[12]), float.Parse(attackData[13]),
-                    isFinalUniqueAttack);
+
+                Attack newAttack = null;
+                //Attack newAttack = new Attack(linePrep[0],
+                //    byte.Parse(attackData[2]), byte.Parse(attackData[3]),
+                //    int.Parse(attackData[4]), int.Parse(attackData[5]), int.Parse(attackData[6]),
+                //    float.Parse(attackData[7]), float.Parse(attackData[8]), byte.Parse(attackData[9]),
+                //    float.Parse(attackData[10]), float.Parse(attackData[11]), float.Parse(attackData[12]), float.Parse(attackData[13]),
+                //    isFinalUniqueAttack);
                 currentAttackInString.AddAttack(newAttack);
                 if (i < (attackString.Length - 1))
                 {

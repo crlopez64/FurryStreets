@@ -7,15 +7,14 @@ using UnityEngine;
 public class Attack
 {
     private readonly List<Attack> nextAttacks;
-    private bool unlocked;
     private bool canAddAttack;
-    private bool finalUniqueAttack;
+    private readonly bool finalUniqueAttack;
     private readonly Vector2 knockback;
     private readonly Vector2 unitToMove;
     private readonly Vector2 hitboxDimensions;
-    private readonly bool mustUnlock;
     private readonly byte hitType;
     private readonly byte requiredAttack; //1 = Punch, 2 = Kick; 5 is Idle, Numbers 1-9 is direction input
+    private readonly byte attributes; //1st: Grab, 2: Heavy Stun, 3: Knockback, 4: Knockback Far, 5: Pop Up, 
     private readonly int damage;
     private readonly int animationID;
     private readonly int meterCost;
@@ -25,8 +24,6 @@ public class Attack
     /// Constructor for Attack.
     /// </summary>
     /// <param name="attackName"></param>
-    /// <param name="mustUnlock"></param>
-    /// <param name="unlocked"></param>
     /// <param name="requiredDirection"></param>
     /// <param name="requiredAttack"></param>
     /// <param name="damage"></param>
@@ -40,28 +37,20 @@ public class Attack
     /// <param name="moveX"></param>
     /// <param name="moveY"></param>
     /// <param name="finalUniqueAttack"></param>
-    public Attack(string attackName, bool mustUnlock, bool unlocked, byte requiredDirection, byte requiredAttack,
+    /// <param name="attributes"></param>
+    public Attack(string attackName, byte requiredDirection, string requiredAttack,
         int damage, int meterCost, int animationID,
         float hitboxWidth, float hitboxHeight, byte hitType, float knockbackDistance, float knockbackHeight, float moveX, float moveY,
-        bool finalUniqueAttack)
+        bool finalUniqueAttack, string[] attributes)
     {
         canAddAttack = true;
         nextAttacks = new List<Attack>(2);
-        this.mustUnlock = mustUnlock;
-        this.unlocked = unlocked;
-        if (requiredAttack > 4)
-        {
-            requiredAttack = 0;
-        }
-        this.requiredAttack = requiredAttack;
         if ((requiredDirection == 0) || (requiredDirection > 9))
         {
             requiredDirection = 5;
         }
-        if (requiredDirection > 1)
-        {
-            this.requiredAttack = (byte)((requiredDirection << 4) | requiredAttack);
-        }
+        this.requiredAttack = (byte)(requiredDirection << 4);
+        this.requiredAttack |= CheckAttack(requiredAttack);
         this.damage = damage;
         this.meterCost = meterCost;
         this.animationID = animationID;
@@ -71,6 +60,7 @@ public class Attack
         this.finalUniqueAttack = finalUniqueAttack;
         knockback = new Vector2(knockbackDistance, knockbackHeight);
         unitToMove = new Vector2(moveX, moveY);
+        this.attributes = AddAttributes(attributes);
     }
     /// <summary>
     /// Add an attack to branch off of.
@@ -90,13 +80,6 @@ public class Attack
     {
         canAddAttack = false;
         nextAttacks.TrimExcess();
-    }
-    /// <summary>
-    /// Set if the move has been unlocked.
-    /// </summary>
-    public void HasBeenUnlocked()
-    {
-        unlocked = true;
     }
     public override bool Equals(object obj)
     {
@@ -127,14 +110,6 @@ public class Attack
         return nextAttacks.Count > 0;
     }
     /// <summary>
-    /// Return if the Move has to be unlocked before using it.
-    /// </summary>
-    /// <returns></returns>
-    public bool MustUnlock()
-    {
-        return mustUnlock;
-    }
-    /// <summary>
     /// Does this move have any Meter cost to them?
     /// </summary>
     /// <returns></returns>
@@ -152,14 +127,6 @@ public class Attack
         return currentMeter >= meterCost;
     }
     /// <summary>
-    /// Return if the move has been unlocked. If the move does not require to be unlocked, return true.
-    /// </summary>
-    /// <returns></returns>
-    public bool Unlocked()
-    {
-        return (!mustUnlock) || (mustUnlock && unlocked);
-    }
-    /// <summary>
     /// Is this the final attack in an Attack string?
     /// Another attack with a different name branching off this one will still make this attack unique.
     /// </summary>
@@ -167,6 +134,54 @@ public class Attack
     public bool IsFinalUniqueAttack()
     {
         return finalUniqueAttack;
+    }
+    /// <summary>
+    /// Does this Attack have a Grab attribute? Grab follow up attacks should not have this attribute.
+    /// </summary>
+    /// <returns></returns>
+    public bool AttributeGrab()
+    {
+        return (attributes & 0x1) == 0x1;
+    }
+    /// <summary>
+    /// Does this Attack make more Stun damage than normally? If so, Stun Damage = 1.3 * Damage
+    /// </summary>
+    /// <returns></returns>
+    public bool AttributeHeavyStun()
+    {
+        return ((attributes >> 1) & 0x1) == 0x1;
+    }
+    /// <summary>
+    /// Does this Attack push back the Enemy?
+    /// </summary>
+    /// <returns></returns>
+    public bool AttributeKnockback()
+    {
+        return ((attributes >> 2) & 0x1) == 0x1;
+    }
+    /// <summary>
+    /// Does this Attack push back the Enemy really far?
+    /// </summary>
+    /// <returns></returns>
+    public bool AttributeKnockbackFar()
+    {
+        return ((attributes >> 3) & 0x1) == 0x1;
+    }
+    /// <summary>
+    /// Does this Attack push back Enemies from either side?
+    /// </summary>
+    /// <returns></returns>
+    public bool AttributeKnockbackRepel()
+    {
+        return ((attributes >> 4) & 0x1) == 0x1;
+    }
+    /// <summary>
+    /// Does this Attack pop the Enemy up into the air?
+    /// </summary>
+    /// <returns></returns>
+    public bool AttributePopUp()
+    {
+        return ((attributes >> 5) & 0x1) == 0x1;
     }
     /// <summary>
     /// Return the Hit Type for hitstun against this Unit.
@@ -347,5 +362,83 @@ public class Attack
     public override string ToString()
     {
         return attackName + ": " + RequiredDirection() + RequiredAttack();
+    }
+
+    /// <summary>
+    /// Get Attack Byte from string specified.
+    /// </summary>
+    /// <param name="attackString"></param>
+    /// <returns></returns>
+    private byte CheckAttack(string attackString)
+    {
+        if (attackString.Equals("punch", System.StringComparison.OrdinalIgnoreCase))
+        {
+            return 1;
+        }
+        if (attackString.Equals("kick", System.StringComparison.OrdinalIgnoreCase))
+        {
+            return 2;
+        }
+        if (attackString.Equals("grab", System.StringComparison.OrdinalIgnoreCase))
+        {
+            return 3;
+        }
+        if (attackString.Equals("throw", System.StringComparison.OrdinalIgnoreCase))
+        {
+            return 3;
+        }
+        if (attackString.Equals("special", System.StringComparison.OrdinalIgnoreCase))
+        {
+            return 4;
+        }
+        return 0;
+    }
+    /// <summary>
+    /// Add attributes to this attack if able to branch off of attacks.
+    /// </summary>
+    /// <param name="attributes"></param>
+    private byte AddAttributes(string[] attributes)
+    {
+        if (!canAddAttack)
+        {
+            return 0;
+        }
+        if (attributes == null)
+        {
+            return 0;
+        }
+        byte currentAttributes = 0;
+        foreach (string attribute in attributes)
+        {
+            if (attribute.Equals("none", System.StringComparison.OrdinalIgnoreCase))
+            {
+                return 0;
+            }
+            if (attribute.Equals("grab", System.StringComparison.OrdinalIgnoreCase))
+            {
+                currentAttributes |= 0x1;
+            }
+            if (attribute.Equals("heavyStun", System.StringComparison.OrdinalIgnoreCase))
+            {
+                currentAttributes |= (0x1 << 1);
+            }
+            if (attribute.Equals("knockback", System.StringComparison.OrdinalIgnoreCase))
+            {
+                currentAttributes |= (0x1 << 2);
+            }
+            if (attribute.Equals("knockbackFar", System.StringComparison.OrdinalIgnoreCase))
+            {
+                currentAttributes |= (0x1 << 3);
+            }
+            if (attribute.Equals("knockbackRepel", System.StringComparison.OrdinalIgnoreCase))
+            {
+                currentAttributes |= (0x1 << 4);
+            }
+            if (attribute.Equals("popUp", System.StringComparison.OrdinalIgnoreCase))
+            {
+                currentAttributes |= (0x1 << 5);
+            }
+        }
+        return currentAttributes;
     }
 }
