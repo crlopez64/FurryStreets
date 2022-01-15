@@ -79,7 +79,22 @@ public class UnitStats : MonoBehaviour
         {
             currentMeter = maxMeter;
         }
-        currentStun += totalDamage;
+        //If airborne, and knockback/popUp, add more stun
+        float immediateStunMultiplier = 1.0f;
+        if (!GetComponent<UnitMove>().Grounded())
+        {
+            if (incomingAttack.AttributeKnockback() || incomingAttack.AttributeKnockbackFar() ||
+                incomingAttack.AttributePopUp())
+            {
+                immediateStunMultiplier += 0.3f;
+            }
+        }
+        //If attack has heavy stun, add more stun
+        if (incomingAttack.AttributeHeavyStun())
+        {
+            immediateStunMultiplier += 0.3f;
+        }
+        currentStun += (int)(totalDamage * immediateStunMultiplier);
         if (meters != null)
         {
             meters.SetHealthBarCurrent(currentHealth);

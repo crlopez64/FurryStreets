@@ -72,8 +72,8 @@ public class PlayerStats : UnitStats
         statAttack = 5;
         statDefense = 2;
         statMeterGain = 2;
-        maxHealth = 100;
-        maxMeter = 65;
+        maxHealth = 1000;
+        maxMeter = 650;
         currentHealth = maxHealth;
         currentMeter = maxMeter;
         meters.SetHealthBarCurrent(currentHealth);

@@ -60,7 +60,7 @@ public class MeterFill : MonoBehaviour
     public void SetMaxValue(float maxValue)
     {
         maxStatValue = maxValue;
-        maxFillValue = maxValue / 200;
+        maxFillValue = maxValue / 2000;
         if (fill != null)
         {
             fill.fillAmount = maxFillValue;

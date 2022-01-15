@@ -18,6 +18,7 @@ public class UnitAnimationLayers : MonoBehaviour
     /// </summary>
     public void SetMovementLayer()
     {
+        Debug.Log("Set Move Layer");
         animator.SetLayerWeight(0, 1);
         animator.SetLayerWeight(1, 0);
         animator.SetLayerWeight(2, 0);

@@ -41,7 +41,7 @@ public class Attack
     public Attack(string attackName, byte requiredDirection, string requiredAttack,
         int damage, int meterCost, int animationID,
         float hitboxWidth, float hitboxHeight, byte hitType, float knockbackDistance, float knockbackHeight, float moveX, float moveY,
-        bool finalUniqueAttack, string[] attributes)
+        bool finalUniqueAttack, string attribute)
     {
         canAddAttack = true;
         nextAttacks = new List<Attack>(2);
@@ -60,7 +60,7 @@ public class Attack
         this.finalUniqueAttack = finalUniqueAttack;
         knockback = new Vector2(knockbackDistance, knockbackHeight);
         unitToMove = new Vector2(moveX, moveY);
-        this.attributes = AddAttributes(attributes);
+        this.attributes = AddAttributes(attribute);
     }
     /// <summary>
     /// Add an attack to branch off of.
@@ -168,20 +168,12 @@ public class Attack
         return ((attributes >> 3) & 0x1) == 0x1;
     }
     /// <summary>
-    /// Does this Attack push back Enemies from either side?
-    /// </summary>
-    /// <returns></returns>
-    public bool AttributeKnockbackRepel()
-    {
-        return ((attributes >> 4) & 0x1) == 0x1;
-    }
-    /// <summary>
     /// Does this Attack pop the Enemy up into the air?
     /// </summary>
     /// <returns></returns>
     public bool AttributePopUp()
     {
-        return ((attributes >> 5) & 0x1) == 0x1;
+        return ((attributes >> 4) & 0x1) == 0x1;
     }
     /// <summary>
     /// Return the Hit Type for hitstun against this Unit.
@@ -214,6 +206,14 @@ public class Attack
     public byte RequiredDirectionAndAttack()
     {
         return requiredAttack;
+    }
+    /// <summary>
+    /// Return the Attributes byte.
+    /// </summary>
+    /// <returns></returns>
+    public byte GetAttributesByte()
+    {
+        return attributes;
     }
     /// <summary>
     /// Get the Damage to give incoming Enemies to return.
@@ -397,47 +397,40 @@ public class Attack
     /// Add attributes to this attack if able to branch off of attacks.
     /// </summary>
     /// <param name="attributes"></param>
-    private byte AddAttributes(string[] attributes)
+    private byte AddAttributes(string attribute)
     {
         if (!canAddAttack)
         {
             return 0;
         }
-        if (attributes == null)
+        if (attribute == null)
         {
             return 0;
         }
         byte currentAttributes = 0;
-        foreach (string attribute in attributes)
+        if (attribute.Contains("none", System.StringComparison.OrdinalIgnoreCase))
         {
-            if (attribute.Equals("none", System.StringComparison.OrdinalIgnoreCase))
-            {
-                return 0;
-            }
-            if (attribute.Equals("grab", System.StringComparison.OrdinalIgnoreCase))
-            {
-                currentAttributes |= 0x1;
-            }
-            if (attribute.Equals("heavyStun", System.StringComparison.OrdinalIgnoreCase))
-            {
-                currentAttributes |= (0x1 << 1);
-            }
-            if (attribute.Equals("knockback", System.StringComparison.OrdinalIgnoreCase))
-            {
-                currentAttributes |= (0x1 << 2);
-            }
-            if (attribute.Equals("knockbackFar", System.StringComparison.OrdinalIgnoreCase))
-            {
-                currentAttributes |= (0x1 << 3);
-            }
-            if (attribute.Equals("knockbackRepel", System.StringComparison.OrdinalIgnoreCase))
-            {
-                currentAttributes |= (0x1 << 4);
-            }
-            if (attribute.Equals("popUp", System.StringComparison.OrdinalIgnoreCase))
-            {
-                currentAttributes |= (0x1 << 5);
-            }
+            return 0;
+        }
+        if (attribute.Contains("grab", System.StringComparison.OrdinalIgnoreCase))
+        {
+            currentAttributes |= 0x1;
+        }
+        if (attribute.Contains("heavyStun", System.StringComparison.OrdinalIgnoreCase))
+        {
+            currentAttributes |= (0x1 << 1);
+        }
+        if (attribute.Contains("knockback", System.StringComparison.OrdinalIgnoreCase))
+        {
+            currentAttributes |= (0x1 << 2);
+        }
+        if (attribute.Contains("knockbackFar", System.StringComparison.OrdinalIgnoreCase))
+        {
+            currentAttributes |= (0x1 << 3);
+        }
+        if (attribute.Contains("popUp", System.StringComparison.OrdinalIgnoreCase))
+        {
+            currentAttributes |= (0x1 << 4);
         }
         return currentAttributes;
     }

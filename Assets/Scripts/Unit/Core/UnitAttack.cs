@@ -31,7 +31,6 @@ public class UnitAttack : MonoBehaviour
     protected ParticlePooler particlePooler;
     protected UnitAnimationLayers unitAnimationLayers;
     protected Animator animator;
-    protected bool isHit; //Use for UnitMove purposes
     protected bool attacking;
     protected bool stunArmor;
     protected bool attackStance; //If true, being idle or walking will have a different stance. Only visual.
@@ -40,11 +39,7 @@ public class UnitAttack : MonoBehaviour
     /// <summary>
     /// The type of animation to play when hit. 0 = inactive, 1 = Minor, 2 = Major, 3 = Knockback Aerial, 4 = Knockback Distal
     /// </summary>
-    protected byte hitType;
-    /// <summary>
-    /// If KB, record this hit type when hit by normal moves.
-    /// </summary>
-    protected byte hitTypeRecord;
+    protected byte hitType; //Could change to 0 = inactive, 1 = Hit High (Grounded), 2 = Hit low (Grounded), 1 = Knockback Aerial (not grounded), 2 = Knockback Distal (not grounded)
     protected float stunTimer;
 
     public Transform unitGrabPosition;
@@ -95,12 +90,10 @@ public class UnitAttack : MonoBehaviour
         }
 
         //Animator
-        animator.SetBool("IsHit", isHit);
         animator.SetBool("Stunned", Stunned());
         animator.SetBool("Attacking", attacking);
         animator.SetBool("AttackStance", attackStance);
         animator.SetBool("StayDowned", unitStats.StaminaEmpty());
-        animator.SetInteger("HitType", hitType);
         animator.SetInteger("Grabbed", grabbedByType);
         animator.SetInteger("GrabbingEnemy", grabbingEnemyType);
         animator.SetInteger("AttackAnim", (attackToAnimate == null) ? 0 : attackToAnimate.GetAnimationID());
@@ -151,14 +144,16 @@ public class UnitAttack : MonoBehaviour
     /// </summary>
     public void TurnOffIsHit()
     {
-        isHit = false;
+        Debug.Log("Turn off is hit");
+        //isHit = false;
     }
     /// <summary>
     /// Animation callback layer.
     /// </summary>
     public void TurnOffHitLayer()
     {
-        isHit = false;
+        Debug.Log("Turn off hit layer");
+        //isHit = false;
         hitType = 0;
         grabbedByType = 0;
         grabbingEnemyType = 0;
@@ -177,6 +172,7 @@ public class UnitAttack : MonoBehaviour
         }
         else
         {
+            Debug.Log("Unit stats here!!");
             unitMove.CanMove(true);
             unitAnimationLayers.SetMovementLayer();
         }
@@ -255,6 +251,7 @@ public class UnitAttack : MonoBehaviour
                 }
             }
         }
+        //TODO: Airborne hitbox size and length
         Collider2D[] otherHits = Physics2D.OverlapBoxAll(airborneHitbox.transform.position, new Vector2(2f, 1.5f), 0f, whoCanHit);
         foreach(Collider2D hit in otherHits)
         {
@@ -310,7 +307,7 @@ public class UnitAttack : MonoBehaviour
             {
                 hit.GetComponentInParent<UnitAttack>().ResetAttacking();
             }
-            hit.GetComponentInParent<UnitAnimationLayers>().SetHitLayer();
+            //hit.GetComponentInParent<UnitAnimationLayers>().SetHitLayer();
             if (particlePooler != null)
             {
                 particlePooler.SpawnParticle(0, (Vector2)groundedHitbox.transform.position + Random.insideUnitCircle * 0.5f);
@@ -465,51 +462,37 @@ public class UnitAttack : MonoBehaviour
     /// </summary>
     public void TakeHit(Transform attackerPosition, Attack attack)
     {
-        isHit = true;
-        attacking = false;
-        hitTypeRecord = (hitType >= 3) ? hitType : (byte)4;
-        hitType = (!unitMove.Grounded()) ? hitTypeRecord : attack.GetHitType();
-        if (Stunned())
-        {
-            StopStun();
-            unitStats.ResetStun();
-        }
         if (unitStats == null)
         {
             Debug.LogWarning("Warning: No Unit Stats detected.");
+            return;
+        }
+        attacking = false;
+        hitType = attack.GetHitType();
+        if (Stunned())
+        {
+            StopStun();
+        }
+        if (unitStats.TakeDamage(attack, GetComponent<UnitStats>()))
+        {
+            Debug.LogWarning("Critical Stunned!!");
+            SetStun();
+            unitMove.Knockback(attackerPosition.position, attack, true);
         }
         else
         {
-            if (unitStats.TakeDamage(attack, GetComponent<UnitStats>()))
+            unitMove.Knockback(attackerPosition.position, attack, false);
+        }
+        if (unitStats.StaminaEmpty())
+        {
+            Debug.Log("Defeated!!");
+            animator.SetTrigger("Defeated");
+            unitStats.ResetStun();
+            if (GetComponent<EnemyAttack>() != null)
             {
-                Debug.LogWarning("Stunned!!");
-                SetStun();
-                Vector2 newVelocity = attack.GetKnockback();
-                newVelocity.x = attack.GetKnockback().x + ((hitType <= 2) ? 20f : 5f);
-                unitMove.Knockback(attackerPosition.position, newVelocity, hitType);
-            }
-            else
-            {
-                unitMove.Knockback(attackerPosition.position, attack.GetKnockback(), hitType);
-            }
-            if (unitStats.StaminaEmpty())
-            {
-                animator.SetTrigger("Defeated");
-                unitStats.ResetStun();
-                if (GetComponent<EnemyAttack>() != null)
-                {
-                    GetComponent<EnemyAttack>().SetDespawnTimer();
-                }
+                GetComponent<EnemyAttack>().SetDespawnTimer();
             }
         }
-        unitMove.CanMove(false);
-    }
-    /// <summary>
-    /// Stop recording the Hit Type Record.
-    /// </summary>
-    public void ResetHitTypeRecord()
-    {
-        hitTypeRecord = 0;
     }
     /// <summary>
     /// Stop the Unit's stun.

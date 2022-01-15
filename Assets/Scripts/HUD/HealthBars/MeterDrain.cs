@@ -41,7 +41,7 @@ public class MeterDrain : MonoBehaviour
     {
         if (drain != null)
         {
-            drain.fillAmount = maxValue / 200;
+            drain.fillAmount = maxValue / 2000;
         }
     }
     /// <summary>
@@ -52,7 +52,7 @@ public class MeterDrain : MonoBehaviour
     {
         if (drain != null)
         {
-            drain.fillAmount = value / 200;
+            drain.fillAmount = value / 2000;
         }
     }
     /// <summary>

@@ -86,8 +86,8 @@ public class HUDMeters : MonoBehaviour
     /// </summary>
     public void SetMetersWolf()
     {
-        healthBar.SetMaxValue(100);
-        meterBar.SetMaxValue(65);
+        healthBar.SetMaxValue(1000);
+        meterBar.SetMaxValue(650);
     }
     /// <summary>
     /// Set the meters if palying with Fox (fox).

@@ -455,7 +455,7 @@ public class PlayerAttack : UnitAttack
         Attack attackMade = new Attack(attackName, byte.Parse(direction[1]), attack[1],
             int.Parse(damage[1]), int.Parse(meterCost[1]), int.Parse(animID[1]),
             float.Parse(hitboxWidth[1]), 1.25f,
-            byte.Parse(hitType[1]), 0.0f, 0.0f, float.Parse(moveSpeed[1]), 0.0f, isFinalUniqueAttack, attributes);
+            byte.Parse(hitType[1]), 0.0f, 0.0f, float.Parse(moveSpeed[1]), 0.0f, isFinalUniqueAttack, attributes[1]);
         return attackMade;
     }
     /// <summary>

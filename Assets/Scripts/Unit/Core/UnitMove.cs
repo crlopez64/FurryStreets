@@ -105,7 +105,6 @@ public class UnitMove : MonoBehaviour
         if (grounded)
         {
             GetComponent<SpriteRenderer>().sortingOrder = 0;
-            unitAttack.ResetHitTypeRecord();
             if (unitAttack.IsAttacked() || unitAttack.CurrentlyAttacking())
             {
                 velocity = Vector2.SmoothDamp(velocity, Vector2.zero, ref velocityRef, 0.15f);
@@ -233,6 +232,75 @@ public class UnitMove : MonoBehaviour
             //Reduce the next knockback
             velocity = new Vector2(direction * knockback.x, Mathf.Abs(knockback.y) * 0.9f);
             MakeJump(velocity, false);
+        }
+    }
+    /// <summary>
+    /// Make the Unit knockback until further notice.
+    /// </summary>
+    /// <param name="knockback"></param>
+    public void Knockback(Vector3 attackerPosition, Attack incomingAttack, bool criticalStunned)
+    {
+        canMove = false;
+        float direction = (transform.position.x >= attackerPosition.x) ? 1 : -1;
+        if (Mathf.Sign(transform.localScale.x) != (-direction))
+        {
+            FlipSprite();
+        }
+        if (grounded)
+        {
+            //Make initial knockback
+            velocity = Vector2.zero;
+            if (incomingAttack.AttributeKnockback())
+            {
+                Debug.Log("Apply knockback");
+                velocity = new Vector2(direction * 50f, 12f);
+                animator.SetTrigger("HitDistalKnockback");
+                unitAnimationLayers.SetHitLayer();
+                MakeJump(velocity, true);
+                return;
+            }
+            if (incomingAttack.AttributeKnockbackFar())
+            {
+                //TODO: Keep same velocity but change gravity to lower?
+                velocity = new Vector2(direction * 100f, 12f);
+                animator.SetTrigger("HitDistalKnockback");
+                unitAnimationLayers.SetHitLayer();
+                MakeJump(velocity, true);
+                return;
+            }
+            if (incomingAttack.AttributePopUp())
+            {
+                velocity = new Vector2(direction * 3f, 32f);
+                animator.SetTrigger("HitAerialKnockback");
+                unitAnimationLayers.SetHitLayer();
+                MakeJump(velocity, true);
+                return;
+            }
+            switch(incomingAttack.GetHitType())
+            {
+                case 1:
+                    animator.SetTrigger("HitHigh");
+                    unitAnimationLayers.SetHitLayer();
+                    break;
+                case 2:
+                    animator.SetTrigger("HitLow");
+                    unitAnimationLayers.SetHitLayer();
+                    break;
+                default:
+                    animator.SetTrigger("HitHigh");
+                    unitAnimationLayers.SetHitLayer();
+                    break;
+            }
+        }
+        else
+        {
+            //Reduce the next knockback
+            Debug.Log("Reducing Knockback");
+            if (incomingAttack.AttributeKnockback() || incomingAttack.AttributeKnockbackFar() || incomingAttack.AttributePopUp())
+            {
+                velocity = new Vector2(direction * 5f, 12f);
+                MakeJump(velocity, false);
+            }
         }
     }
     /// <summary>
