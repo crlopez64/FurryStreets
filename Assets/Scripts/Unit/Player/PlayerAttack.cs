@@ -376,7 +376,6 @@ public class PlayerAttack : UnitAttack
                 for(int i = 0; i < attackString.Length; i++)
                 {
                     string attackName = (i != attackString.Length - 1) ? linePrep[0] + " Partial" : linePrep[0];
-                    string[] attackData = attackString[i].Split(',');
                     bool isFinalUniqueAttack = i == attackString.Length - 1;
                     Attack newAttack = InitializeAttack(attackName, attackString[i], isFinalUniqueAttack);
                     currentAttackInString.AddAttack(newAttack);
@@ -419,7 +418,6 @@ public class PlayerAttack : UnitAttack
                 {
                     string attackName = (i != attackString.Length - 1) ? lineBranching[lineBranching.Length - 1] + " Partial":
                         lineBranching[lineBranching.Length - 1];
-                    string[] attackData = attackString[i].Split(',');
                     bool isFinalUniqueAttack = i == attackString.Length - 1;
                     Attack newAttack = InitializeAttack(attackName, attackString[i], isFinalUniqueAttack);
                     whereToDeviate.AddAttack(newAttack);
@@ -432,32 +430,6 @@ public class PlayerAttack : UnitAttack
         }
     }
 
-    /// <summary>
-    /// Create an attack from data.
-    /// </summary>
-    /// <param name="attackName"></param>
-    /// <param name="attackData"></param>
-    /// <param name="isFinalUniqueAttack"></param>
-    /// <returns></returns>
-    private Attack InitializeAttack(string attackName, string attackData, bool isFinalUniqueAttack)
-    {
-        string[] attackDataSplit = attackData.Split(',');
-        string[] direction = attackDataSplit[0].Split(':');
-        string[] attack = attackDataSplit[1].Split(':');
-        string[] damage = attackDataSplit[2].Split(':');
-        string[] meterCost = attackDataSplit[3].Split(':');
-        string[] animID = attackDataSplit[4].Split(':');
-        string[] hitboxWidth = attackDataSplit[5].Split(':');
-        string[] hitType = attackDataSplit[6].Split(':');
-        string[] moveSpeed = attackDataSplit[7].Split(':');
-        string[] attributes = attackDataSplit[8].Split(':');
-
-        Attack attackMade = new Attack(attackName, byte.Parse(direction[1]), attack[1],
-            int.Parse(damage[1]), int.Parse(meterCost[1]), int.Parse(animID[1]),
-            float.Parse(hitboxWidth[1]), 1.25f,
-            byte.Parse(hitType[1]), 0.0f, 0.0f, float.Parse(moveSpeed[1]), 0.0f, isFinalUniqueAttack, attributes[1]);
-        return attackMade;
-    }
     /// <summary>
     /// Stop adding attacks for all the moves in the list.
     /// </summary>

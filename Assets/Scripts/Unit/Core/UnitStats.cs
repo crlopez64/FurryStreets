@@ -94,6 +94,8 @@ public class UnitStats : MonoBehaviour
         {
             immediateStunMultiplier += 0.3f;
         }
+        //If attack is last hit in its String proper
+        
         currentStun += (int)(totalDamage * immediateStunMultiplier);
         if (meters != null)
         {

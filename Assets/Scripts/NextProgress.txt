@@ -10,7 +10,7 @@ TO DO LIST:
 -> Special Move Particles On Hit
 -> Special moves for Wolf
 	-> Neutral Special: Magnum Blast (Ranged Attack, as a repel)
-	-> Foward Special: Burn Knuckle (Name Pending; Dashing Attack, popping everyone up)
+	-> Forward Special: Burn Knuckle (Name Pending; Dashing Attack, popping everyone up)
 	-> Grab, Special: Focus Blast (Heavy Damage Attack to one Unit, maxes out Stun if still alive)
 	-> Neutral Special (during Air): Falling Blast (AoE Attack, knocking everyone away)
 -> Redo Attack. Add Attributes (Heavy Stun (Double Stun DMG), Knockback Normal, Knockback Special 1(Magnum Blast), Pop Up)

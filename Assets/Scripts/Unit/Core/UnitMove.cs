@@ -23,9 +23,9 @@ public class UnitMove : MonoBehaviour
     private bool canMove;
     private bool canFlip;
     private bool moveSmoothing;
+    //TODO: If pushing against an enemy, slow down to simulate pushing enemies
+    private byte collisionSlowing;
     private int gravityScale;
-    //TODO: Add hit stun timer.
-    private float hitstunTimer;
     private float groundCheckTimer;
 
     protected UnitAttack unitAttack;
@@ -45,6 +45,7 @@ public class UnitMove : MonoBehaviour
     {
         grounded = true;
         initialGroundedPosition = transform.position;
+        rb2D.drag = 15f;
         gravityScale = 6;
     }
     protected virtual void Update()
@@ -124,7 +125,6 @@ public class UnitMove : MonoBehaviour
         }
         else
         {
-            //velocity.x = Mathf.Clamp(velocity.x, -30, 30);
             rb2D.velocity = new Vector2(velocity.x, rb2D.velocity.y);
         }
     }
@@ -250,10 +250,11 @@ public class UnitMove : MonoBehaviour
         {
             //Make initial knockback
             velocity = Vector2.zero;
+            velocity = new Vector2(direction * 7f, 0);
             if (incomingAttack.AttributeKnockback())
             {
                 Debug.Log("Apply knockback");
-                velocity = new Vector2(direction * 50f, 12f);
+                velocity = new Vector2(direction * 35f, 12f);
                 animator.SetTrigger("HitDistalKnockback");
                 unitAnimationLayers.SetHitLayer();
                 MakeJump(velocity, true);
@@ -262,7 +263,8 @@ public class UnitMove : MonoBehaviour
             if (incomingAttack.AttributeKnockbackFar())
             {
                 //TODO: Keep same velocity but change gravity to lower?
-                velocity = new Vector2(direction * 100f, 12f);
+                Debug.Log("Knockback far");
+                velocity = new Vector2(direction * 90f, 12f);
                 animator.SetTrigger("HitDistalKnockback");
                 unitAnimationLayers.SetHitLayer();
                 MakeJump(velocity, true);

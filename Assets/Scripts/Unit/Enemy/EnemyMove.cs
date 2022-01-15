@@ -12,7 +12,6 @@ using UnityEngine;
 public class EnemyMove : UnitMove
 {
     private bool isMoving;
-
     protected override void Awake()
     {
         base.Awake();
@@ -20,10 +19,10 @@ public class EnemyMove : UnitMove
     protected override void Start()
     {
         base.Start();
-        SetMoveSmoothing(true);
+        //SetMoveSmoothing(true);
         CanFlip(true);
         CanMove(true);
-        SetSpeed(3, 2);
+        SetSpeed(5, 3);
         SetJumpHeight(25);
         isEnemy = true;
     }

@@ -55,7 +55,7 @@ public class PauseMenuButton : MonoBehaviour, IPointerEnterHandler, ISelectHandl
             }
         }
     }
-    public void OnSelect(BaseEventData eventData)
+    public virtual void OnSelect(BaseEventData eventData)
     {
         if (GetComponent<Button>().IsInteractable())
         {

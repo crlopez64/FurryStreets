@@ -140,20 +140,10 @@ public class UnitAttack : MonoBehaviour
         attacking = true;
     }
     /// <summary>
-    /// Animation callback layer at the beginning of a hit animation.
-    /// </summary>
-    public void TurnOffIsHit()
-    {
-        Debug.Log("Turn off is hit");
-        //isHit = false;
-    }
-    /// <summary>
     /// Animation callback layer.
     /// </summary>
     public void TurnOffHitLayer()
     {
-        Debug.Log("Turn off hit layer");
-        //isHit = false;
         hitType = 0;
         grabbedByType = 0;
         grabbingEnemyType = 0;
@@ -172,7 +162,6 @@ public class UnitAttack : MonoBehaviour
         }
         else
         {
-            Debug.Log("Unit stats here!!");
             unitMove.CanMove(true);
             unitAnimationLayers.SetMovementLayer();
         }
@@ -281,6 +270,10 @@ public class UnitAttack : MonoBehaviour
         }
         foreach(Collider2D hit in hitsRecorded)
         {
+            if (hit.GetComponentInParent<UnitStats>().StaminaEmpty())
+            {
+                return;
+            }
             if (hit.GetComponentInParent<UnitMove>().Grounded() ||
                 ((transform.position.y < hit.transform.position.y) && (Mathf.Abs(transform.position.y - hit.transform.position.y) <= 5f) &&
                 (!hit.GetComponentInParent<UnitMove>().Grounded())))
@@ -307,7 +300,6 @@ public class UnitAttack : MonoBehaviour
             {
                 hit.GetComponentInParent<UnitAttack>().ResetAttacking();
             }
-            //hit.GetComponentInParent<UnitAnimationLayers>().SetHitLayer();
             if (particlePooler != null)
             {
                 particlePooler.SpawnParticle(0, (Vector2)groundedHitbox.transform.position + Random.insideUnitCircle * 0.5f);
@@ -651,5 +643,31 @@ public class UnitAttack : MonoBehaviour
         unitMove.CanFlip(false);
         unitAnimationLayers.SetHitLayer();
         unitMove.Knockback(grabbedUnit.transform.position, new Vector2(7.0f, 0), 1);
+    }
+    /// <summary>
+    /// Create an attack from data.
+    /// </summary>
+    /// <param name="attackName"></param>
+    /// <param name="attackData"></param>
+    /// <param name="isFinalUniqueAttack"></param>
+    /// <returns></returns>
+    protected Attack InitializeAttack(string attackName, string attackData, bool isFinalUniqueAttack)
+    {
+        string[] attackDataSplit = attackData.Split(',');
+        string[] direction = attackDataSplit[0].Split(':');
+        string[] attack = attackDataSplit[1].Split(':');
+        string[] damage = attackDataSplit[2].Split(':');
+        string[] meterCost = attackDataSplit[3].Split(':');
+        string[] animID = attackDataSplit[4].Split(':');
+        string[] hitboxWidth = attackDataSplit[5].Split(':');
+        string[] hitType = attackDataSplit[6].Split(':');
+        string[] moveSpeed = attackDataSplit[7].Split(':');
+        string[] attributes = attackDataSplit[8].Split(':');
+
+        Attack attackMade = new Attack(attackName, byte.Parse(direction[1]), attack[1],
+            int.Parse(damage[1]), int.Parse(meterCost[1]), int.Parse(animID[1]),
+            float.Parse(hitboxWidth[1]), 1.25f,
+            byte.Parse(hitType[1]), 0.0f, 0.0f, float.Parse(moveSpeed[1]), 0.0f, isFinalUniqueAttack, attributes[1]);
+        return attackMade;
     }
 }

@@ -12,8 +12,9 @@ public class EnemyStats : UnitStats
     {
         base.Awake();
     }
-    public void Start()
+    protected override void Start()
     {
+        base.Start();
         SetTest();
         
     }

@@ -69,7 +69,7 @@ public class PauseMenuMoveListButton : PauseMenuButton, IPointerEnterHandler, IS
         }
     }
 
-    public void OnSelect(BaseEventData eventData)
+    public override void OnSelect(BaseEventData eventData)
     {
         if (GetComponent<Button>().IsInteractable())
         {

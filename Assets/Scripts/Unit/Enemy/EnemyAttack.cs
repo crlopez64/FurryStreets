@@ -101,28 +101,16 @@ public class EnemyAttack : UnitAttack
     /// </summary>
     protected override void SetUpMoveList()
     {
-        //Debug.Log("Creating the movelist...");
         string[] lines = textMoveList.text.Split('\n');
         foreach (string line in lines)
         {
             Attack currentAttackInString = rootAttack;
             string[] linePrep = line.Split('=');
-            //Branch the attack strings from the root
             string[] attackString = linePrep[1].Split(';');
-
-            //Debug.Log("Count: " + attackString.Length);
             for (int i = 0; i < attackString.Length; i++)
             {
-                string[] attackData = attackString[i].Split(',');
                 bool isFinalUniqueAttack = i == attackString.Length - 1;
-
-                Attack newAttack = null;
-                //Attack newAttack = new Attack(linePrep[0],
-                //    byte.Parse(attackData[2]), byte.Parse(attackData[3]),
-                //    int.Parse(attackData[4]), int.Parse(attackData[5]), int.Parse(attackData[6]),
-                //    float.Parse(attackData[7]), float.Parse(attackData[8]), byte.Parse(attackData[9]),
-                //    float.Parse(attackData[10]), float.Parse(attackData[11]), float.Parse(attackData[12]), float.Parse(attackData[13]),
-                //    isFinalUniqueAttack);
+                Attack newAttack = InitializeAttack(linePrep[0], attackString[i], isFinalUniqueAttack);
                 currentAttackInString.AddAttack(newAttack);
                 if (i < (attackString.Length - 1))
                 {
