@@ -57,10 +57,12 @@ public class UnitAttack : MonoBehaviour
         physicalCollider = GetComponent<BoxCollider2D>();
         specialAttacks = new List<Attack>();
         Hitbox[] hitboxes = GetComponentsInChildren<Hitbox>();
+        Debug.Log("Hitbox count: " + hitboxes.Length);
         foreach (Hitbox hitbox in hitboxes)
         {
             if (hitbox.ForAirborne())
             {
+                Debug.Log("Setting airborne hitbox");
                 airborneHitbox = hitbox;
             }
             else

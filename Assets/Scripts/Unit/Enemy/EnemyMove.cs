@@ -11,7 +11,6 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class EnemyMove : UnitMove
 {
-    private bool isMoving;
     protected override void Awake()
     {
         base.Awake();
@@ -31,14 +30,7 @@ public class EnemyMove : UnitMove
         base.Update();
         if (!unitAttack.IsAttacked())
         {
-            if (isMoving)
-            {
-                //Move?
-            }
-            else
-            {
-                Move(Vector2.zero);
-            }
+            Move(Vector2.zero);
         }
     }
     protected override void FixedUpdate()

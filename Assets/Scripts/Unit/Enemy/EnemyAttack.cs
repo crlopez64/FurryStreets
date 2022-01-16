@@ -13,6 +13,7 @@ public class EnemyAttack : UnitAttack
     }
     protected override void Start()
     {
+        base.Start();
         CreateAttacks();
         attackToAnimate = rootAttack;
         despawnTimer = 0;

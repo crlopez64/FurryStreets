@@ -152,6 +152,23 @@ public class UnitMove : MonoBehaviour
         velocity = new Vector2(horizontalSpeed * directionalInput.x, verticalSpeed * directionalInput.y);
     }
     /// <summary>
+    /// Make the Unit move.
+    /// </summary>
+    public void Move(Vector2 directionalInput, bool debug)
+    {
+        if ((!canMove) || unitAttack.CurrentlyAttacking() || unitAttack.CurrentlyGrabbing()
+            || unitAttack.IsAttacked() || unitAttack.Stunned())
+        {
+            return;
+        }
+        directionalInput = new Vector2(Mathf.Clamp(directionalInput.x, -1, 1), Mathf.Clamp(directionalInput.y, -1, 1));
+        velocity = new Vector2(horizontalSpeed * directionalInput.x, verticalSpeed * directionalInput.y);
+        if (debug)
+        {
+            //Debug.Log("directional input: " + velocity);
+        }
+    }
+    /// <summary>
     /// Make the Unit stop moving completely if on the ground.
     /// </summary>
     public void StopMoving()

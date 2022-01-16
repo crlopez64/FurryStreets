@@ -9,7 +9,25 @@ tree("Root")
 tree("Move")
 	fallback
 		sequence
-			Move
+			not WithinHorizontalAxis
+			fallback
+				sequence
+					IsAbovePlayer
+					MoveDown
+				sequence
+					IsBelowPlayer
+					MoveUp
+		sequence
+			WithinHorizontalAxis
+			DeterminePauseMove
+			fallback
+				sequence
+					PausedOnMove
+					StopMove
+				sequence
+					not PausedOnMove
+					MoveHorizontalAxis
+					//Move
 
 tree("Attack")
 	sequence
