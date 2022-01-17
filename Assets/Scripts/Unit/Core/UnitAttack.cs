@@ -56,13 +56,17 @@ public class UnitAttack : MonoBehaviour
         particlePooler = GetComponentInChildren<ParticlePooler>();
         physicalCollider = GetComponent<BoxCollider2D>();
         specialAttacks = new List<Attack>();
+        
+    }
+    protected virtual void Start()
+    {
+        attackStance = true;
+        attackToAnimate = null;
         Hitbox[] hitboxes = GetComponentsInChildren<Hitbox>();
-        Debug.Log("Hitbox count: " + hitboxes.Length);
         foreach (Hitbox hitbox in hitboxes)
         {
             if (hitbox.ForAirborne())
             {
-                Debug.Log("Setting airborne hitbox");
                 airborneHitbox = hitbox;
             }
             else
@@ -70,11 +74,6 @@ public class UnitAttack : MonoBehaviour
                 groundedHitbox = hitbox;
             }
         }
-    }
-    protected virtual void Start()
-    {
-        attackStance = true;
-        attackToAnimate = null;
     }
     protected virtual void Update()
     {

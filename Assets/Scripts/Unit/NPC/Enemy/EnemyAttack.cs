@@ -45,7 +45,7 @@ public class EnemyAttack : UnitAttack
         {
             return;
         }
-        Debug.Log("Enemy attacking with option: " + attackOption + "!");
+        Debug.Log("Enemy attacking with: Option " + attackOption + "!");
         attacking = true;
         attackToAnimate = attackToAnimate.GetNextAttack(attackOption);
         unitAnimationLayers.SetAttackLayer();

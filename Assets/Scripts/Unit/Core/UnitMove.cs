@@ -13,15 +13,15 @@ using UnityEngine;
 /// </summary>
 public class UnitMove : MonoBehaviour
 {
-    private UnitAnimationLayers unitAnimationLayers;
-    private Animator animator;
     private Rigidbody2D rb2D;
+    private Animator animator;
+    private UnitAnimationLayers unitAnimationLayers;
     private Vector3 initialGroundedPosition;
-    private Vector2 velocityRef;
     private Vector2 velocity;
-    private bool grounded;
+    private Vector2 velocityRef;
     private bool canMove;
     private bool canFlip;
+    private bool grounded;
     private bool moveSmoothing;
     //TODO: If pushing against an enemy, slow down to simulate pushing enemies
     private byte collisionSlowing;
@@ -30,9 +30,9 @@ public class UnitMove : MonoBehaviour
 
     protected UnitAttack unitAttack;
     protected bool isEnemy;
-    protected uint horizontalSpeed;
-    protected uint verticalSpeed;
     protected uint jumpHeight;
+    protected uint verticalSpeed;
+    protected uint horizontalSpeed;
 
     protected virtual void Awake()
     {
@@ -56,22 +56,40 @@ public class UnitMove : MonoBehaviour
             groundCheckTimer -= Time.deltaTime;
         }
         //Direction Facing
-        if ((!unitAttack.CurrentlyAttacking()) && (!unitAttack.IsAttacked()))
+        if (unitAttack != null)
         {
-            if (canFlip && grounded)
+            if ((!unitAttack.CurrentlyAttacking()) && (!unitAttack.IsAttacked()))
             {
-                if (velocity.x > 0)
+                if (canFlip && grounded)
                 {
-                    Vector3 scaleTemp = transform.localScale;
-                    scaleTemp.x = 1;
-                    transform.localScale = scaleTemp;
+                    if (velocity.x > 0)
+                    {
+                        Vector3 scaleTemp = transform.localScale;
+                        scaleTemp.x = 1;
+                        transform.localScale = scaleTemp;
+                    }
+                    else if (velocity.x < 0)
+                    {
+                        Vector3 scaleTemp = transform.localScale;
+                        scaleTemp.x = -1;
+                        transform.localScale = scaleTemp;
+                    }
                 }
-                else if (velocity.x < 0)
-                {
-                    Vector3 scaleTemp = transform.localScale;
-                    scaleTemp.x = -1;
-                    transform.localScale = scaleTemp;
-                }
+            }
+        }
+        else
+        {
+            if (velocity.x > 0)
+            {
+                Vector3 scaleTemp = transform.localScale;
+                scaleTemp.x = 1;
+                transform.localScale = scaleTemp;
+            }
+            else if (velocity.x < 0)
+            {
+                Vector3 scaleTemp = transform.localScale;
+                scaleTemp.x = -1;
+                transform.localScale = scaleTemp;
             }
         }
 
@@ -106,10 +124,24 @@ public class UnitMove : MonoBehaviour
         if (grounded)
         {
             GetComponent<SpriteRenderer>().sortingOrder = 0;
-            if (unitAttack.IsAttacked() || unitAttack.CurrentlyAttacking())
+            if (unitAttack != null)
             {
-                velocity = Vector2.SmoothDamp(velocity, Vector2.zero, ref velocityRef, 0.15f);
-                rb2D.velocity = velocity;
+                if (unitAttack.IsAttacked() || unitAttack.CurrentlyAttacking())
+                {
+                    velocity = Vector2.SmoothDamp(velocity, Vector2.zero, ref velocityRef, 0.15f);
+                    rb2D.velocity = velocity;
+                }
+                else
+                {
+                    if (moveSmoothing)
+                    {
+                        rb2D.velocity = Vector2.SmoothDamp(rb2D.velocity, velocity, ref velocityRef, 0.15f);
+                    }
+                    else
+                    {
+                        rb2D.velocity = velocity;
+                    }
+                }
             }
             else
             {
@@ -150,23 +182,6 @@ public class UnitMove : MonoBehaviour
         }
         directionalInput = new Vector2(Mathf.Clamp(directionalInput.x, -1, 1), Mathf.Clamp(directionalInput.y, -1, 1));
         velocity = new Vector2(horizontalSpeed * directionalInput.x, verticalSpeed * directionalInput.y);
-    }
-    /// <summary>
-    /// Make the Unit move.
-    /// </summary>
-    public void Move(Vector2 directionalInput, bool debug)
-    {
-        if ((!canMove) || unitAttack.CurrentlyAttacking() || unitAttack.CurrentlyGrabbing()
-            || unitAttack.IsAttacked() || unitAttack.Stunned())
-        {
-            return;
-        }
-        directionalInput = new Vector2(Mathf.Clamp(directionalInput.x, -1, 1), Mathf.Clamp(directionalInput.y, -1, 1));
-        velocity = new Vector2(horizontalSpeed * directionalInput.x, verticalSpeed * directionalInput.y);
-        if (debug)
-        {
-            //Debug.Log("directional input: " + velocity);
-        }
     }
     /// <summary>
     /// Make the Unit stop moving completely if on the ground.

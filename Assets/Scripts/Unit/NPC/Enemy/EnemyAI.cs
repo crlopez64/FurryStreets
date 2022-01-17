@@ -3,8 +3,15 @@ using System.Collections;
 using Panda;
 
 /// <summary>
-/// Script in charge of methods for valid AI commands.
+/// Script in charge of methods for valid Enemy AI commands.
 /// </summary>
+[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(EnemyMove))]
+[RequireComponent(typeof(EnemyStats))]
+[RequireComponent(typeof(EnemyAttack))]
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(BoxCollider2D))]
+[RequireComponent(typeof(UnitAnimationLayers))]
 public class EnemyAI : MonoBehaviour
 {
     //TODO: Change "Player" to "CurrentFocus" or something
@@ -14,13 +21,14 @@ public class EnemyAI : MonoBehaviour
     private EnemyStats enemyStats;
     private EnemyAttack enemyAttack;
     private bool haveToDetour;
-    private bool retreatFromFocus;
+    //private bool retreatFromFocus;
     private bool pauseOnHorizontal;
     private bool moveDiagonalCloseIn;
     private bool moveDiagonalRetreat;
     private byte detourPath; //For each bit, 0 = free, 1 = obstacle in the way
     private byte directionToMove;
     private float canHitTimer;
+    private float retreatTimer;
     private float pauseMoveTimer;
     private float redetermineHabits;
     private float redeterminePauseOnMove;
@@ -80,11 +88,16 @@ public class EnemyAI : MonoBehaviour
     {
         if (retreatOnGettingHit == 0)
         {
-            retreatFromFocus = false;
+            //retreatFromFocus = false;
+            retreatTimer = 0;
         }
         else
         {
-            retreatFromFocus = Random.Range(0, 100) <= (retreatOnGettingHit * 20);
+            //retreatFromFocus = Random.Range(0, 100) <= (retreatOnGettingHit * 20);
+            if (Random.Range(0, 100) <= (retreatOnGettingHit * 20))
+            {
+                retreatTimer = Random.Range(0.2f, 0.5f);
+            }
         }
     }
     /// <summary>
@@ -96,33 +109,39 @@ public class EnemyAI : MonoBehaviour
         currentFocus = attackingPlayer;
     }
     [Task]
+    public void RetreatFromPlayer()
+    {
+        retreatTimer = Random.Range(0.2f, 0.5f);
+        Task.current.Succeed();
+    }
+    [Task]
     public void GetDirectRoute()
     {
         directionToMove = GetRadianDirection(GetVectorToFocus());
-        Task.current.Complete(true);
+        Task.current.Succeed();
     }
     [Task]
     public void FlipSprite()
     {
         enemyMove.FlipSprite();
-        Task.current.Complete(true);
+        Task.current.Succeed();
     }
     [Task]
     public void DeterminePauseMove()
     {
-        //if (redeterminePauseOnMove <= 0f)
-        //{
-        //    if (Random.Range(0, 9) <= 7)
-        //    {
-        //        pauseMoveTimer = Random.Range(0.2f, 1f);
-        //        redeterminePauseOnMove = pauseMoveTimer;
-        //    }
-        //    else
-        //    {
-        //        redeterminePauseOnMove = 3f;
-        //    }
-        //}
-        Task.current.Complete(true);
+        if (redeterminePauseOnMove <= 0f)
+        {
+            if (Random.Range(0, 9) <= 7)
+            {
+                pauseMoveTimer = Random.Range(0.2f, 1f);
+                redeterminePauseOnMove = pauseMoveTimer;
+            }
+            else
+            {
+                redeterminePauseOnMove = 3f;
+            }
+        }
+        Task.current.Succeed();
     }
     [Task]
     public void StopMove()
@@ -133,7 +152,8 @@ public class EnemyAI : MonoBehaviour
     [Task]
     public void MoveHorizontalAxis()
     {
-        if (retreatFromFocus)
+        //if (retreatFromFocus)
+        if (RetreatFromFocus())
         {
             directionToMove = (byte)(IsRightOfPlayer() ? 0 : 4);
         }
@@ -147,7 +167,8 @@ public class EnemyAI : MonoBehaviour
     public void MoveUp()
     {
         RedetermineHabits();
-        if (retreatFromFocus)
+        //if (retreatFromFocus)
+        if (RetreatFromFocus())
         {
             if (moveDiagonalRetreat)
             {
@@ -175,7 +196,8 @@ public class EnemyAI : MonoBehaviour
     public void MoveDown()
     {
         RedetermineHabits();
-        if (retreatFromFocus)
+        //if (retreatFromFocus)
+        if (RetreatFromFocus())
         {
             if (moveDiagonalRetreat)
             {
@@ -206,21 +228,21 @@ public class EnemyAI : MonoBehaviour
         //Debug.Log("Make attack one.");
         enemyAttack.MakeAttack(0);
         canHitTimer = 3f;
-        Task.current.Complete(false);
+        Task.current.Succeed();
     }
     [Task]
     public void MakeAttack2()
     {
         Debug.Log("Make attack two.");
         canHitTimer = 4f;
-        Task.current.Complete(true);
+        Task.current.Succeed();
     }
     [Task]
     public void MakeAttack3()
     {
         Debug.Log("Make attack three.");
         canHitTimer = 5f;
-        Task.current.Complete(true);
+        Task.current.Succeed();
     }
     [Task]
     public bool IsRightOfPlayer()
@@ -263,6 +285,11 @@ public class EnemyAI : MonoBehaviour
         return Mathf.Abs(transform.position.y - currentFocus.transform.position.y) <= 1f;
     }
     [Task]
+    public bool WithinVerticalAxis()
+    {
+        return Mathf.Abs(transform.position.x - currentFocus.transform.position.x) <= 1f;
+    }
+    [Task]
     public bool CanAttack()
     {
         return canHitTimer <= 0f;
@@ -287,7 +314,7 @@ public class EnemyAI : MonoBehaviour
                 enemyMove.Move(new Vector2(0, 1));
                 break;
             case 3:
-                enemyMove.Move(new Vector2(-1, 1), true);
+                enemyMove.Move(new Vector2(-1, 1));
                 break;
             case 4:
                 enemyMove.Move(new Vector2(-1, 0));
@@ -305,7 +332,7 @@ public class EnemyAI : MonoBehaviour
                 enemyMove.Move(Vector2.zero);
                 break;
         }
-        Task.current.Complete(true);
+        Task.current.Succeed();
     }
     /// <summary>
     /// Redetermine how the Enemy will move around.
@@ -380,6 +407,14 @@ public class EnemyAI : MonoBehaviour
     private bool DetourPathOpen(byte section)
     {
         return (((0x1 << section) & detourPath) >> section) == 0x1;
+    }
+    /// <summary>
+    /// Should the Enemey retreat from Focus?
+    /// </summary>
+    /// <returns></returns>
+    private bool RetreatFromFocus()
+    {
+        return retreatTimer > 0f;
     }
     private byte GetRadianDirection(Vector2 line)
     {

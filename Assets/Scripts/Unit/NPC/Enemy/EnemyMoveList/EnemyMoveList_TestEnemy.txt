@@ -1,0 +1,1 @@
+Attack 1=direction:5,attack:punch,damage:25,meterCost:0,animID:1,hitboxGroundWidth:4.0,hitType:1,userMove:0.0,attributes:none; direction:5,attack:kick,damage:20,meterCost:0,animID:1,hitboxGroundWidth:4.0,hitType:2,userMove:0.0,attributes:none; direction:5,attack:punch,damage:32,meterCost:0,animID:1,hitboxGroundWidth:6.0,hitType:1,userMove:0.0,attributes:none

@@ -16,7 +16,6 @@ public class EnemyStats : UnitStats
     {
         base.Start();
         SetTest();
-        
     }
 
 }

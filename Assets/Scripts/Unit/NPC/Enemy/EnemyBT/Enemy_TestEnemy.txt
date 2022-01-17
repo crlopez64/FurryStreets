@@ -13,9 +13,11 @@ tree("Move")
 			fallback
 				sequence
 					IsAbovePlayer
+					not WithinVerticalAxis
 					MoveDown
 				sequence
 					IsBelowPlayer
+					not WithinVerticalAxis
 					MoveUp
 		sequence
 			WithinHorizontalAxis
@@ -32,6 +34,7 @@ tree("Move")
 tree("Attack")
 	sequence
 		WithinDistance
+		WithinHorizontalAxis
 		random(0.2, 0.8)
 			tree "MakeIdle"
 			fallback

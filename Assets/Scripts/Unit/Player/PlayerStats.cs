@@ -74,6 +74,7 @@ public class PlayerStats : UnitStats
         statMeterGain = 2;
         maxHealth = 1000;
         maxMeter = 650;
+        maxStun = 1000;
         currentHealth = maxHealth;
         currentMeter = maxMeter;
         meters.SetHealthBarCurrent(currentHealth);

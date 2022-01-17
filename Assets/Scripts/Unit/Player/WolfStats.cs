@@ -11,8 +11,9 @@ public class WolfStats : UnitStats
     protected override void Awake()
     {
         base.Awake();
-        maxHealth = 100;
-        maxMeter = 65;
+        maxHealth = 1000;
+        maxMeter = 650;
+        maxStun = 400;
         statAttack = 3;
         statDefense = 1;
     }

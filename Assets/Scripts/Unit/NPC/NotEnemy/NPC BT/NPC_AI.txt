@@ -1,0 +1,22 @@
+tree("Root")
+	repeat
+		fallback
+			tree "DoNotMove"
+			tree "Move"
+
+tree("Move")
+	sequence
+		HasPathway
+		fallback
+			sequence
+				ReachedDestination
+				//Move to next destination
+			sequence
+				not ReachedDestination
+				GetDirectRoute
+
+
+tree("DoNotMove")
+	sequence
+		not HasPathway
+		StopMoving

@@ -23,6 +23,7 @@ public class PlayerAttack : UnitAttack
     }
     protected override void Start()
     {
+        base.Start();
         attacksBuffered = new Queue<int>(5);
         CreateAttacks();
         grabTimer = 0f;
