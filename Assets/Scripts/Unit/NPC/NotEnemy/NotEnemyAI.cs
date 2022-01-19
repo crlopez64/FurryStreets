@@ -13,7 +13,7 @@ using Panda;
 [RequireComponent(typeof(UnitAnimationLayers))]
 public class NotEnemyAI : MonoBehaviour
 {
-    private UnitMove unitMove;
+    private NPCMove npcMove;
     private List<Vector3> pathways;
     private bool continuePath;
     private byte directionToMove;
@@ -23,7 +23,7 @@ public class NotEnemyAI : MonoBehaviour
 
     private void Awake()
     {
-        unitMove = GetComponent<UnitMove>();
+        npcMove = GetComponent<NPCMove>();
     }
     private void Start()
     {
@@ -42,13 +42,24 @@ public class NotEnemyAI : MonoBehaviour
     [Task]
     public void StopMoving()
     {
-        unitMove.StopMoving();
+        npcMove.StopMoving();
         Task.current.Succeed();
     }
     [Task]
     public void GetDirectRoute()
     {
         directionToMove = GetRadianDirection(GetVectorToNextPosition());
+        Move();
+        //Task.current.Succeed();
+    }
+    [Task]
+    public void GetNextDestination()
+    {
+        currentPathwayIndex++;
+        if (currentPathwayIndex >= pathways.Count)
+        {
+            currentPathwayIndex = 0;
+        }
         Task.current.Succeed();
     }
     [Task]
@@ -74,6 +85,40 @@ public class NotEnemyAI : MonoBehaviour
         return false;
     }
 
+    private void Move()
+    {
+        switch (directionToMove)
+        {
+            case 0:
+                npcMove.Move(new Vector2(1, 0));
+                break;
+            case 1:
+                npcMove.Move(new Vector2(1, 1));
+                break;
+            case 2:
+                npcMove.Move(new Vector2(0, 1));
+                break;
+            case 3:
+                npcMove.Move(new Vector2(-1, 1));
+                break;
+            case 4:
+                npcMove.Move(new Vector2(-1, 0));
+                break;
+            case 5:
+                npcMove.Move(new Vector2(-1, -1));
+                break;
+            case 6:
+                npcMove.Move(new Vector2(-1, 0));
+                break;
+            case 7:
+                npcMove.Move(new Vector2(1, -1));
+                break;
+            default:
+                npcMove.Move(Vector2.zero);
+                break;
+        }
+        Task.current.Succeed();
+    }
     /// <summary>
     /// Set up the paths for this AI and delete the gameObjects for this path.
     /// </summary>

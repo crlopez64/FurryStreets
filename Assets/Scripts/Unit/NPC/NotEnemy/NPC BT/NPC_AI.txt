@@ -10,11 +10,10 @@ tree("Move")
 		fallback
 			sequence
 				ReachedDestination
-				//Move to next destination
+				GetNextDestination
 			sequence
 				not ReachedDestination
 				GetDirectRoute
-
 
 tree("DoNotMove")
 	sequence

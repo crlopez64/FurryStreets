@@ -175,8 +175,14 @@ public class UnitMove : MonoBehaviour
     /// </summary>
     public void Move(Vector2 directionalInput)
     {
-        if ((!canMove) || unitAttack.CurrentlyAttacking() || unitAttack.CurrentlyGrabbing()
-            || unitAttack.IsAttacked() || unitAttack.Stunned())
+        if (unitAttack != null)
+        {
+            if (unitAttack.CurrentlyAttacking() || unitAttack.CurrentlyGrabbing() || unitAttack.IsAttacked() || unitAttack.Stunned())
+            {
+                return;
+            }
+        }
+        if (!canMove)
         {
             return;
         }

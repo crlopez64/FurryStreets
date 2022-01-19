@@ -15,6 +15,8 @@ public class NPCMove : UnitMove
     protected override void Start()
     {
         base.Start();
+        SetSpeedSlow();
+        CanMove(true);
     }
     protected override void Update()
     {
@@ -30,13 +32,20 @@ public class NPCMove : UnitMove
     /// </summary>
     public void SetSpeedSlow()
     {
-        SetSpeed(2, 1);
+        SetSpeed(1, 1);
     }
     /// <summary>
     /// Set NPC Walk to medium.
     /// </summary>
     public void SetSpeedMedium()
     {
-        SetSpeed(4, 2);
+        SetSpeed(2, 1);
+    }
+    /// <summary>
+    /// Set NPC Walk to medium.
+    /// </summary>
+    public void SetSpeedFast()
+    {
+        SetSpeed(3, 2);
     }
 }

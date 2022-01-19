@@ -81,6 +81,7 @@ public class PlayerAction : MonoBehaviour
     }
     /// <summary>
     /// Return if the new interactable has a higher priority than the current one. Will return false if both are equal.
+    /// Will return true if there is no pre-existing Interactable.
     /// </summary>
     /// <param name="interactable"></param>
     /// <returns></returns>
