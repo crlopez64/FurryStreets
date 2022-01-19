@@ -19,22 +19,40 @@ public class DialoguePortrait : MonoBehaviour
     }
 
     /// <summary>
-    /// Move the portrait direction to either left or right. If true, move it to the right; else, move it left.
+    /// Move the portrait direction to either left or right and set it. If null, turn off portrait.
+    /// If true, move it to the right; else, move it left.
     /// </summary>
+    /// <param name="npcFolder"></param>
+    /// <param name="portrait"></param>
     /// <param name="onRight"></param>
-    public void SetDirection(bool onRight)
+    public void SetPortrait(string npcFolder, string portrait, bool onRight)
     {
-        Debug.Log("Move portrait direction to either left or right");
-        rectTransform.localPosition = onRight ? new Vector3(640, 0) : new Vector3(-640, 0);
-    }
-    /// <summary>
-    /// Change the Portrait set up.
-    /// </summary>
-    /// <param name="toAddParameter"></param>
-    public void SetImage(string toAddParameter)
-    {
-        Debug.Log("Change image when ready.");
-        //portrait.sprite = toAddParameter;
+        if ((npcFolder == null) || (portrait == null))
+        {
+            this.portrait.enabled = false;
+            return;
+        }
+        if (onRight)
+        {
+            rectTransform.localPosition = new Vector3(640, 0);
+            rectTransform.anchorMin = new Vector2(0.74f, 0);
+            rectTransform.anchorMax = new Vector2(0.94f, 0.35f);
+            rectTransform.offsetMax = Vector2.zero;
+            rectTransform.offsetMin = Vector2.zero;
+        }
+        else
+        {
+            rectTransform.localPosition = new Vector3(-640, 0);
+            rectTransform.anchorMin = new Vector2(0.06f, 0);
+            rectTransform.anchorMax = new Vector2(0.26f, 0.35f);
+            rectTransform.offsetMax = Vector2.zero;
+            rectTransform.offsetMin = Vector2.zero;
+        }
+        this.portrait.sprite = Resources.Load<Sprite>("HUD/Dialogue/" + npcFolder + "/" + portrait);
+        if (!this.portrait.enabled)
+        {
+            this.portrait.enabled = true;
+        }
     }
 
     /// <summary>
@@ -46,5 +64,7 @@ public class DialoguePortrait : MonoBehaviour
         rectTransform.anchorMax = new Vector2(0.5f, 0);
         rectTransform.pivot = new Vector2(0.5f, 0);
         rectTransform.sizeDelta = new Vector2(400, 400);
+        rectTransform.offsetMax = Vector2.zero;
+        rectTransform.offsetMin = Vector2.zero;
     }
 }

@@ -10,11 +10,11 @@ using TMPro;
 /// </summary>
 public class DialogueText : MonoBehaviour
 {
+    private WaitForSeconds textTimer;
     private RectTransform rectTransform;
     private TextMeshProUGUI fountainPen;
     private Image holder;
     private bool animatingText;
-    private string currentText;
 
     private void Awake()
     {
@@ -23,6 +23,10 @@ public class DialogueText : MonoBehaviour
         fountainPen = GetComponentInChildren<TextMeshProUGUI>();
         AdjustParameters();
     }
+    private void Start()
+    {
+        SetTextSpeed(2);
+    }
 
     /// <summary>
     /// Set the dialogue to the text.
@@ -30,7 +34,11 @@ public class DialogueText : MonoBehaviour
     /// <param name="text"></param>
     public void SetDialogue(string text)
     {
-        fountainPen.text = "";
+        if (text == null)
+        {
+            fountainPen.text = "";
+            return;
+        }
         StartCoroutine(AnimateText(text));
     }
     /// <summary>
@@ -42,6 +50,26 @@ public class DialogueText : MonoBehaviour
         StopAllCoroutines();
         animatingText = false;
         fountainPen.text = text;
+        fountainPen.maxVisibleCharacters = text.Length;
+    }
+    /// <summary>
+    /// Set the text speed. 0 = Slow, 2 = Fast.
+    /// </summary>
+    /// <param name="speed"></param>
+    public void SetTextSpeed(int speed)
+    {
+        switch(speed)
+        {
+            case 0:
+                textTimer = new WaitForSeconds(0.05f);
+                break;
+            case 1:
+                textTimer = new WaitForSeconds(0.02f);
+                break;
+            default:
+                textTimer = new WaitForSeconds(0.01f);
+                break;
+        }
     }
     /// <summary>
     /// Is the text currently animating?
@@ -66,39 +94,14 @@ public class DialogueText : MonoBehaviour
     private IEnumerator AnimateText(string text)
     {
         animatingText = true;
-        currentText = "";
+        fountainPen.text = text;
+        int currentVisible = 0;
         foreach(char letter in text)
         {
-            currentText += letter;
-            fountainPen.text = currentText;
-            yield return null;
+            fountainPen.maxVisibleCharacters = currentVisible;
+            currentVisible++;
+            yield return textTimer;
         }
         animatingText = false;
-    }
-    private IEnumerator AnimateDialogue(string text)
-    {
-        StringBuilder stringBuilder = new StringBuilder();
-        char[] bracketText = new char[15];
-        int currentIndex = 0;
-        string richText = "";
-
-        for (int i = 0; i < text.Length; i++)
-        {
-            //Check if needing to change colors
-            if (text[i] == '<')
-            {
-                currentIndex = i;
-                while (text[currentIndex] != '>')
-                {
-                    richText += text[currentIndex];
-                    currentIndex++;
-                }
-            }
-            //Else, add to text
-            currentIndex++;
-            stringBuilder.Append(text[i]);
-            fountainPen.text = stringBuilder.ToString();
-        }
-        yield return null;
     }
 }

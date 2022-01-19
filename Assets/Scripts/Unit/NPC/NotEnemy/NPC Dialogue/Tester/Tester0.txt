@@ -1,0 +1,1 @@
+Tester Sam|Portrait_Fox|TRUE|This is the testing text to figure out if things decide <color=red>DictionaryDictionary</color> to work or not. I believe we will find out if things decide to animate the text correctly or not. Maybe also figure out how to deal with colors?

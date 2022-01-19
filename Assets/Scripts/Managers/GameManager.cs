@@ -9,9 +9,11 @@ using UnityEngine.EventSystems;
 public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
+    private DialogueManager dialogueManager;
     private PlayerMove player;
     private Camera gameCamera;
     private bool pauseGame;
+    private bool dialoguing;
 
     public Canvas playerHUD;
     public Canvas pauseMenu;
@@ -33,6 +35,7 @@ public class GameManager : MonoBehaviour
         {
             instance = this;
         }
+        dialogueManager = GetComponent<DialogueManager>();
         player = FindObjectOfType<PlayerMove>();
         Debug.Log("Disabling mouse");
         Cursor.lockState = CursorLockMode.Locked;
@@ -42,11 +45,12 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         playerHUD.gameObject.SetActive(true);
-        dialogue.gameObject.SetActive(false);
+        //dialogue.gameObject.SetActive(false);
         pauseMenu.gameObject.SetActive(false);
         blackFade.gameObject.SetActive(false);
         currency.GetComponentInChildren<HUDCurrencyHolder>().TurnOnVisuals();
         currency.gameObject.SetActive(true);
+        dialogueManager.TurnOffDialogue();
     }
 
     public static GameManager Instance
@@ -56,7 +60,7 @@ public class GameManager : MonoBehaviour
             return instance;
         }
     }
-
+    
     /// <summary>
     /// The game camera for the scene.
     /// </summary>
@@ -65,6 +69,10 @@ public class GameManager : MonoBehaviour
     {
         this.gameCamera = gameCamera;
     }
+    /// <summary>
+    /// Set camera clamps.
+    /// </summary>
+    /// <param name="locationBinds"></param>
     public void SetCameraClamps(LocationBinds locationBinds)
     {
         gameCamera.GetComponent<CameraFollow>().SetCameraClamps(locationBinds);
@@ -88,6 +96,40 @@ public class GameManager : MonoBehaviour
             blackFade.GetComponent<HUDBlackPanel>().FadeOut();
         }
     }
+    /// <summary>
+    /// Set if the player is talking to anyone or no.
+    /// </summary>
+    /// <param name="tOrF"></param>
+    public void SetDialoguing(bool tOrF)
+    {
+        dialoguing = tOrF;
+    }
+    /// <summary>
+    /// Set string for NPC Folder.
+    /// </summary>
+    /// <param name="npcFolder"></param>
+    public void SetNPCFolder(string npcFolder)
+    {
+        dialogueManager.SetNPCHolder(npcFolder);
+    }
+    /// <summary>
+    /// Start the Dialogue.
+    /// </summary>
+    /// <param name="currentPath"></param>
+    public void StartDialogue(string currentPath)
+    {
+        dialogueManager.StartDialogue(currentPath);
+    }
+    /// <summary>
+    /// Advance the dialogue. If no other dialogue can occur, turn the game back on.
+    /// </summary>
+    public void AdvanceText()
+    {
+        dialogueManager.AdvanceText();
+    }
+    /// <summary>
+    /// Pause the game and open up Pause menu.
+    /// </summary>
     public void PauseGame()
     {
         pauseGame = !pauseGame; 
@@ -117,6 +159,14 @@ public class GameManager : MonoBehaviour
     public bool GamePaused()
     {
         return pauseGame;
+    }
+    /// <summary>
+    /// Is the player currently talking with someone?
+    /// </summary>
+    /// <returns></returns>
+    public bool Dialoguing()
+    {
+        return dialoguing;
     }
     /// <summary>
     /// Get the player reference.

@@ -1,11 +1,13 @@
 tree("Root")
 	repeat
 		fallback
+			tree "Dialoguing"
 			tree "DoNotMove"
 			tree "Move"
 
 tree("Move")
 	sequence
+		not PlayerDialoguing
 		HasPathway
 		fallback
 			sequence
@@ -18,4 +20,9 @@ tree("Move")
 tree("DoNotMove")
 	sequence
 		not HasPathway
+		StopMoving
+
+tree("Dialoguing")
+	sequence
+		PlayerDialoguing
 		StopMoving

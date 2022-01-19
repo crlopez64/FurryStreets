@@ -68,6 +68,11 @@ public class NotEnemyAI : MonoBehaviour
         return pathways.Count > 1;
     }
     [Task]
+    public bool PlayerDialoguing()
+    {
+        return GameManager.Instance.Dialoguing();
+    }
+    [Task]
     public bool ReachedDestination()
     {
         if (pathways.Count <= 0)

@@ -40,12 +40,18 @@ public class DialogueNameplate : MonoBehaviour
         }
         if (onRight)
         {
-            rectTransform.localPosition = new Vector2(200, 220);
+            rectTransform.anchorMin = new Vector2(0.5f, 0.21f);
+            rectTransform.anchorMax = new Vector2(0.7f, 0.26f);
+            rectTransform.offsetMax = Vector2.zero;
+            rectTransform.offsetMin = Vector2.zero;
             fountainPen.alignment = TextAlignmentOptions.Right;
         }
         else
         {
-            rectTransform.localPosition = new Vector2(-200, 220);
+            rectTransform.anchorMin = new Vector2(0.3f, 0.21f);
+            rectTransform.anchorMax = new Vector2(0.5f, 0.26f);
+            rectTransform.offsetMax = Vector2.zero;
+            rectTransform.offsetMin = Vector2.zero;
             fountainPen.alignment = TextAlignmentOptions.Left;
         }
     }
@@ -55,9 +61,11 @@ public class DialogueNameplate : MonoBehaviour
     /// </summary>
     private void AdjustParameters()
     {
-        rectTransform.anchorMin = new Vector2(0.5f, 0);
-        rectTransform.anchorMax = new Vector2(0.5f, 0);
+        rectTransform.anchorMin = new Vector2(0.3f, 0.21f);
+        rectTransform.anchorMax = new Vector2(0.7f, 0.26f);
         rectTransform.pivot = new Vector2(0.5f, 0);
         rectTransform.sizeDelta = new Vector2(400, 60);
+        rectTransform.offsetMax = Vector2.zero;
+        rectTransform.offsetMin = Vector2.zero;
     }
 }

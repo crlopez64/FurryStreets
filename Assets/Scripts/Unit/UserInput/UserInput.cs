@@ -29,7 +29,10 @@ public class UserInput : MonoBehaviour
         //Inputs independent on if the game is paused or not.
         if (Input.GetKeyDown(KeyCode.P))
         {
-            GameManager.Instance.PauseGame();
+            if ((!GameManager.Instance.Dialoguing()) && GameManager.Instance.GamePaused())
+            {
+                GameManager.Instance.PauseGame();
+            }
         }
 
         //Ignore any normal gameplay if game is paused.
@@ -42,50 +45,58 @@ public class UserInput : MonoBehaviour
         //Action/Jump
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (playerAction.HasInteractable())
+            if (!GameManager.Instance.Dialoguing())
             {
-                //interact
-                playerAction.Interact();
+                if (playerAction.HasInteractable())
+                {
+                    //interact
+                    playerAction.Interact();
+                }
+                else
+                {
+                    if (playerMove.Grounded())
+                    {
+                        playerMove.Jump(directionalInput);
+                    }
+                }
             }
             else
             {
-                if (playerMove.Grounded())
-                {
-                    playerMove.Jump(directionalInput);
-                }
+                //Continue with dialogue
             }
         }
         if (playerMove.Grounded())
         {
-            playerMove.Move(directionalInput);
+            if (!GameManager.Instance.Dialoguing())
+            {
+                playerMove.Move(directionalInput);
+            }
         }
         //Attacking
-        //TO GRAB: Punch + Kick
-        if (Input.GetKeyDown(KeyCode.J))
+        if (!GameManager.Instance.Dialoguing())
         {
-            //Punch
-            attacksPressed |= 0x1;
+            //TO GRAB: Punch + Kick
+            if (Input.GetKeyDown(KeyCode.J))
+            {
+                //Punch
+                attacksPressed |= 0x1;
+            }
+            if (Input.GetKeyDown(KeyCode.K))
+            {
+                //Kick
+                attacksPressed |= 0x2;
+            }
+            if (Input.GetKeyDown(KeyCode.I))
+            {
+                //Special
+                attacksPressed |= 0x4;
+            }
         }
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            //Kick
-            attacksPressed |= 0x2;
-        }
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            //TODO: Make Special
-            attacksPressed |= 0x4;
-        }
+        
         if (attacksPressed > 0)
         {
             playerAttack.MakeAttack(GetFlippedByte(DirectionByte()), attacksPressed);
             attacksPressed = 0;
-        }
-
-        //Debugging Commands
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            unitAnimationLayers.SetAttackLayer();
         }
     }
     /// <summary>

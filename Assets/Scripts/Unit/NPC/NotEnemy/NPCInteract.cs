@@ -7,6 +7,8 @@ using UnityEngine;
 /// </summary>
 public class NPCInteract : Interactable
 {
+    public string folderName;
+    public string filePathName;
 
     private void Start()
     {
@@ -35,5 +37,7 @@ public class NPCInteract : Interactable
     {
         base.Interact();
         Debug.Log("Talk with NPC.");
+        GameManager.Instance.SetNPCFolder(folderName);
+        GameManager.Instance.StartDialogue("Assets\\Scripts\\Unit\\NPC\\NotEnemy\\NPC Dialogue\\" + folderName + "\\" + filePathName + ".txt");
     }
 }
