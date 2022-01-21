@@ -6674,7 +6674,7 @@ Transform:
   - {fileID: 1338581489}
   - {fileID: 766666236}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &388642305
 MonoBehaviour:
@@ -6688,7 +6688,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef970bdf9c4bee04cbac244aab1a63da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkLocations: []
 --- !u!114 &388642306
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6735,6 +6734,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3240ac3d304a26d46bde62eec43071a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  chapterTabs: {x: 0, y: 0}
+  filePathNames: 
   folderName: Tester
   filePathName: Tester0
 --- !u!61 &388642309
@@ -23844,7 +23845,7 @@ Transform:
   - {fileID: 832309007}
   - {fileID: 924577180}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1294868844
 GameObject:

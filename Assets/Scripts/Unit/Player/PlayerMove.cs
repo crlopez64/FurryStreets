@@ -19,7 +19,7 @@ public class PlayerMove : UnitMove
         CanFlip(true);
         CanMove(true);
         SetSpeed(7, 4);
-        SetJumpHeight(25);
+        SetJumpHeight(100);
     }
     protected override void Update()
     {

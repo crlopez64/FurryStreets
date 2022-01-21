@@ -9,8 +9,8 @@ using UnityEngine;
 /// </summary>
 public class DialogueManager : MonoBehaviour
 {
-    private DialogueHolder dialogueHolder;
     private StreamReader reader;
+    private DialogueHolder dialogueHolder;
     private string npcFolder;
     private string currentLine;
 
@@ -87,9 +87,9 @@ public class DialogueManager : MonoBehaviour
     {
         //Get dialogue line
         string[] data = nextLine.Split('|');
-        currentLine = data[1];
+        currentLine = data[data.Length - 1];
         dialogueHolder.SetName(data[0], bool.Parse(data[2]));
         dialogueHolder.SetPortrait(npcFolder, data[1], bool.Parse(data[2]));
-        dialogueHolder.SetDialogue(data[data.Length - 1]);
+        dialogueHolder.SetDialogue(currentLine);
     }
 }

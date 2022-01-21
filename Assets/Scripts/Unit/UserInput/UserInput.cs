@@ -63,6 +63,7 @@ public class UserInput : MonoBehaviour
             else
             {
                 //Continue with dialogue
+                GameManager.Instance.AdvanceText();
             }
         }
         if (playerMove.Grounded())

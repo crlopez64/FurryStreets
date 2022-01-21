@@ -19,8 +19,6 @@ public class NotEnemyAI : MonoBehaviour
     private byte directionToMove;
     private int currentPathwayIndex;
 
-    public List<Transform> walkLocations;
-
     private void Awake()
     {
         npcMove = GetComponent<NPCMove>();
@@ -28,11 +26,6 @@ public class NotEnemyAI : MonoBehaviour
     private void Start()
     {
         SetPathway();
-    }
-
-    private void Update()
-    {
-        
     }
 
     public void ContinuePathway()
@@ -50,7 +43,6 @@ public class NotEnemyAI : MonoBehaviour
     {
         directionToMove = GetRadianDirection(GetVectorToNextPosition());
         Move();
-        //Task.current.Succeed();
     }
     [Task]
     public void GetNextDestination()

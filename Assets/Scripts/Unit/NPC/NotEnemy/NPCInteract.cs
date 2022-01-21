@@ -7,6 +7,11 @@ using UnityEngine;
 /// </summary>
 public class NPCInteract : Interactable
 {
+    public Vector2 chapterTabs;
+    public string filePathNames;
+    /// <summary>
+    /// The Folder Name both in Script/NPC Stuff to get scripts, and Resources/Dialoguej to get portraits, if any.
+    /// </summary>
     public string folderName;
     public string filePathName;
 

@@ -9,8 +9,8 @@ using TMPro;
 /// </summary>
 public class DialogueNameplate : MonoBehaviour
 {
-    private RectTransform rectTransform;
     private Image holder;
+    private RectTransform rectTransform;
     private TextMeshProUGUI fountainPen;
 
     private void Awake()

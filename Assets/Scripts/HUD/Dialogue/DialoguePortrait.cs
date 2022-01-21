@@ -8,8 +8,8 @@ using UnityEngine.UI;
 /// </summary>
 public class DialoguePortrait : MonoBehaviour
 {
+    private Image portrait;
     private RectTransform rectTransform;
-    private Image portrait; 
 
     private void Awake()
     {
