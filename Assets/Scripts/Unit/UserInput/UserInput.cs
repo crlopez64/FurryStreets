@@ -52,13 +52,13 @@ public class UserInput : MonoBehaviour
                     //interact
                     playerAction.Interact();
                 }
-                else
-                {
-                    if (playerMove.Grounded())
-                    {
-                        playerMove.Jump(directionalInput);
-                    }
-                }
+                //else
+                //{
+                //    if (playerMove.Grounded())
+                //    {
+                //        playerMove.Jump(directionalInput);
+                //    }
+                //}
             }
             else
             {
@@ -73,27 +73,45 @@ public class UserInput : MonoBehaviour
                 playerMove.Move(directionalInput);
             }
         }
-        //Attacking
+        //Attacking and Blocking
         if (!GameManager.Instance.Dialoguing())
         {
-            //TO GRAB: Punch + Kick
-            if (Input.GetKeyDown(KeyCode.J))
+            //Blocking
+            if (Input.GetKey(KeyCode.L))
             {
-                //Punch
-                attacksPressed |= 0x1;
+                if ((!playerAttack.CurrentlyAttacking()) && playerMove.Grounded())
+                {
+                    playerAttack.SetBlocking(true);
+                }
             }
-            if (Input.GetKeyDown(KeyCode.K))
+            if (!playerAttack.Blocking())
             {
-                //Kick
-                attacksPressed |= 0x2;
-            }
-            if (Input.GetKeyDown(KeyCode.I))
-            {
-                //Special
-                attacksPressed |= 0x4;
+                //TO GRAB: Punch + Kick
+                if (Input.GetKeyDown(KeyCode.J))
+                {
+                    //Punch
+                    attacksPressed |= 0x1;
+                }
+                if (Input.GetKeyDown(KeyCode.K))
+                {
+                    //Kick
+                    attacksPressed |= 0x2;
+                }
+                if (Input.GetKeyDown(KeyCode.I))
+                {
+                    //Special
+                    attacksPressed |= 0x4;
+                }
             }
         }
-        
+        if (Input.GetKeyUp(KeyCode.L))
+        {
+            if (playerAttack.Blocking())
+            {
+                playerAttack.SetBlocking(false);
+                playerAttack.AnimatorStopCanParry();
+            }
+        }
         if (attacksPressed > 0)
         {
             playerAttack.MakeAttack(GetFlippedByte(DirectionByte()), attacksPressed);

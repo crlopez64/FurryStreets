@@ -139,7 +139,6 @@ public class UnitStats : MonoBehaviour
     /// <param name="meterRestore"></param>
     public void RestoreUnit(int healthRestore, int meterRestore)
     {
-        Debug.Log("Current Meter: " + currentMeter);
         currentHealth += healthRestore;
         if (currentHealth >= maxHealth)
         {

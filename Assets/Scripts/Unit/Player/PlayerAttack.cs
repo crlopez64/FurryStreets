@@ -229,6 +229,7 @@ public class PlayerAttack : UnitAttack
                         //If not, play the attack immediately
                         //Debug.Log("Correct attack: Initial attack");
                         attacking = true;
+                        SetAttackStance();
                         attackToAnimate = attackToAnimate.GetNextAttack(j);
                         attackToBuffer = attackToBuffer.GetNextAttack(j);
                         if (attackToAnimate.HasMeterCost())
@@ -275,6 +276,7 @@ public class PlayerAttack : UnitAttack
         {
             if (attacksBuffered.Count > 0) 
             {
+                SetAttackStance();
                 canPlayNextAttack = false;
                 attackToAnimate = attackToAnimate.GetNextAttack(attacksBuffered.Dequeue());
                 if (attackToAnimate.HasMeterCost())
@@ -291,6 +293,7 @@ public class PlayerAttack : UnitAttack
                     attackToAnimate = specialBuffered;
                     if (attackToAnimate.HasMeterCost())
                     {
+                        SetAttackStance();
                         unitStats.MeterBurn(attackToAnimate.MeterCost());
                     }
                     playingSpecialMove = true;

@@ -31,9 +31,11 @@ public class UnitAttack : MonoBehaviour
     protected ParticlePooler particlePooler;
     protected UnitAnimationLayers unitAnimationLayers;
     protected Animator animator;
+    protected bool parrying;
+    protected bool canParry;
+    protected bool blocking;
     protected bool attacking;
     protected bool stunArmor;
-    protected bool attackStance; //If true, being idle or walking will have a different stance. Only visual.
     protected byte grabbingEnemyType; //0: Not grabbing, 1: Physical, 2: Escape
     protected byte grabbedByType; //0: Free, 1: Physical, 2: Escape
     /// <summary>
@@ -41,6 +43,7 @@ public class UnitAttack : MonoBehaviour
     /// </summary>
     protected byte hitType; //Could change to 0 = inactive, 1 = Hit High (Grounded), 2 = Hit low (Grounded), 1 = Knockback Aerial (not grounded), 2 = Knockback Distal (not grounded)
     protected float stunTimer;
+    protected float attackStance; //If true, being idle or walking will have a different stance. Only visual.
 
     public Transform unitGrabPosition;
     public TextAsset textMoveList;
@@ -60,7 +63,6 @@ public class UnitAttack : MonoBehaviour
     }
     protected virtual void Start()
     {
-        attackStance = true;
         attackToAnimate = null;
         Hitbox[] hitboxes = GetComponentsInChildren<Hitbox>();
         foreach (Hitbox hitbox in hitboxes)
@@ -89,11 +91,20 @@ public class UnitAttack : MonoBehaviour
             StopStun();
             unitAnimationLayers.SetMovementLayer();
         }
+        if (attackStance > 0)
+        {
+            attackStance -= Time.deltaTime;
+        }
+        if (blocking)
+        {
+            SetAttackStance();
+        }
 
         //Animator
         animator.SetBool("Stunned", Stunned());
+        animator.SetBool("Blocking", blocking);
         animator.SetBool("Attacking", attacking);
-        animator.SetBool("AttackStance", attackStance);
+        animator.SetBool("AttackStance", AttackStance());
         animator.SetBool("StayDowned", unitStats.StaminaEmpty());
         animator.SetInteger("Grabbed", grabbedByType);
         animator.SetInteger("GrabbingEnemy", grabbingEnemyType);
@@ -126,12 +137,11 @@ public class UnitAttack : MonoBehaviour
     }
 
     /// <summary>
-    /// Set if the Unit is prepping to attack or not.
+    /// Set the Unit's Attack Stance prep for a set amount of time.
     /// </summary>
-    /// <param name="tOrF"></param>
-    public void SetAttackStance(bool tOrF)
+    public void SetAttackStance()
     {
-        attackStance = tOrF;
+        attackStance = 5f;
     }
     /// <summary>
     /// Set if the Unit is now attacking.
@@ -182,6 +192,44 @@ public class UnitAttack : MonoBehaviour
     public void SetStunArmor(bool tOrF)
     {
         stunArmor = tOrF;
+    }
+    /// <summary>
+    /// Animator method to set Can Parry to true.
+    /// </summary>
+    public void AnimatorSetCanParry()
+    {
+        canParry = true;
+    }
+    /// <summary>
+    /// Animator method to set Can Parry to false.
+    /// </summary>
+    public void AnimatorStopCanParry()
+    {
+        canParry = false;
+    }
+    /// <summary>
+    /// Animator method to set Parrying to true;
+    /// </summary>
+    public void AnimatorSetParrying()
+    {
+        canParry = false;
+        parrying = true;
+    }
+    /// <summary>
+    /// Animator method to set Parrying to false;
+    /// </summary>
+    public void AnimatorStopParrying()
+    {
+        canParry = false;
+        parrying = false;
+    }
+    /// <summary>
+    /// Set Blocking.
+    /// </summary>
+    /// <param name="tOrF"></param>
+    public void SetBlocking(bool tOrF)
+    {
+        blocking = tOrF;
     }
     /// <summary>
     /// Turn on or off the physical collider of this Unit.
@@ -271,35 +319,58 @@ public class UnitAttack : MonoBehaviour
         }
         foreach(Collider2D hit in hitsRecorded)
         {
+            //If Unit has been KO'd, do not attack any more
+            //TODO: Maybe keep attacking still-standing KO'd units
             if (hit.GetComponentInParent<UnitStats>().StaminaEmpty())
             {
                 return;
             }
-            if (hit.GetComponentInParent<UnitMove>().Grounded() ||
+            UnitAttack attackComponent = hit.GetComponentInParent<UnitAttack>();
+            //If a valid Unit on Ground or airborne, make attack
+            if (attackComponent.GetComponent<UnitMove>().Grounded() ||
                 ((transform.position.y < hit.transform.position.y) && (Mathf.Abs(transform.position.y - hit.transform.position.y) <= 5f) &&
-                (!hit.GetComponentInParent<UnitMove>().Grounded())))
+                (!attackComponent.GetComponent<UnitMove>().Grounded())))
             {
+                //If unit is blocking, make block
+                if (attackComponent.Blocking() && attackComponent.GetComponent<UnitMove>().FacingUnit(GetComponent<UnitMove>()))
+                {
+                    Debug.Log("Blocking");
+                    if (particlePooler != null)
+                    {
+                        //Blocking particles
+                    }
+                    return;
+                }
+                if (attackComponent.Parrying())
+                {
+                    Debug.Log("Parrying");
+                    if (particlePooler != null)
+                    {
+                        //Parrying particles
+                    }
+                    return;
+                }
                 hit.GetComponentInParent<UnitAttack>().TakeHit(transform, attackToAnimate);
                 //If an enemy, add combo counter to player
                 //Else if a player, reset their combo
-                if (hit.GetComponentInParent<EnemyAttack>() != null)
+                if (attackComponent.GetComponent<EnemyAttack>() != null)
                 {
                     if (unitStats.GetComponent<PlayerStats>() != null)
                     {
                         unitStats.GetComponent<PlayerStats>().AddToCombo();
                     }
                 }
-                else if (hit.GetComponentInParent<PlayerAttack>() != null)
+                else if (attackComponent.GetComponent<PlayerAttack>() != null)
                 {
-                    if (hit.GetComponent<PlayerStats>() != null)
+                    if (attackComponent.GetComponent<PlayerStats>() != null)
                     {
-                        hit.GetComponent<PlayerStats>().ResetComboHit();
+                        attackComponent.GetComponent<PlayerStats>().ResetComboHit();
                     }
                 }
             }
-            if (hit.GetComponentInParent<UnitAttack>() != null)
+            if (attackComponent != null)
             {
-                hit.GetComponentInParent<UnitAttack>().ResetAttacking();
+                attackComponent.ResetAttacking();
             }
             if (particlePooler != null)
             {
@@ -495,6 +566,38 @@ public class UnitAttack : MonoBehaviour
         stunArmor = false;
         stunTimer = 0f;
         unitStats.ResetStun();
+    }
+    /// <summary>
+    /// Is the Unit blocking?
+    /// </summary>
+    /// <returns></returns>
+    public bool Blocking()
+    {
+        return blocking;
+    }
+    /// <summary>
+    /// Is the Unit parrying an attack?
+    /// </summary>
+    /// <returns></returns>
+    public bool CanParry()
+    {
+        return canParry;
+    }
+    /// <summary>
+    /// Is the Unit currently parrying an attack?
+    /// </summary>
+    /// <returns></returns>
+    public bool Parrying()
+    {
+        return parrying;
+    }
+    /// <summary>
+    /// Should the unit go to Attack stance?
+    /// </summary>
+    /// <returns></returns>
+    public bool AttackStance()
+    {
+        return attackStance > 0;
     }
     /// <summary>
     /// Is the Unit currently attacking?

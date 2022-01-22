@@ -369,6 +369,14 @@ public class UnitMove : MonoBehaviour
         return (!grounded) && (rb2D.velocity.y > 0);
     }
     /// <summary>
+    /// Is the incoming Unit facing this Unit?
+    /// </summary>
+    /// <param name="incomingUnit"></param>
+    public bool FacingUnit(UnitMove incomingUnit)
+    {
+        return Mathf.Sign(transform.localScale.x) == (-Mathf.Sign(incomingUnit.transform.localScale.x));
+    }
+    /// <summary>
     /// Return the X Speed of the Unit.
     /// </summary>
     /// <returns></returns>
