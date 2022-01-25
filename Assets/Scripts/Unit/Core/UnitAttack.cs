@@ -8,6 +8,7 @@ using UnityEngine;
 public class UnitAttack : MonoBehaviour
 {
     private List<Collider2D> hitsRecorded;
+    private List<Collider2D> enemiesAttacked;
     /*
      * Base class for attacking
      * ? How to do seduce while still alive?
@@ -21,7 +22,6 @@ public class UnitAttack : MonoBehaviour
     protected Hitbox airborneHitbox;
     protected UnitMove unitMove;
     protected UnitMove grabbedUnit;
-    protected Attack[] airbornAttacks; //TODO: Add for Punch, Kick, and Special
     protected List<Attack> specialAttacks; //TODO: Neutral, Forward, Down, Up
     protected Attack rootAttack;
     /// <summary>
@@ -59,7 +59,7 @@ public class UnitAttack : MonoBehaviour
         particlePooler = GetComponentInChildren<ParticlePooler>();
         physicalCollider = GetComponent<BoxCollider2D>();
         specialAttacks = new List<Attack>();
-        
+        enemiesAttacked = new List<Collider2D>();
     }
     protected virtual void Start()
     {
@@ -222,6 +222,7 @@ public class UnitAttack : MonoBehaviour
     {
         canParry = false;
         parrying = false;
+        TurnOffHitLayer();
     }
     /// <summary>
     /// Set Blocking.
@@ -270,113 +271,18 @@ public class UnitAttack : MonoBehaviour
     public void ActiveFrame()
     {
         hitsRecorded.Clear();
-        Collider2D[] hits = Physics2D.OverlapBoxAll(groundedHitbox.transform.position, attackToAnimate.GetHitboxDimensions(), 0f, whoCanHit);
-        foreach(Collider2D hit in hits)
-        {
-            if (hit.GetComponentInParent<UnitAttack>() != null)
-            {
-                //If self, ignore
-                if (hit.GetComponentInParent<UnitAttack>() == this)
-                {
-                    continue;
-                }
-                if (!hit.GetComponentInParent<UnitAttack>().StunArmor())
-                {
-                    if ((hitsRecorded.Count == 0) || (!hitsRecorded.Contains(hit)))
-                    {
-                        hitsRecorded.Add(hit);
-                    }
-                }
-            }
-        }
-        //TODO: Airborne hitbox size and length
-        Collider2D[] otherHits = Physics2D.OverlapBoxAll(airborneHitbox.transform.position, new Vector2(2f, 1.5f), 0f, whoCanHit);
-        foreach(Collider2D hit in otherHits)
-        {
-            if (hit.GetComponentInParent<UnitAttack>() != null)
-            {
-                //If unit is grounded, ignore
-                if (hit.GetComponentInParent<UnitMove>().Grounded())
-                {
-                    continue;
-                }
-                //If self, ignore
-                if (hit.GetComponentInParent<UnitAttack>() == this)
-                {
-                    continue;
-                }
-                if (!hit.GetComponentInParent<UnitAttack>().StunArmor())
-                {
-                    if ((!hit.GetComponentInParent<UnitMove>().Grounded()) && (!hit.GetComponentInParent<UnitMove>().FlyingUp()))
-                    {
-                        if ((hitsRecorded.Count == 0) || (!hitsRecorded.Contains(hit)))
-                        {
-                            hitsRecorded.Add(hit);
-                        }
-                    }
-                }
-            }
-        }
-        foreach(Collider2D hit in hitsRecorded)
-        {
-            //If Unit has been KO'd, do not attack any more
-            //TODO: Maybe keep attacking still-standing KO'd units
-            if (hit.GetComponentInParent<UnitStats>().StaminaEmpty())
-            {
-                return;
-            }
-            UnitAttack attackComponent = hit.GetComponentInParent<UnitAttack>();
-            //If a valid Unit on Ground or airborne, make attack
-            if (attackComponent.GetComponent<UnitMove>().Grounded() ||
-                ((transform.position.y < hit.transform.position.y) && (Mathf.Abs(transform.position.y - hit.transform.position.y) <= 5f) &&
-                (!attackComponent.GetComponent<UnitMove>().Grounded())))
-            {
-                //If unit is blocking, make block
-                if (attackComponent.Blocking() && attackComponent.GetComponent<UnitMove>().FacingUnit(GetComponent<UnitMove>()))
-                {
-                    Debug.Log("Blocking");
-                    if (particlePooler != null)
-                    {
-                        //Blocking particles
-                    }
-                    return;
-                }
-                if (attackComponent.Parrying())
-                {
-                    Debug.Log("Parrying");
-                    if (particlePooler != null)
-                    {
-                        //Parrying particles
-                    }
-                    return;
-                }
-                hit.GetComponentInParent<UnitAttack>().TakeHit(transform, attackToAnimate);
-                //If an enemy, add combo counter to player
-                //Else if a player, reset their combo
-                if (attackComponent.GetComponent<EnemyAttack>() != null)
-                {
-                    if (unitStats.GetComponent<PlayerStats>() != null)
-                    {
-                        unitStats.GetComponent<PlayerStats>().AddToCombo();
-                    }
-                }
-                else if (attackComponent.GetComponent<PlayerAttack>() != null)
-                {
-                    if (attackComponent.GetComponent<PlayerStats>() != null)
-                    {
-                        attackComponent.GetComponent<PlayerStats>().ResetComboHit();
-                    }
-                }
-            }
-            if (attackComponent != null)
-            {
-                attackComponent.ResetAttacking();
-            }
-            if (particlePooler != null)
-            {
-                particlePooler.SpawnParticle(0, (Vector2)groundedHitbox.transform.position + Random.insideUnitCircle * 0.5f);
-            }
-        }
+        CollectHits();
+        ConsiderHits();
+    }
+    /// <summary>
+    /// Make an active frame activating the hitbox, multiple hits.
+    /// </summary>
+    public void ActiveFrameMultiHit()
+    {
+        hitsRecorded.Clear();
+        enemiesAttacked.Clear();
+        CollectHits();
+        ConsiderHits();
     }
     /// <summary>
     /// Get the closest enemy within grab range.
@@ -521,6 +427,11 @@ public class UnitAttack : MonoBehaviour
         grabbedUnit = null;
         GetComponent<SpriteRenderer>().sortingOrder = 0;
     }
+    public void ResetHits()
+    {
+        hitsRecorded.Clear();
+        enemiesAttacked.Clear();
+    }
     /// <summary>
     /// Take some incoming damage. If too much stun, stun the unit.
     /// </summary>
@@ -547,6 +458,7 @@ public class UnitAttack : MonoBehaviour
         {
             unitMove.Knockback(attackerPosition.position, attack, false);
         }
+        ResetHits();
         if (unitStats.StaminaEmpty())
         {
             Debug.Log("Defeated!!");
@@ -773,5 +685,131 @@ public class UnitAttack : MonoBehaviour
             float.Parse(hitboxWidth[1]), 1.25f,
             byte.Parse(hitType[1]), 0.0f, 0.0f, float.Parse(moveSpeed[1]), 0.0f, isFinalUniqueAttack, attributes[1]);
         return attackMade;
+    }
+    private void CollectHits()
+    {
+        Collider2D[] hits = Physics2D.OverlapBoxAll(groundedHitbox.transform.position, attackToAnimate.GetHitboxDimensions(), 0f, whoCanHit);
+        foreach (Collider2D hit in hits)
+        {
+            if (hit.GetComponentInParent<UnitAttack>() != null)
+            {
+                //If self, ignore
+                if (hit.GetComponentInParent<UnitAttack>() == this)
+                {
+                    continue;
+                }
+                if (!hit.GetComponentInParent<UnitAttack>().StunArmor())
+                {
+                    if ((hitsRecorded.Count == 0) || (!hitsRecorded.Contains(hit)))
+                    {
+                        hitsRecorded.Add(hit);
+                    }
+                }
+            }
+        }
+        //TODO: Airborne hitbox size and length
+        Collider2D[] otherHits = Physics2D.OverlapBoxAll(airborneHitbox.transform.position, new Vector2(2f, 1.5f), 0f, whoCanHit);
+        foreach (Collider2D hit in otherHits)
+        {
+            if (hit.GetComponentInParent<UnitAttack>() != null)
+            {
+                //If unit is grounded, ignore
+                if (hit.GetComponentInParent<UnitMove>().Grounded())
+                {
+                    continue;
+                }
+                //If self, ignore
+                if (hit.GetComponentInParent<UnitAttack>() == this)
+                {
+                    continue;
+                }
+                if (!hit.GetComponentInParent<UnitAttack>().StunArmor())
+                {
+                    if ((!hit.GetComponentInParent<UnitMove>().Grounded()) && (!hit.GetComponentInParent<UnitMove>().FlyingUp()))
+                    {
+                        if ((hitsRecorded.Count == 0) || (!hitsRecorded.Contains(hit)))
+                        {
+                            hitsRecorded.Add(hit);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    private void ConsiderHits()
+    {
+        foreach (Collider2D hit in hitsRecorded)
+        {
+            //If hit already considered for this Unit, ignore it
+            if (enemiesAttacked.Contains(hit))
+            {
+                continue;
+            }
+            //If Unit has been KO'd, do not attack any more
+            //TODO: Maybe keep attacking still-standing KO'd units
+            if (hit.GetComponentInParent<UnitStats>().StaminaEmpty())
+            {
+                return;
+            }
+            UnitAttack attackComponent = hit.GetComponentInParent<UnitAttack>();
+            //If a valid Unit on Ground or airborne, make attack
+            if (attackComponent.GetComponent<UnitMove>().Grounded() ||
+                ((transform.position.y < hit.transform.position.y) && (Mathf.Abs(transform.position.y - hit.transform.position.y) <= 5f) &&
+                (!attackComponent.GetComponent<UnitMove>().Grounded())))
+            {
+                //If unit is blocking and can parry or is parrying, make parry
+                if ((attackComponent.Parrying() || attackComponent.CanParry())
+                    && attackComponent.GetComponent<UnitMove>().FacingUnit(GetComponent<UnitMove>()))
+                {
+                    Debug.Log("Parrying");
+                    attackComponent.unitAnimationLayers.SetHitLayer();
+                    attackComponent.animator.SetTrigger("Parry");
+                    if (particlePooler != null)
+                    {
+                        //Parrying particles
+                        particlePooler.SpawnParryParticle((Vector2)groundedHitbox.transform.position);
+                    }
+                    return;
+                }
+                //If unit is blocking, make block
+                if (attackComponent.Blocking() && attackComponent.GetComponent<UnitMove>().FacingUnit(GetComponent<UnitMove>()))
+                {
+                    Debug.Log("Blocking");
+                    if (particlePooler != null)
+                    {
+                        //Blocking particles
+                        Debug.Log("Blocking particles!!");
+                        particlePooler.SpawnParryParticle((Vector2)groundedHitbox.transform.position);
+                    }
+                    return;
+                }
+                hit.GetComponentInParent<UnitAttack>().TakeHit(transform, attackToAnimate);
+                //If an enemy, add combo counter to player
+                //Else if a player, reset their combo
+                if (attackComponent.GetComponent<EnemyAttack>() != null)
+                {
+                    if (unitStats.GetComponent<PlayerStats>() != null)
+                    {
+                        unitStats.GetComponent<PlayerStats>().AddToCombo();
+                    }
+                }
+                else if (attackComponent.GetComponent<PlayerAttack>() != null)
+                {
+                    if (attackComponent.GetComponent<PlayerStats>() != null)
+                    {
+                        attackComponent.GetComponent<PlayerStats>().ResetComboHit();
+                    }
+                }
+            }
+            if (attackComponent != null)
+            {
+                attackComponent.ResetAttacking();
+            }
+            if (particlePooler != null)
+            {
+                particlePooler.SpawnParticle(0, (Vector2)groundedHitbox.transform.position + Random.insideUnitCircle * 0.5f);
+            }
+            enemiesAttacked.Add(hit);
+        }
     }
 }

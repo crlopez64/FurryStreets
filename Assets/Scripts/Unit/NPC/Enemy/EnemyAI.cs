@@ -77,6 +77,12 @@ public class EnemyAI : MonoBehaviour
         //Character flip facing?
         //If not getting attacked, Flip sprite accordingly
 
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            Debug.LogWarning("Enemy Attacking!");
+            MakeAttack1();
+        }
+
         //Get Vector from enemy to player
         vectorToFocus = (currentFocus.transform.position - transform.position).normalized;
     }
@@ -228,7 +234,7 @@ public class EnemyAI : MonoBehaviour
         //Debug.Log("Make attack one.");
         enemyAttack.MakeAttack(0);
         canHitTimer = 3f;
-        Task.current.Succeed();
+        //Task.current.Succeed();
     }
     [Task]
     public void MakeAttack2()

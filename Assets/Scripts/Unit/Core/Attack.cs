@@ -7,17 +7,18 @@ using UnityEngine;
 public class Attack
 {
     private readonly List<Attack> nextAttacks;
-    private bool canAddAttack;
-    private readonly bool finalUniqueAttack;
     private readonly Vector2 knockback;
     private readonly Vector2 unitToMove;
     private readonly Vector2 hitboxDimensions;
+    private bool canAddAttack;
+    private readonly bool finalUniqueAttack;
     private readonly byte hitType;
+    private readonly byte maxHits;
+    private readonly byte attributes; //1st: Grab, 2: Heavy Stun, 3: Knockback, 4: Knockback Far, 5: Pop Up, 6: Flip
     private readonly byte requiredAttack; //1 = Punch, 2 = Kick; 5 is Idle, Numbers 1-9 is direction input
-    private readonly byte attributes; //1st: Grab, 2: Heavy Stun, 3: Knockback, 4: Knockback Far, 5: Pop Up, 
     private readonly int damage;
-    private readonly int animationID;
     private readonly int meterCost;
+    private readonly int animationID;
     private readonly string attackName;
 
     /// <summary>
@@ -55,6 +56,7 @@ public class Attack
         this.meterCost = meterCost;
         this.animationID = animationID;
         this.attackName = attackName;
+        this.maxHits = 1;
         hitboxDimensions = new Vector2(hitboxWidth, hitboxHeight);
         this.hitType = hitType;
         this.finalUniqueAttack = finalUniqueAttack;
@@ -176,12 +178,28 @@ public class Attack
         return ((attributes >> 4) & 0x1) == 0x1;
     }
     /// <summary>
+    /// Does this Attack flip the User to the other side?
+    /// </summary>
+    /// <returns></returns>
+    public bool AttributeFlip()
+    {
+        return ((attributes >> 5) & 0x1) == 0x1;
+    }
+    /// <summary>
     /// Return the Hit Type for hitstun against this Unit.
     /// </summary>
     /// <returns></returns>
     public byte GetHitType()
     {
         return hitType;
+    }
+    /// <summary>
+    /// Return the maximum hits this Attack can make to a Unit.
+    /// </summary>
+    /// <returns></returns>
+    public byte GetMaxHits()
+    {
+        return maxHits;
     }
     /// <summary>
     /// Return the required direction of the attack.
@@ -431,6 +449,10 @@ public class Attack
         if (attribute.Contains("popUp", System.StringComparison.OrdinalIgnoreCase))
         {
             currentAttributes |= (0x1 << 4);
+        }
+        if (attribute.Contains("flip", System.StringComparison.OrdinalIgnoreCase))
+        {
+            currentAttributes |= (0x1 << 5);
         }
         return currentAttributes;
     }

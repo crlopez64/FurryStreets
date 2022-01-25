@@ -230,6 +230,7 @@ public class PlayerAttack : UnitAttack
                         //Debug.Log("Correct attack: Initial attack");
                         attacking = true;
                         SetAttackStance();
+                        ResetHits();
                         attackToAnimate = attackToAnimate.GetNextAttack(j);
                         attackToBuffer = attackToBuffer.GetNextAttack(j);
                         if (attackToAnimate.HasMeterCost())
@@ -242,6 +243,11 @@ public class PlayerAttack : UnitAttack
                             {
                                 unitStats.NotEnoughMeter();
                             }
+                        }
+                        //TODO: Move the Flipping to somewhere else?
+                        if (attackToAnimate.AttributeFlip())
+                        {
+                            unitMove.FlipSprite();
                         }
                         unitAnimationLayers.SetAttackLayer();
                         unitMove.StopMoving();
@@ -272,6 +278,7 @@ public class PlayerAttack : UnitAttack
     /// </summary>
     public override void PlayNextAttack()
     {
+        ResetHits();
         if (!IsAttacked())
         {
             if (attacksBuffered.Count > 0) 
@@ -282,6 +289,11 @@ public class PlayerAttack : UnitAttack
                 if (attackToAnimate.HasMeterCost())
                 {
                     unitStats.MeterBurn(attackToAnimate.MeterCost());
+                }
+                //TODO: Move the Flipping to somewhere else?
+                if (attackToAnimate.AttributeFlip())
+                {
+                    unitMove.FlipSprite();
                 }
             }
             else
@@ -295,6 +307,11 @@ public class PlayerAttack : UnitAttack
                     {
                         SetAttackStance();
                         unitStats.MeterBurn(attackToAnimate.MeterCost());
+                    }
+                    //TODO: Move the Flipping to somewhere else?
+                    if (attackToAnimate.AttributeFlip())
+                    {
+                        unitMove.FlipSprite();
                     }
                     playingSpecialMove = true;
                 }
@@ -351,7 +368,6 @@ public class PlayerAttack : UnitAttack
         rootAttack = attackTree;
         attackToBuffer = attackTree;
         specialAttacks = new List<Attack>();
-        airbornAttacks = new Attack[4];
         if (textMoveList == null)
         {
             Debug.LogWarning("NOTE: Unit does not have a MoveList to reference.");

@@ -1,11 +1,12 @@
 P-P-P Combo=direction:5,attack:punch,damage:4,meterCost:0,animID:1,hitboxGroundWidth:4.0,hitType:1,userMove:3.4,attributes:none; direction:5,attack:punch,damage:4,meterCost:0,animID:2,hitboxGroundWidth:4.0,hitType:1,userMove:3.4,attributes:none; direction:5,attack:punch,damage:4,meterCost:0,animID:1,hitboxGroundWidth:4.0,hitType:1,userMove:3.4,attributes:heavyStun
-*.*.P-P-K Combo=direction:5,attack:kick,damage:6,meterCost:0,animID:6,hitboxGroundWidth:4.2,hitType:3,userMove:6.0,attributes:knockback
-*.*.0.P-P-P-6P Combo=direction:6,attack:punch,damage:12,meterCost:0,animID:7,hitboxGroundWidth:4.0,hitType:3,userMove:15.0,attributes:knockback
+*.*.P-P-4P Combo=direction:4,attack:punch,damage:4,meterCost:0,animID:1,hitboxGroundWidth:4.0,hitType:1,userMove:3.4,attributes:flip
+*.*.P-P-Uppercut Combo=direction:8,attack:punch,damage:6,meterCost:0,animID:12,hitboxGroundWidth:4.0,hitType:1,userMove:3.4,attributes:popup
+*.*.P-P-K Combo=direction:5,attack:kick,damage:8,meterCost:0,animID:6,hitboxGroundWidth:4.2,hitType:3,userMove:6.0,attributes:none
 *.P-K-K Combo=direction:5,attack:punch,damage:6,meterCost:0,animID:4,hitboxGroundWidth:4.0,hitType:2,userMove:2.0,attributes:none; direction:5,attack:punch,damage:8,meterCost:0,animID:10,hitboxGroundWidth:4.0,hitType:3,userMove:10.0,attributes:knockback
-Triple Kick Combo=direction:5,attack:kick,damage:6,meterCost:0,animID:4,hitboxGroundWidth:4.0,hitType:2,userMove:1.0,attributes:none; direction:5,attack:kick,damage:6,meterCost:0,animID:5,hitboxGroundWidth:5.0,hitType:1,userMove:1.0,attributes:none; direction:5,attack:kick,damage:8,meterCost:0,animID:10,hitboxGroundWidth:5.0,hitType:1,userMove:30.0,attributes:knockback
+Triple Kick Combo=direction:5,attack:kick,damage:6,meterCost:0,animID:4,hitboxGroundWidth:5.0,hitType:2,userMove:1.0,attributes:none; direction:5,attack:kick,damage:6,meterCost:0,animID:5,hitboxGroundWidth:5.0,hitType:1,userMove:1.0,attributes:none; direction:5,attack:kick,damage:8,meterCost:0,animID:10,hitboxGroundWidth:5.0,hitType:1,userMove:30.0,attributes:knockback
 *.K-P-K Combo=direction:5,attack:punch,damage:4,meterCost:0,animID:1,hitboxGroundWidth:4.0,hitType:1,userMove:3.4,attributes:none; direction:5,attack:kick,damage:10,meterCost:0,animID:6,hitboxGroundWidth:5.0,hitType:1,userMove:4.0,attributes:knockback
 *.*.K-P-P-K Combo=direction:5,attack:punch,damage:4,meterCost:0,animID:2,hitboxGroundWidth:4.0,hitType:1,userMove:3.4,attributes:none; direction:5,attack:kick,damage:10,meterCost:0,animID:11,hitboxGroundWidth:5.0,hitType:1,userMove:16.0,attributes:knockback
-*.High Thrust Kick=direction:5,attack:kick,damage:10,meterCost:0,animID:9,hitboxGroundWidth:5.0,hitType:3,userMove:1.0,attributes:popUp
+*.*.*.K-P-P-Uppercut Combo=direction:8,attack:punch,damage:6,meterCost:0,animID:12,hitboxGroundWidth:4.0,hitType:1,userMove:3.4,attributes:popup
 Grab=direction:5,attack:throw,damage:10,meterCost:0,animID:50,hitboxGroundWidth:1.25,hitType:1,userMove:4.0,attributes:grab
 *.Over the Shoulder=direction:5,attack:punch,damage:15,meterCost:0,animID:51,hitboxGroundWidth:1.0,hitType:3,userMove:0.0,attributes:knockback
 *.Goal Kick=direction:5,attack:kick,daamge:24,meterCost:0,animID:52,hitboxGroundWidth:1.0,hitType:3,userMove:0.0,attributes:knockback

@@ -13,15 +13,10 @@ TO DO LIST:
 	-> Forward Special: Burn Knuckle (Name Pending; Dashing Attack, popping everyone up)
 	-> Grab, Special: Focus Blast (Heavy Damage Attack to one Unit, maxes out Stun if still alive)
 	-> Neutral Special (during Air): Falling Blast (AoE Attack, knocking everyone away)
--> Redo Attack. Add Attributes (Heavy Stun (Double Stun DMG), Knockback Normal, Knockback Special 1(Magnum Blast), Pop Up)
-	-> Attack Enders: Give 1.3x stun.
-	-? how to determine knockback when hitting airborne enemies?
-	-> Implement knockback depending on Attributes
-
-MAYBE:
--> Increase HP and Meter by 10x to get multipliers to work
-	->Old Mateo: HP: 100, Meter: 65
-	->New Mateo: HP: 1000, Meter: 650
+-> Moves that may hit from behind
+-> Blocking correctly
+-> Parrying correctly
+-> Attacks that may linger to add more Active Frames (and maximum multihits)
 
 ITEMS:
 -> Can decrease Meter use (by Percentage %)

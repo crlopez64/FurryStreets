@@ -177,8 +177,14 @@ public class UnitMove : MonoBehaviour
     {
         if (unitAttack != null)
         {
-            if (unitAttack.CurrentlyAttacking() || unitAttack.CurrentlyGrabbing() || unitAttack.IsAttacked() || unitAttack.Stunned())
+            if (unitAttack.CurrentlyAttacking() || unitAttack.CurrentlyGrabbing() || unitAttack.IsAttacked()
+                || unitAttack.Stunned())
             {
+                return;
+            }
+            if (unitAttack.Blocking())
+            {
+                velocity = Vector2.zero;
                 return;
             }
         }
@@ -288,21 +294,19 @@ public class UnitMove : MonoBehaviour
         {
             //Make initial knockback
             velocity = Vector2.zero;
-            velocity = new Vector2(direction * 7f, 0);
-            if (incomingAttack.AttributeKnockback())
+            velocity = new Vector2(direction * 5f, 0);
+            if (incomingAttack.AttributeKnockbackFar())
             {
-                Debug.Log("Apply knockback");
-                velocity = new Vector2(direction * 35f, 12f);
+                //TODO: Keep same velocity but change gravity to lower?
+                velocity = new Vector2(direction * 80f, 12f);
                 animator.SetTrigger("HitDistalKnockback");
                 unitAnimationLayers.SetHitLayer();
                 MakeJump(velocity, true);
                 return;
             }
-            if (incomingAttack.AttributeKnockbackFar())
+            if (incomingAttack.AttributeKnockback())
             {
-                //TODO: Keep same velocity but change gravity to lower?
-                Debug.Log("Knockback far");
-                velocity = new Vector2(direction * 90f, 12f);
+                velocity = new Vector2(direction * 35f, 12f);
                 animator.SetTrigger("HitDistalKnockback");
                 unitAnimationLayers.SetHitLayer();
                 MakeJump(velocity, true);
