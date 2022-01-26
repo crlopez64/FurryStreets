@@ -7,7 +7,6 @@ using UnityEngine;
 /// </summary>
 public class ParticlePooler : MonoBehaviour
 {
-    private List<GameObject> parryParticles;
     private List<GameObject> hitMinorPool;
     private List<GameObject> specialMoveParticles;
 
@@ -15,7 +14,6 @@ public class ParticlePooler : MonoBehaviour
 
     private void Awake()
     {
-        parryParticles = new List<GameObject>(2);
         hitMinorPool = new List<GameObject>(5);
         for(int i = 0; i < hitMinorPool.Capacity; i++)
         {
@@ -25,7 +23,6 @@ public class ParticlePooler : MonoBehaviour
             particleTemp.GetComponent<Particle>().SetParticlePooler(this);
             hitMinorPool.Add(particleTemp);
         }
-        PrepareParryParticles();
     }
     /// <summary>
     /// Set Special Moves particles when playing Mateo (Wolf).
@@ -103,45 +100,5 @@ public class ParticlePooler : MonoBehaviour
             default:
                 break;
         }
-    }
-    /// <summary>
-    /// Spawn a parry particle. If all are used, create a new parry particle and make in list again.
-    /// </summary>
-    /// <param name="worldPosition"></param>
-    public void SpawnParryParticle(Vector3 worldPosition)
-    {
-        foreach (GameObject particle in parryParticles)
-        {
-            if (particle.activeInHierarchy == false)
-            {
-                particle.transform.SetParent(null);
-                particle.transform.position = worldPosition;
-                particle.SetActive(true);
-                particle.GetComponent<ParticleSystem>().Play();
-                return;
-            }
-        }
-        InstantiateParryParticle();
-        SpawnParryParticle(worldPosition);
-    }
-
-    private void PrepareParryParticles()
-    {
-        if (parryParticles == null)
-        {
-            parryParticles = new List<GameObject>(2);
-        }
-        for (int i = 0; i < parryParticles.Capacity; i++)
-        {
-            InstantiateParryParticle();
-        }
-    }
-    private void InstantiateParryParticle()
-    {
-        GameObject particleTemp = Instantiate(Resources.Load<GameObject>("Particles/NormalHit/Particles_Parry"));
-        particleTemp.SetActive(false);
-        particleTemp.transform.SetParent(gameObject.transform);
-        particleTemp.GetComponent<Particle>().SetParticlePooler(this);
-        parryParticles.Add(particleTemp);
     }
 }

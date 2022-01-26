@@ -761,25 +761,22 @@ public class UnitAttack : MonoBehaviour
                 if ((attackComponent.Parrying() || attackComponent.CanParry())
                     && attackComponent.GetComponent<UnitMove>().FacingUnit(GetComponent<UnitMove>()))
                 {
-                    Debug.Log("Parrying");
                     attackComponent.unitAnimationLayers.SetHitLayer();
                     attackComponent.animator.SetTrigger("Parry");
                     if (particlePooler != null)
                     {
                         //Parrying particles
-                        particlePooler.SpawnParryParticle((Vector2)groundedHitbox.transform.position);
+                        ParticleManager.Instance().SpawnParryParticle((Vector2)groundedHitbox.transform.position);
                     }
                     return;
                 }
                 //If unit is blocking, make block
                 if (attackComponent.Blocking() && attackComponent.GetComponent<UnitMove>().FacingUnit(GetComponent<UnitMove>()))
                 {
-                    Debug.Log("Blocking");
                     if (particlePooler != null)
                     {
                         //Blocking particles
-                        Debug.Log("Blocking particles!!");
-                        particlePooler.SpawnParryParticle((Vector2)groundedHitbox.transform.position);
+                        ParticleManager.Instance().SpawnBlockParticle((Vector2)groundedHitbox.transform.position);
                     }
                     return;
                 }
