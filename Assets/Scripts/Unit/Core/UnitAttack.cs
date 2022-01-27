@@ -758,28 +758,21 @@ public class UnitAttack : MonoBehaviour
                 (!attackComponent.GetComponent<UnitMove>().Grounded())))
             {
                 //If unit is blocking and can parry or is parrying, make parry
-                if ((attackComponent.Parrying() || attackComponent.CanParry())
-                    && attackComponent.GetComponent<UnitMove>().FacingUnit(GetComponent<UnitMove>()))
+                if ((attackComponent.Parrying() ||
+                    attackComponent.CanParry()) && attackComponent.GetComponent<UnitMove>().FacingUnit(GetComponent<UnitMove>()))
                 {
                     attackComponent.unitAnimationLayers.SetHitLayer();
                     attackComponent.animator.SetTrigger("Parry");
-                    if (particlePooler != null)
-                    {
-                        //Parrying particles
-                        ParticleManager.Instance().SpawnParryParticle((Vector2)groundedHitbox.transform.position);
-                    }
+                    ParticleManager.Instance().SpawnParryParticle((Vector2)groundedHitbox.transform.position);
                     return;
                 }
                 //If unit is blocking, make block
                 if (attackComponent.Blocking() && attackComponent.GetComponent<UnitMove>().FacingUnit(GetComponent<UnitMove>()))
                 {
-                    if (particlePooler != null)
-                    {
-                        //Blocking particles
-                        ParticleManager.Instance().SpawnBlockParticle((Vector2)groundedHitbox.transform.position);
-                    }
+                    ParticleManager.Instance().SpawnBlockParticle((Vector2)groundedHitbox.transform.position);
                     return;
                 }
+                //Make unit take damage
                 hit.GetComponentInParent<UnitAttack>().TakeHit(transform, attackToAnimate);
                 //If an enemy, add combo counter to player
                 //Else if a player, reset their combo
@@ -802,9 +795,16 @@ public class UnitAttack : MonoBehaviour
             {
                 attackComponent.ResetAttacking();
             }
-            if (particlePooler != null)
+            if (attackComponent.GetComponent<UnitMove>().Grounded())
             {
-                particlePooler.SpawnParticle(0, (Vector2)groundedHitbox.transform.position + Random.insideUnitCircle * 0.5f);
+                ParticleManager.Instance().SpawnHitParticle((Vector2)groundedHitbox.transform.position + Random.insideUnitCircle * 0.5f,
+                    transform.localScale.x);
+            }
+            else
+            {
+                Debug.Log("Add airborne particles");
+                ParticleManager.Instance().SpawnHitAirParticle((Vector2)groundedHitbox.transform.position + Random.insideUnitCircle * 0.5f,
+                    transform.localScale.x);
             }
             enemiesAttacked.Add(hit);
         }

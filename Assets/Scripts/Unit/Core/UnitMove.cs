@@ -46,7 +46,7 @@ public class UnitMove : MonoBehaviour
         grounded = true;
         initialGroundedPosition = transform.position;
         rb2D.drag = 15f;
-        gravityScale = 6;
+        gravityScale = 12;
     }
     protected virtual void Update()
     {
@@ -54,6 +54,32 @@ public class UnitMove : MonoBehaviour
         if (groundCheckTimer > 0)
         {
             groundCheckTimer -= Time.deltaTime;
+        }
+        //Mess with Rigidbody drag for pop up combos
+        if (!grounded)
+        {
+            if (rb2D.velocity.y > 2f)
+            {
+                rb2D.drag = 3f;
+                gravityScale = 12;
+                rb2D.gravityScale = gravityScale;
+            }
+            else if (rb2D.velocity.y <= 2f && rb2D.velocity.y >= -2f)
+            {
+                rb2D.drag = 3f;
+                gravityScale = 5;
+                rb2D.gravityScale = gravityScale;
+            }
+            else
+            {
+                rb2D.drag = 8f;
+                gravityScale = 12;
+                rb2D.gravityScale = gravityScale;
+            }
+        }
+        else
+        {
+            rb2D.drag = 15f;
         }
         //Direction Facing
         if (unitAttack != null)
@@ -297,8 +323,7 @@ public class UnitMove : MonoBehaviour
             velocity = new Vector2(direction * 5f, 0);
             if (incomingAttack.AttributeKnockbackFar())
             {
-                //TODO: Keep same velocity but change gravity to lower?
-                velocity = new Vector2(direction * 80f, 12f);
+                velocity = new Vector2(direction * 60f, 15f);
                 animator.SetTrigger("HitDistalKnockback");
                 unitAnimationLayers.SetHitLayer();
                 MakeJump(velocity, true);
@@ -306,7 +331,7 @@ public class UnitMove : MonoBehaviour
             }
             if (incomingAttack.AttributeKnockback())
             {
-                velocity = new Vector2(direction * 35f, 12f);
+                velocity = new Vector2(direction * 30f, 15f);
                 animator.SetTrigger("HitDistalKnockback");
                 unitAnimationLayers.SetHitLayer();
                 MakeJump(velocity, true);
@@ -314,7 +339,7 @@ public class UnitMove : MonoBehaviour
             }
             if (incomingAttack.AttributePopUp())
             {
-                velocity = new Vector2(direction * 3f, 32f);
+                velocity = new Vector2(direction * 3f, 50f);
                 animator.SetTrigger("HitAerialKnockback");
                 unitAnimationLayers.SetHitLayer();
                 MakeJump(velocity, true);
@@ -342,7 +367,12 @@ public class UnitMove : MonoBehaviour
             Debug.Log("Reducing Knockback");
             if (incomingAttack.AttributeKnockback() || incomingAttack.AttributeKnockbackFar() || incomingAttack.AttributePopUp())
             {
-                velocity = new Vector2(direction * 5f, 12f);
+                velocity = new Vector2(direction * 35f, 12f);
+                MakeJump(velocity, false);
+            }
+            else
+            {
+                velocity = new Vector2(direction * 1f, 25f);
                 MakeJump(velocity, false);
             }
         }

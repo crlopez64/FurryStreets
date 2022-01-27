@@ -108,9 +108,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 1051
+        y: 1066
         width: 515
-        height: 997
+        height: 982
       alignment: 9
       pivot: {x: 0.19417475, y: 0.4994985}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -129,9 +129,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 515
-        y: 1051
+        y: 1066
         width: 682
-        height: 997
+        height: 982
       alignment: 9
       pivot: {x: 0.1319648, y: 0.4994985}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -150,9 +150,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1197
-        y: 1051
+        y: 1066
         width: 851
-        height: 997
+        height: 982
       alignment: 9
       pivot: {x: 0.117508814, y: 0.4994985}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -162,6 +162,69 @@ TextureImporter:
       bones: []
       spriteID: 1c51cb758da4a894bb04df70272c205a
       internalID: -59987248
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NormalHitYellow_3
+      rect:
+        serializedVersion: 2
+        x: 29
+        y: 288
+        width: 324
+        height: 574
+      alignment: 9
+      pivot: {x: 0.12962963, y: 0.43554008}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 03efcb5309177214fbb43d64f1e4c915
+      internalID: -552161588
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NormalHitYellow_4
+      rect:
+        serializedVersion: 2
+        x: 355
+        y: 193
+        width: 432
+        height: 773
+      alignment: 9
+      pivot: {x: 0.037889127, y: 0.46571806}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a389d153bd97ef04dbd81be97a06207a
+      internalID: 84844719
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NormalHitYellow_5
+      rect:
+        serializedVersion: 2
+        x: 787
+        y: 89
+        width: 586
+        height: 969
+      alignment: 9
+      pivot: {x: -0.020935996, y: 0.46336436}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e4e9b0056af01334682db689f74a96e3
+      internalID: 1834775521
       vertices: []
       indices: 
       edges: []
@@ -178,7 +241,10 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       NormalHitYellow_1: 2109355352
+      NormalHitYellow_5: 1834775521
       NormalHitYellow_0: -1963629280
+      NormalHitYellow_4: 84844719
+      NormalHitYellow_3: -552161588
       NormalHitYellow_2: -59987248
   spritePackingTag: 
   pSDRemoveMatte: 0
