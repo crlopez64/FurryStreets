@@ -52,13 +52,6 @@ public class UserInput : MonoBehaviour
                     //interact
                     playerAction.Interact();
                 }
-                //else
-                //{
-                //    if (playerMove.Grounded())
-                //    {
-                //        playerMove.Jump(directionalInput);
-                //    }
-                //}
             }
             else
             {
@@ -70,7 +63,7 @@ public class UserInput : MonoBehaviour
         {
             if (!GameManager.Instance.Dialoguing())
             {
-                playerMove.Move(directionalInput);
+                playerMove.Move(directionalInput, DirectionByte());
             }
         }
         //Attacking and Blocking
@@ -146,7 +139,7 @@ public class UserInput : MonoBehaviour
                 //If divisible by 3, subtract 2; otherwise, add 2
                 if (directionByte % 3 == 0)
                 {
-                    return (directionByte -= 2);
+                    return directionByte -= 2;
                 }
                 else
                 {

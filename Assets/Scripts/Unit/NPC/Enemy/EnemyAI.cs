@@ -311,31 +311,31 @@ public class EnemyAI : MonoBehaviour
         switch (directionToMove)
         {
             case 0:
-                enemyMove.Move(new Vector2(1, 0));
+                enemyMove.Move(new Vector2(1, 0), 0);
                 break;
             case 1:
-                enemyMove.Move(new Vector2(1, 1));
+                enemyMove.Move(new Vector2(1, 1), 0);
                 break;
             case 2:
-                enemyMove.Move(new Vector2(0, 1));
+                enemyMove.Move(new Vector2(0, 1), 0);
                 break;
             case 3:
-                enemyMove.Move(new Vector2(-1, 1));
+                enemyMove.Move(new Vector2(-1, 1), 0);
                 break;
             case 4:
-                enemyMove.Move(new Vector2(-1, 0));
+                enemyMove.Move(new Vector2(-1, 0), 0);
                 break;
             case 5:
-                enemyMove.Move(new Vector2(-1, -1));
+                enemyMove.Move(new Vector2(-1, -1), 0);
                 break;
             case 6:
-                enemyMove.Move(new Vector2(-1, 0));
+                enemyMove.Move(new Vector2(-1, 0), 0);
                 break;
             case 7:
-                enemyMove.Move(new Vector2(1, -1));
+                enemyMove.Move(new Vector2(1, -1), 0);
                 break;
             default:
-                enemyMove.Move(Vector2.zero);
+                enemyMove.Move(Vector2.zero, 0);
                 break;
         }
         Task.current.Succeed();

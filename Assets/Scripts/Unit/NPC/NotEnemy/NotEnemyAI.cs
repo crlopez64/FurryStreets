@@ -87,31 +87,31 @@ public class NotEnemyAI : MonoBehaviour
         switch (directionToMove)
         {
             case 0:
-                npcMove.Move(new Vector2(1, 0));
+                npcMove.Move(new Vector2(1, 0), 0);
                 break;
             case 1:
-                npcMove.Move(new Vector2(1, 1));
+                npcMove.Move(new Vector2(1, 1), 0);
                 break;
             case 2:
-                npcMove.Move(new Vector2(0, 1));
+                npcMove.Move(new Vector2(0, 1), 0);
                 break;
             case 3:
-                npcMove.Move(new Vector2(-1, 1));
+                npcMove.Move(new Vector2(-1, 1), 0);
                 break;
             case 4:
-                npcMove.Move(new Vector2(-1, 0));
+                npcMove.Move(new Vector2(-1, 0), 0);
                 break;
             case 5:
-                npcMove.Move(new Vector2(-1, -1));
+                npcMove.Move(new Vector2(-1, -1), 0);
                 break;
             case 6:
-                npcMove.Move(new Vector2(-1, 0));
+                npcMove.Move(new Vector2(-1, 0), 0);
                 break;
             case 7:
-                npcMove.Move(new Vector2(1, -1));
+                npcMove.Move(new Vector2(1, -1), 0);
                 break;
             default:
-                npcMove.Move(Vector2.zero);
+                npcMove.Move(Vector2.zero, 0);
                 break;
         }
         Task.current.Succeed();

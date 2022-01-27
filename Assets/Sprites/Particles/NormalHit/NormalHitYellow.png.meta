@@ -109,10 +109,10 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 1066
-        width: 515
+        width: 434
         height: 982
       alignment: 9
-      pivot: {x: 0.19417475, y: 0.4994985}
+      pivot: {x: 0.08755761, y: 0.49694502}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -128,12 +128,12 @@ TextureImporter:
       name: NormalHitYellow_1
       rect:
         serializedVersion: 2
-        x: 515
+        x: 434
         y: 1066
-        width: 682
+        width: 646
         height: 982
       alignment: 9
-      pivot: {x: 0.1319648, y: 0.4994985}
+      pivot: {x: 0.10835913, y: 0.49694502}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -149,12 +149,12 @@ TextureImporter:
       name: NormalHitYellow_2
       rect:
         serializedVersion: 2
-        x: 1197
+        x: 1080
         y: 1066
-        width: 851
+        width: 968
         height: 982
       alignment: 9
-      pivot: {x: 0.117508814, y: 0.4994985}
+      pivot: {x: 0.08884297, y: 0.49694502}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -170,12 +170,12 @@ TextureImporter:
       name: NormalHitYellow_3
       rect:
         serializedVersion: 2
-        x: 29
-        y: 288
-        width: 324
+        x: 0
+        y: 290
+        width: 311
         height: 574
       alignment: 9
-      pivot: {x: 0.12962963, y: 0.43554008}
+      pivot: {x: 0.048231512, y: 0.4216028}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -191,12 +191,12 @@ TextureImporter:
       name: NormalHitYellow_4
       rect:
         serializedVersion: 2
-        x: 355
+        x: 311
         y: 193
-        width: 432
+        width: 425
         height: 773
       alignment: 9
-      pivot: {x: 0.037889127, y: 0.46571806}
+      pivot: {x: 0.016470587, y: 0.44243208}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -212,12 +212,12 @@ TextureImporter:
       name: NormalHitYellow_5
       rect:
         serializedVersion: 2
-        x: 787
+        x: 736
         y: 89
-        width: 586
+        width: 562
         height: 969
       alignment: 9
-      pivot: {x: -0.020935996, y: 0.46336436}
+      pivot: {x: -0.046263345, y: 0.4767802}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -225,6 +225,69 @@ TextureImporter:
       bones: []
       spriteID: e4e9b0056af01334682db689f74a96e3
       internalID: 1834775521
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NormalHitYellow_6
+      rect:
+        serializedVersion: 2
+        x: 1388
+        y: 737
+        width: 316
+        height: 263
+      alignment: 9
+      pivot: {x: 0.091772154, y: -0.02661597}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe85cc08fd343e1459977dc197533c32
+      internalID: -1661978116
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NormalHitYellow_7
+      rect:
+        serializedVersion: 2
+        x: 1389
+        y: 436
+        width: 387
+        height: 276
+      alignment: 9
+      pivot: {x: 0.056847546, y: -0.15579711}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 89d42039d04a9ae41af3b895957a0d84
+      internalID: 41616521
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NormalHitYellow_8
+      rect:
+        serializedVersion: 2
+        x: 1389
+        y: 91
+        width: 454
+        height: 309
+      alignment: 9
+      pivot: {x: 0.05947136, y: -0.3171521}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 383557e48aad6f440be54a9e09b6a875
+      internalID: 828156615
       vertices: []
       indices: 
       edges: []
@@ -242,7 +305,10 @@ TextureImporter:
     nameFileIdTable:
       NormalHitYellow_1: 2109355352
       NormalHitYellow_5: 1834775521
+      NormalHitYellow_7: 41616521
       NormalHitYellow_0: -1963629280
+      NormalHitYellow_8: 828156615
+      NormalHitYellow_6: -1661978116
       NormalHitYellow_4: 84844719
       NormalHitYellow_3: -552161588
       NormalHitYellow_2: -59987248

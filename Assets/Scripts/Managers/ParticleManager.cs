@@ -13,6 +13,8 @@ public class ParticleManager : ParticlePooler
     private List<GameObject> parryParticles;
     private List<GameObject> blockParticles;
     private List<GameObject> hitParticlesAir;
+    private List<GameObject> landingHitParticles;
+    private List<GameObject> hitCriticalParticles;
 
     private void Awake()
     {
@@ -20,6 +22,8 @@ public class ParticleManager : ParticlePooler
         PrepareHitParticles();
         PrepareBlockParticles();
         PrepareParryParticles();
+        PrepareLandingHitParticles();
+
     }
 
     public static ParticleManager Instance()
@@ -127,6 +131,23 @@ public class ParticleManager : ParticlePooler
         InstantiateBlockParticle();
         SpawnBlockParticle(worldPosition);
     }
+    public void SpawnLandingHitParticle(Vector3 worldPosition)
+    {
+        foreach(GameObject particle in landingHitParticles)
+        {
+            if (particle.activeInHierarchy == false)
+            {
+                particle.transform.SetParent(null);
+                particle.transform.position = worldPosition;
+                particle.SetActive(true);
+                particle.GetComponent<ParticleSystem>().Play();
+                return;
+            }
+        }
+        InstantiateLandingHitParticle();
+        SpawnLandingHitParticle(worldPosition);
+    }
+
     private void PrepareParryParticles()
     {
         parryParticles = new List<GameObject>(2);
@@ -155,6 +176,22 @@ public class ParticleManager : ParticlePooler
             InstantiateHitAirParticles();
         }
     }
+    private void PrepareLandingHitParticles()
+    {
+        landingHitParticles = new List<GameObject>(3);
+        for(int i = 0; i < landingHitParticles.Capacity; i++)
+        {
+            InstantiateLandingHitParticle();
+        }
+    }
+    private void PrepareHitCriticalParticles()
+    {
+        hitCriticalParticles = new List<GameObject>(3);
+        for(int i = 0; i < hitCriticalParticles.Capacity; i++)
+        {
+            InstantiateHitCriticalParticle();
+        }
+    }
     private void InstantiateHitParticles(byte index)
     {
         GameObject particleTemp = Instantiate(Resources.Load<GameObject>("Particles/NormalHit/Particles_NormalHit" + index));
@@ -176,7 +213,7 @@ public class ParticleManager : ParticlePooler
     }
     private void InstantiateHitAirParticles()
     {
-        GameObject particleTemp = Instantiate(Resources.Load<GameObject>("Particles/NormalHit/Particles_NormalHit" + 0));
+        GameObject particleTemp = Instantiate(Resources.Load<GameObject>("Particles/NormalHit/Particles_NormalHitAir"));
         particleTemp.SetActive(false);
         particleTemp.transform.SetParent(gameObject.transform);
         particleTemp.GetComponent<Particle>().SetParticlePooler(this);
@@ -198,5 +235,20 @@ public class ParticleManager : ParticlePooler
         particleTemp.GetComponent<Particle>().SetParticlePooler(this);
         parryParticles.Add(particleTemp);
     }
-
+    private void InstantiateLandingHitParticle()
+    {
+        GameObject particleTemp = Instantiate(Resources.Load<GameObject>("Particles/NormalHit/Particles_DustLanding"));
+        particleTemp.SetActive(false);
+        particleTemp.transform.SetParent(gameObject.transform);
+        particleTemp.GetComponent<Particle>().SetParticlePooler(this);
+        landingHitParticles.Add(particleTemp);
+    }
+    private void InstantiateHitCriticalParticle()
+    {
+        GameObject particleTemp = Instantiate(Resources.Load<GameObject>("Particles/NormalHit/Particles_Parry"));
+        particleTemp.SetActive(false);
+        particleTemp.transform.SetParent(gameObject.transform);
+        particleTemp.GetComponent<Particle>().SetParticlePooler(this);
+        hitCriticalParticles.Add(particleTemp);
+    }
 }

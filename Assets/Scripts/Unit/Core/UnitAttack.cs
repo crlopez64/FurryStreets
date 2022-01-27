@@ -119,7 +119,8 @@ public class UnitAttack : MonoBehaviour
                 Gizmos.color = new Color(0, 1, 0, 0.5f);
                 Gizmos.DrawCube(groundedHitbox.transform.position, attackToAnimate.GetHitboxDimensions());
                 Gizmos.color = new Color(0, 1, 0.5f, 0.5f);
-                Gizmos.DrawCube(airborneHitbox.transform.position, new Vector2(2f, 1.5f));
+                Gizmos.DrawCube(groundedHitbox.transform.position + (Vector3.up * 1.5f),
+                    new Vector2(attackToAnimate.GetHitboxDimensions().x * 0.8f, attackToAnimate.GetHitboxDimensions().y));
             }
             else
             {
@@ -469,6 +470,16 @@ public class UnitAttack : MonoBehaviour
                 GetComponent<EnemyAttack>().SetDespawnTimer();
             }
         }
+        if (GetComponent<UnitMove>().Grounded())
+        {
+            ParticleManager.Instance().SpawnHitParticle((Vector2)groundedHitbox.transform.position + Random.insideUnitCircle * 0.5f,
+                attackerPosition.localScale.x);
+        }
+        else
+        {
+            ParticleManager.Instance().SpawnHitAirParticle((Vector2)groundedHitbox.transform.position + Random.insideUnitCircle * 0.5f,
+                attackerPosition.localScale.x);
+        }
     }
     /// <summary>
     /// Stop the Unit's stun.
@@ -708,7 +719,8 @@ public class UnitAttack : MonoBehaviour
             }
         }
         //TODO: Airborne hitbox size and length
-        Collider2D[] otherHits = Physics2D.OverlapBoxAll(airborneHitbox.transform.position, new Vector2(2f, 1.5f), 0f, whoCanHit);
+        Collider2D[] otherHits = Physics2D.OverlapBoxAll(groundedHitbox.transform.position + (Vector3.up * 1.5f),
+            new Vector2(attackToAnimate.GetHitboxDimensions().x * 0.8f, attackToAnimate.GetHitboxDimensions().y), 0f, whoCanHit);
         foreach (Collider2D hit in otherHits)
         {
             if (hit.GetComponentInParent<UnitAttack>() != null)
@@ -794,17 +806,6 @@ public class UnitAttack : MonoBehaviour
             if (attackComponent != null)
             {
                 attackComponent.ResetAttacking();
-            }
-            if (attackComponent.GetComponent<UnitMove>().Grounded())
-            {
-                ParticleManager.Instance().SpawnHitParticle((Vector2)groundedHitbox.transform.position + Random.insideUnitCircle * 0.5f,
-                    transform.localScale.x);
-            }
-            else
-            {
-                Debug.Log("Add airborne particles");
-                ParticleManager.Instance().SpawnHitAirParticle((Vector2)groundedHitbox.transform.position + Random.insideUnitCircle * 0.5f,
-                    transform.localScale.x);
             }
             enemiesAttacked.Add(hit);
         }

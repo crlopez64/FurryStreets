@@ -24,7 +24,7 @@ public class EnemyMove : UnitMove
         base.Update();
         if (unitAttack.IsAttacked())
         {
-            Move(Vector2.zero);
+            Move(Vector2.zero, 0);
         }
     }
     protected override void FixedUpdate()

@@ -10,4 +10,4 @@ Triple Kick Combo=direction:5,attack:kick,damage:6,meterCost:0,animID:4,hitboxGr
 Grab=direction:5,attack:throw,damage:10,meterCost:0,animID:50,hitboxGroundWidth:1.25,hitType:1,userMove:4.0,attributes:grab
 *.Over the Shoulder=direction:5,attack:punch,damage:15,meterCost:0,animID:51,hitboxGroundWidth:1.0,hitType:3,userMove:0.0,attributes:knockback
 *.Goal Kick=direction:5,attack:kick,daamge:24,meterCost:0,animID:52,hitboxGroundWidth:1.0,hitType:3,userMove:0.0,attributes:knockback
-Magnum Blast=direction:5,attack:special,damage:32,meterCost:300,animID:100,hitboxGroundWidth:2.0,hitType:3,userMove:30.0,attributes:knockbackFar
+Magnum Blast=direction:5,attack:special,damage:32,meterCost:300,animID:100,hitboxGroundWidth:6.2,hitType:3,userMove:30.0,attributes:knockbackFar

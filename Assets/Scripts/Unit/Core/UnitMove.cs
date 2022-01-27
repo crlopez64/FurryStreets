@@ -15,6 +15,7 @@ public class UnitMove : MonoBehaviour
 {
     private Rigidbody2D rb2D;
     private Animator animator;
+    private UnitShadow unitShadow;
     private UnitAnimationLayers unitAnimationLayers;
     private Vector3 initialGroundedPosition;
     private Vector2 velocity;
@@ -23,9 +24,11 @@ public class UnitMove : MonoBehaviour
     private bool canFlip;
     private bool grounded;
     private bool moveSmoothing;
-    //TODO: If pushing against an enemy, slow down to simulate pushing enemies
-    private byte collisionSlowing;
+    private byte doubleTaps;
+    private byte lastDirectionTapped;
+    private byte firstDirectionTapped;
     private int gravityScale;
+    private float doubleTapTimer;
     private float groundCheckTimer;
 
     protected UnitAttack unitAttack;
@@ -40,13 +43,17 @@ public class UnitMove : MonoBehaviour
         unitAttack = GetComponent<UnitAttack>();
         animator = GetComponent<Animator>();
         rb2D = GetComponent<Rigidbody2D>();
+        unitShadow = GetComponentInChildren<UnitShadow>();
     }
     protected virtual void Start()
     {
         grounded = true;
         initialGroundedPosition = transform.position;
         rb2D.drag = 15f;
+        doubleTaps = 0;
         gravityScale = 12;
+        lastDirectionTapped = 5;
+        firstDirectionTapped = 0;
     }
     protected virtual void Update()
     {
@@ -55,9 +62,30 @@ public class UnitMove : MonoBehaviour
         {
             groundCheckTimer -= Time.deltaTime;
         }
+        if (doubleTapTimer > 0)
+        {
+            doubleTapTimer -= Time.deltaTime;
+        }
+        else
+        {
+            if (!IsRunning())
+            {
+                doubleTaps = 0;
+                firstDirectionTapped = 0;
+                if (rb2D.velocity != Vector2.zero)
+                {
+                    lastDirectionTapped = 5;
+                }
+            }
+        }
         //Mess with Rigidbody drag for pop up combos
+        //Also shadow things
         if (!grounded)
         {
+            if (unitShadow != null)
+            {
+                unitShadow.TurnOffShadow();
+            }
             if (rb2D.velocity.y > 2f)
             {
                 rb2D.drag = 3f;
@@ -67,18 +95,22 @@ public class UnitMove : MonoBehaviour
             else if (rb2D.velocity.y <= 2f && rb2D.velocity.y >= -2f)
             {
                 rb2D.drag = 3f;
-                gravityScale = 5;
+                gravityScale = 4;
                 rb2D.gravityScale = gravityScale;
             }
             else
             {
-                rb2D.drag = 8f;
+                rb2D.drag = 6f;
                 gravityScale = 12;
                 rb2D.gravityScale = gravityScale;
             }
         }
         else
         {
+            if (unitShadow != null)
+            {
+                unitShadow.TurnOnShadow();
+            }
             rb2D.drag = 15f;
         }
         //Direction Facing
@@ -119,9 +151,9 @@ public class UnitMove : MonoBehaviour
             }
         }
 
-        //Animator
-        //animator.SetBool("Stunned", Stunned());
+        //Animators
         animator.SetBool("Grounded", grounded);
+        animator.SetBool("Running", IsRunning());
         animator.SetFloat("VelocityX", rb2D.velocity.x);
         animator.SetFloat("VelocityY", rb2D.velocity.y);
         animator.SetFloat("VelocityAll", rb2D.velocity.magnitude);
@@ -144,6 +176,7 @@ public class UnitMove : MonoBehaviour
                     velocity = Vector2.zero;
                     rb2D.velocity = velocity;
                 }
+                ParticleManager.Instance().SpawnLandingHitParticle(transform.position);
             }
         }
         //Movement Physics
@@ -199,7 +232,7 @@ public class UnitMove : MonoBehaviour
     /// <summary>
     /// Make the Unit move.
     /// </summary>
-    public void Move(Vector2 directionalInput)
+    public void Move(Vector2 directionalInput, byte directionalByte)
     {
         if (unitAttack != null)
         {
@@ -218,8 +251,15 @@ public class UnitMove : MonoBehaviour
         {
             return;
         }
+        if (directionalByte != lastDirectionTapped)
+        {
+            DoubleTap(directionalByte);
+        }
+        lastDirectionTapped = directionalByte;
         directionalInput = new Vector2(Mathf.Clamp(directionalInput.x, -1, 1), Mathf.Clamp(directionalInput.y, -1, 1));
-        velocity = new Vector2(horizontalSpeed * directionalInput.x, verticalSpeed * directionalInput.y);
+        float currentHorizontalSpeed = IsRunning() ? horizontalSpeed * 1.66f : horizontalSpeed;
+        float currentVerticalSpeed = IsRunning() ? verticalSpeed * 1.33f : verticalSpeed;
+        velocity = new Vector2(currentHorizontalSpeed * directionalInput.x, currentVerticalSpeed * directionalInput.y);
     }
     /// <summary>
     /// Make the Unit stop moving completely if on the ground.
@@ -310,6 +350,7 @@ public class UnitMove : MonoBehaviour
     /// <param name="knockback"></param>
     public void Knockback(Vector3 attackerPosition, Attack incomingAttack, bool criticalStunned)
     {
+        //Debug.Log("Knockback from: " + incomingAttack.GetName());
         canMove = false;
         float direction = (transform.position.x >= attackerPosition.x) ? 1 : -1;
         if (Mathf.Sign(transform.localScale.x) != (-direction))
@@ -319,8 +360,7 @@ public class UnitMove : MonoBehaviour
         if (grounded)
         {
             //Make initial knockback
-            velocity = Vector2.zero;
-            velocity = new Vector2(direction * 5f, 0);
+            velocity = criticalStunned ? new Vector2(direction * 28f, 0) : new Vector2(direction * 2f, 0);
             if (incomingAttack.AttributeKnockbackFar())
             {
                 velocity = new Vector2(direction * 60f, 15f);
@@ -339,7 +379,7 @@ public class UnitMove : MonoBehaviour
             }
             if (incomingAttack.AttributePopUp())
             {
-                velocity = new Vector2(direction * 3f, 50f);
+                velocity = criticalStunned ? velocity = new Vector2(direction * 18f, 40f) : new Vector2(direction * 3f, 50f);
                 animator.SetTrigger("HitAerialKnockback");
                 unitAnimationLayers.SetHitLayer();
                 MakeJump(velocity, true);
@@ -364,15 +404,14 @@ public class UnitMove : MonoBehaviour
         else
         {
             //Reduce the next knockback
-            Debug.Log("Reducing Knockback");
             if (incomingAttack.AttributeKnockback() || incomingAttack.AttributeKnockbackFar() || incomingAttack.AttributePopUp())
             {
-                velocity = new Vector2(direction * 35f, 12f);
+                velocity = new Vector2(direction * 16f, 10f);
                 MakeJump(velocity, false);
             }
             else
             {
-                velocity = new Vector2(direction * 1f, 25f);
+                velocity = criticalStunned ? velocity = new Vector2(direction * 16f, 10f) : new Vector2(direction * 1f, 20f);
                 MakeJump(velocity, false);
             }
         }
@@ -454,6 +493,62 @@ public class UnitMove : MonoBehaviour
         rb2D.velocity = velocity;
         groundCheckTimer = 0.1f;
     }
+    private void DoubleTap(byte directionalByte)
+    {
+        if ((directionalByte == 5) || (directionalByte == 0) || (directionalByte > 9))
+        {
+            if (doubleTaps >= 2)
+            {
+                doubleTaps = 0;
+                doubleTapTimer = 0f;
+            }
+            return;
+        }
+        if (doubleTaps == 0)
+        {
+            firstDirectionTapped = directionalByte;
+            doubleTaps++;
+            doubleTapTimer = 0.2f;
+        }
+        else
+        {
+            if (firstDirectionTapped != lastDirectionTapped)
+            {
+                if (SameBasicDirection(directionalByte))
+                {
+                    if (doubleTaps == 1)
+                    {
+                        doubleTaps++;
+                    }
+                }
+                else
+                {
+                    doubleTaps = 0;
+                    firstDirectionTapped = 0;
+                }
+            }
+        }
+    }
+    /// <summary>
+    /// Check if the same basic direction has been pressed. If strictly up or down, return false.
+    /// </summary>
+    /// <param name="directionalByte"></param>
+    /// <returns></returns>
+    private bool SameBasicDirection(byte directionalByte)
+    {
+        if ((directionalByte == 0) || (directionalByte == 2) || (directionalByte == 5)
+            || (directionalByte == 8) || (directionalByte > 9))
+        {
+            return false;
+        }
+        //If stick pressed right (3, 6, or 9), count it
+        if (directionalByte % 3 == 0)
+        {
+            return (firstDirectionTapped % 3) == 0;
+        }
+        //If stick pressed left (1, 4, or 7), count it
+        return (firstDirectionTapped % 3) == 1;
+    }
     /// <summary>
     /// Can the Unit check if they are touching ground? This is so that any jump or knockback is possible.
     /// </summary>
@@ -462,4 +557,13 @@ public class UnitMove : MonoBehaviour
     {
         return groundCheckTimer <= 0;
     }
+    /// <summary>
+    /// Is this Unit running?
+    /// </summary>
+    /// <returns></returns>
+    private bool IsRunning()
+    {
+        return doubleTaps >= 2;
+    }
+    
 }

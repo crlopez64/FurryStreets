@@ -175,7 +175,7 @@ TextureImporter:
         width: 66
         height: 66
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -196,7 +196,7 @@ TextureImporter:
         width: 94
         height: 94
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -217,7 +217,7 @@ TextureImporter:
         width: 144
         height: 144
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -238,7 +238,7 @@ TextureImporter:
         width: 190
         height: 190
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -259,7 +259,7 @@ TextureImporter:
         width: 239
         height: 239
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -267,6 +267,132 @@ TextureImporter:
       bones: []
       spriteID: 6e08509bf5c9869489d3ed6db7611c53
       internalID: 1431519002
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HitLanding_0
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 531
+        width: 51
+        height: 35
+      alignment: 9
+      pivot: {x: 0.54901963, y: 0.51428574}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9d1f8bff08faef443a83a5fa91ebaed2
+      internalID: -1474526493
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HitLanding_1
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 499
+        width: 383
+        height: 80
+      alignment: 9
+      pivot: {x: 0.49347258, y: 0.71250004}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6e60b76436bc7eb4a9457cb4202394f2
+      internalID: -1138572715
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HitLanding_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 389
+        width: 534
+        height: 105
+      alignment: 9
+      pivot: {x: 0.5037453, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 67457b85d4f2d364faeda8807d9c40db
+      internalID: 2103338767
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HitLanding_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 302
+        width: 534
+        height: 87
+      alignment: 9
+      pivot: {x: 0.5037453, y: 0.3448276}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a6277b0c083b0b94480ab67de402ea7b
+      internalID: 677278888
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HitLanding_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 228
+        width: 534
+        height: 74
+      alignment: 9
+      pivot: {x: 0.5037453, y: 0.1486486}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1c5a17e6b0cea5f4eae58c1c2d08471b
+      internalID: -1565975694
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HitLanding_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 164
+        width: 534
+        height: 65
+      alignment: 9
+      pivot: {x: 0.5037453, y: -0.32307693}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3bcee64c6590b594eb0fc8c2d78f8067
+      internalID: -1580361814
       vertices: []
       indices: 
       edges: []
@@ -285,7 +411,13 @@ TextureImporter:
       BlockParticles_3: 1790488165
       ParryParticles_2: -1175161651
       BlockParticles_2: 671815566
+      HitLanding_3: 677278888
+      HitLanding_5: -1580361814
+      HitLanding_2: 2103338767
+      HitLanding_4: -1565975694
       ParryParticles_1: -752573469
+      HitLanding_1: -1138572715
+      HitLanding_0: -1474526493
       BlockParticles_4: -754507643
       BlockParticles_0: -2140016060
       BlockParticles_1: 1233802960
