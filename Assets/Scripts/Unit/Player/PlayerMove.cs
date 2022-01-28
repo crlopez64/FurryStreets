@@ -18,8 +18,8 @@ public class PlayerMove : UnitMove
         base.Start();
         CanFlip(true);
         CanMove(true);
-        SetSpeed(7, 4);
-        SetJumpHeight(100);
+        SetSpeed(8, 4);
+        SetJumpHeight(10);
     }
     protected override void Update()
     {

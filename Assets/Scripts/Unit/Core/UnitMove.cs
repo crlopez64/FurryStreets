@@ -152,11 +152,14 @@ public class UnitMove : MonoBehaviour
         }
 
         //Animators
-        animator.SetBool("Grounded", grounded);
-        animator.SetBool("Running", IsRunning());
-        animator.SetFloat("VelocityX", rb2D.velocity.x);
-        animator.SetFloat("VelocityY", rb2D.velocity.y);
-        animator.SetFloat("VelocityAll", rb2D.velocity.magnitude);
+        if (animator != null)
+        {
+            animator.SetBool("Grounded", grounded);
+            animator.SetBool("Running", IsRunning());
+            animator.SetFloat("VelocityX", rb2D.velocity.x);
+            animator.SetFloat("VelocityY", rb2D.velocity.y);
+            animator.SetFloat("VelocityAll", rb2D.velocity.magnitude);
+        }
     }
     protected virtual void FixedUpdate()
     {
@@ -257,8 +260,8 @@ public class UnitMove : MonoBehaviour
         }
         lastDirectionTapped = directionalByte;
         directionalInput = new Vector2(Mathf.Clamp(directionalInput.x, -1, 1), Mathf.Clamp(directionalInput.y, -1, 1));
-        float currentHorizontalSpeed = IsRunning() ? horizontalSpeed * 1.66f : horizontalSpeed;
-        float currentVerticalSpeed = IsRunning() ? verticalSpeed * 1.33f : verticalSpeed;
+        float currentHorizontalSpeed = IsRunning() ? horizontalSpeed * 1.8f : horizontalSpeed;
+        float currentVerticalSpeed = IsRunning() ? verticalSpeed * 1.5f : verticalSpeed;
         velocity = new Vector2(currentHorizontalSpeed * directionalInput.x, currentVerticalSpeed * directionalInput.y);
     }
     /// <summary>
@@ -424,7 +427,13 @@ public class UnitMove : MonoBehaviour
     {
         moveSmoothing = tOrF;
     }
-    
+    /// <summary>
+    /// Spawn landing particles, if any.
+    /// </summary>
+    public void SpawnLandingParticles()
+    {
+        ParticleManager.Instance().SpawnLandingHitParticle(transform.position);
+    }
     /// <summary>
     /// Is the Unit touching the ground?
     /// </summary>
@@ -440,6 +449,14 @@ public class UnitMove : MonoBehaviour
     public bool FlyingUp()
     {
         return (!grounded) && (rb2D.velocity.y > 0);
+    }
+    /// <summary>
+    /// Is this Unit running?
+    /// </summary>
+    /// <returns></returns>
+    public bool IsRunning()
+    {
+        return doubleTaps >= 2;
     }
     /// <summary>
     /// Is the incoming Unit facing this Unit?
@@ -557,13 +574,4 @@ public class UnitMove : MonoBehaviour
     {
         return groundCheckTimer <= 0;
     }
-    /// <summary>
-    /// Is this Unit running?
-    /// </summary>
-    /// <returns></returns>
-    private bool IsRunning()
-    {
-        return doubleTaps >= 2;
-    }
-    
 }

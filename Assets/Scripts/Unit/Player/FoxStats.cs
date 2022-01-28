@@ -12,7 +12,5 @@ public class FoxStats : UnitStats
         base.Awake();
         maxHealth = 80;
         maxMeter = 100;
-        statAttack = 2;
-        statDefense = 2;
     }
 }

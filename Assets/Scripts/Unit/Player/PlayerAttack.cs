@@ -91,86 +91,47 @@ public class PlayerAttack : UnitAttack
                 Debug.LogError("ERROR: No Special moves!!");
                 return;
             }
-            if ((directionalInput == 3) || (directionalInput == 9))
+            if (unitMove.IsRunning())
+            {
+                Debug.Log("Running! Dash Special now!!");
+                return;
+            }
+            if ((directionalInput % 3) == 0)
             {
                 directionalInput = 6;
             }
-            if ((directionalInput == 1) || (directionalInput == 7))
+            if ((directionalInput % 3) == 1)
             {
                 directionalInput = 4;
             }
             switch (directionalInput)
             {
                 case 2: //Down Special
-                    if (specialAttacks[2].CanUseMove(unitStats.CurrentMeter()))
-                    {
-                        specialBuffered = specialAttacks[2];
-                    }
-                    else
-                    {
-                        unitStats.NotEnoughMeter();
-                    }
+                    CanDoSpecial(2);
                     break;
                 case 4: //Forward Special
-                    if (specialAttacks[1].CanUseMove(unitStats.CurrentMeter()))
-                    {
-                        specialBuffered = specialAttacks[1];
-                    }
-                    else
-                    {
-                        unitStats.NotEnoughMeter();
-                    }
+                    CanDoSpecial(1);
                     break;
                 case 5: //Neutral Special
-                    if (specialAttacks[0].CanUseMove(unitStats.CurrentMeter()))
-                    {
-                        specialBuffered = specialAttacks[0];
-                    }
-                    else
-                    {
-                        unitStats.NotEnoughMeter();
-                    }
+                    CanDoSpecial(0);
                     break;
                 case 6: //Forward Special
-                    if (specialAttacks[1].CanUseMove(unitStats.CurrentMeter()))
-                    {
-                        specialBuffered = specialAttacks[1];
-                    }
-                    else
-                    {
-                        unitStats.NotEnoughMeter();
-                    }
+                    CanDoSpecial(1);
                     break;
                 case 8: //Up Special
-                    if (specialAttacks[3].CanUseMove(unitStats.CurrentMeter()))
-                    {
-                        specialBuffered = specialAttacks[3];
-                    }
-                    else
-                    {
-                        unitStats.NotEnoughMeter();
-                    }
+                    CanDoSpecial(3);
                     break;
                 default: //Neutral Special
-                    if (specialAttacks[0].CanUseMove(unitStats.CurrentMeter()))
-                    {
-                        specialBuffered = specialAttacks[0];
-                    }
-                    else
-                    {
-                        unitStats.NotEnoughMeter();
-                    }
+                    CanDoSpecial(0);
                     break;
             }
         }
-
         //BASE CASE: If hit or on an ender attack, and does not have Special Attack Input, do not buffer in attacks
         if (IsAttacked() ||
             ((!CurrentlyGrabbing()) && (!attackToBuffer.HasOptions())))
         {
             return;
         }
-
         //BASE CASE: If was grabbing, only consider attack input.
         if (CurrentlyGrabbing())
         {
@@ -241,7 +202,7 @@ public class PlayerAttack : UnitAttack
                             }
                             else
                             {
-                                unitStats.NotEnoughMeter();
+                                unitStats.GetComponent<PlayerStats>().NotEnoughMeter();
                             }
                         }
                         //TODO: Move the Flipping to somewhere else?
@@ -450,6 +411,17 @@ public class PlayerAttack : UnitAttack
         }
     }
 
+    private void CanDoSpecial(int index)
+    {
+        if (specialAttacks[index].CanUseMove(unitStats.CurrentMeter()))
+        {
+            specialBuffered = specialAttacks[index];
+        }
+        else
+        {
+            unitStats.GetComponent<PlayerStats>().NotEnoughMeter();
+        }
+    }
     /// <summary>
     /// Stop adding attacks for all the moves in the list.
     /// </summary>

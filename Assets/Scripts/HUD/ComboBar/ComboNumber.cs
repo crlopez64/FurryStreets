@@ -9,10 +9,19 @@ using TMPro;
 public class ComboNumber : MonoBehaviour
 {
     private TextMeshProUGUI fountainPen;
+    private float sizeTimer;
 
     private void Awake()
     {
         fountainPen = GetComponent<TextMeshProUGUI>();
+    }
+    private void Update()
+    {
+        if (sizeTimer > 0)
+        {
+            sizeTimer -= Time.deltaTime;
+        }
+        fountainPen.fontSize = Mathf.Lerp(148, 360, sizeTimer / 0.125f);
     }
 
     /// <summary>
@@ -22,5 +31,6 @@ public class ComboNumber : MonoBehaviour
     public void SetText(int currentValue)
     {
         fountainPen.text = currentValue.ToString();
+        sizeTimer = 0.125f;
     }
 }

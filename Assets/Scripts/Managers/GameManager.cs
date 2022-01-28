@@ -37,9 +37,9 @@ public class GameManager : MonoBehaviour
         {
             instance = this;
         }
+        Debug.Log("Disabling mouse");
         dialogueManager = GetComponent<DialogueManager>();
         player = FindObjectOfType<PlayerMove>();
-        Debug.Log("Disabling mouse");
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         //Time.timeScale = 0.5f;
@@ -47,7 +47,6 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         playerHUD.gameObject.SetActive(true);
-        //dialogue.gameObject.SetActive(false);
         pauseMenu.gameObject.SetActive(false);
         blackFade.gameObject.SetActive(false);
         currency.GetComponentInChildren<HUDCurrencyHolder>().TurnOnVisuals();

@@ -6,7 +6,7 @@ ART STYLE:
 TO DO LIST:
 -> Controls: 
 -> Redo move list for Wolf/Mateo (will eventually change depending on characters)
--> Name Fox Ally (Maybe? Sven)
+-> Make idle pose for Fox/Sven
 -> Special Move Particles On Hit
 -> Special moves for Wolf
 	-> Neutral Special: Magnum Blast (Ranged Attack, as a repel)
@@ -14,9 +14,6 @@ TO DO LIST:
 	-> Grab, Special: Focus Blast (Heavy Damage Attack to one Unit, maxes out Stun if still alive)
 	-> Neutral Special (during Air): Falling Blast (AoE Attack, knocking everyone away)
 -> Moves that may hit from behind
--> Blocking correctly
--> Parrying correctly
--> Attacks that may linger to add more Active Frames (and maximum multihits)
 
 ITEMS:
 -> Can decrease Meter use (by Percentage %)

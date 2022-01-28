@@ -7,9 +7,17 @@ using UnityEngine;
 /// </summary>
 public class PlayerStats : UnitStats
 {
-    private float comboTimer;
-    private int highestCombo;
     private int comboHits;
+    private int highestCombo;
+    private float comboTimer;
+    private float multiplierKick;             //Extra damage from Kicks, will not influence stun damage
+    private float multiplierPunch;            //Extra damage from Punches, will not influence stun damage
+    private float multiplierStun;             //Extra stun damage from normal attacks, punch or kick
+    private float multiplierSpecial;          //Extra damage from Special, will not influence stun damage
+    private float multiplierSpecialDiscount;  //Discount of Meter from using Specials
+
+    public ComboCounter comboCounter;
+    public HUDMeters meters;
 
     protected override void Awake()
     {
@@ -18,6 +26,7 @@ public class PlayerStats : UnitStats
         GetMeter(1);
         GetComboCounter(1);
         SetTestWolf();
+        SetTestMultipliers();
     }
     protected override void Start()
     {
@@ -35,7 +44,6 @@ public class PlayerStats : UnitStats
             ResetComboTooLong();
         }
     }
-
     /// <summary>
     /// Add one hit to this Player's Combo.
     /// </summary>
@@ -65,21 +73,89 @@ public class PlayerStats : UnitStats
         comboTimer = 0;
         comboCounter.PlayerHit();
     }
-
-    public void SetTestWolf()
+    /// <summary>
+    /// Light up the Meter Bar if there's not enough Meter to use.
+    /// </summary>
+    public void NotEnoughMeter()
     {
-        meters.SetMetersWolf();
-        statAttack = 5;
-        statDefense = 2;
-        statMeterGain = 2;
-        maxHealth = 1000;
-        maxMeter = 650;
-        maxStun = 1000;
-        currentHealth = maxHealth;
-        currentMeter = maxMeter;
-        meters.SetHealthBarCurrent(currentHealth);
-        meters.SetMeterBarCurrent(currentMeter, false);
-        GetComponentInChildren<ParticlePooler>().SetParticlesSpecialMovesWolf();
+        if (meters != null)
+        {
+            meters.LightUpMeter();
+        }
+    }
+    public override bool TakeDamage(Attack incomingAttack, UnitStats attackingUnit)
+    {
+        bool temp = base.TakeDamage(incomingAttack, attackingUnit);
+        if (meters != null)
+        {
+            meters.SetHealthBarCurrent(currentHealth);
+        }
+        return temp;
+    }
+    public override bool MeterBurn(int meterBurn)
+    {
+        bool temp = base.MeterBurn(meterBurn);
+        if (meters != null)
+        {
+            meters.SetMeterBarCurrent(currentMeter, true);
+        }
+        return temp;
+    }
+    public override void RestoreUnit(int healthRestore, int meterRestore)
+    {
+        base.RestoreUnit(healthRestore, meterRestore);
+        if (meters != null)
+        {
+            meters.SetHealthBarCurrent(currentHealth);
+            meters.SetMeterBarCurrent(currentMeter, false);
+        }
+    }
+    public override void RestAll()
+    {
+        base.RestAll();
+        if (meters != null)
+        {
+            meters.SetHealthBarCurrent(currentHealth);
+            meters.SetMeterBarCurrent(currentMeter, false);
+        }
+    }
+    public float MultiplierKick()
+    {
+        return multiplierKick;
+    }
+    public float MultiplierPunch()
+    {
+        return multiplierPunch;
+    }
+    public float MultiplierStun()
+    {
+        return multiplierStun;
+    }
+    public float MultiplierSpecial()
+    {
+        return multiplierSpecial;
+    }
+    public float MultiplierSpecialDiscount()
+    {
+        return multiplierSpecialDiscount;
+    }
+
+    /// <summary>
+    /// Get HUD for some player.
+    /// </summary>
+    /// <param name="whichPlayer"></param>
+    private void GetMeter(byte whichPlayer)
+    {
+        meters = FindObjectOfType<HUDMetersGrid>().GetMeter(whichPlayer);
+    }
+
+    /// <summary>
+    /// Get Combo Counter for some player.
+    /// </summary>
+    /// <param name="whichPlayer"></param>
+    private void GetComboCounter(byte whichPlayer)
+    {
+        comboCounter = FindObjectOfType<HUDCombosGrid>().GetComboCounter(whichPlayer);
     }
     /// <summary>
     /// Get Timer for current Combo hit. The higher the combo, the less time to increase the combo hits.
@@ -111,5 +187,27 @@ public class PlayerStats : UnitStats
         {
             return 2.5f;
         }
+    }
+
+    public void SetTestWolf()
+    {
+        meters.SetMetersWolf();
+        statMeterGain = 2;
+        maxHealth = 1000;
+        maxMeter = 650;
+        maxStun = 1000;
+        currentHealth = maxHealth;
+        currentMeter = maxMeter;
+        meters.SetHealthBarCurrent(currentHealth);
+        meters.SetMeterBarCurrent(currentMeter, false);
+        GetComponentInChildren<ParticlePooler>().SetParticlesSpecialMovesWolf();
+    }
+    public void SetTestMultipliers()
+    {
+        multiplierKick = 1f;
+        multiplierPunch = 1f;
+        multiplierStun = 1f;
+        multiplierSpecial = 1f;
+        multiplierSpecialDiscount = 1f;
     }
 }

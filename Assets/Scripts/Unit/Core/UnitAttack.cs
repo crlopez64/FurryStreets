@@ -22,6 +22,7 @@ public class UnitAttack : MonoBehaviour
     protected Hitbox airborneHitbox;
     protected UnitMove unitMove;
     protected UnitMove grabbedUnit;
+    protected List<Attack> dashAttacks; //Punch, Kick, Special (if any)
     protected List<Attack> specialAttacks; //TODO: Neutral, Forward, Down, Up
     protected Attack rootAttack;
     /// <summary>
@@ -101,14 +102,17 @@ public class UnitAttack : MonoBehaviour
         }
 
         //Animator
-        animator.SetBool("Stunned", Stunned());
-        animator.SetBool("Blocking", blocking);
-        animator.SetBool("Attacking", attacking);
-        animator.SetBool("AttackStance", AttackStance());
-        animator.SetBool("StayDowned", unitStats.StaminaEmpty());
-        animator.SetInteger("Grabbed", grabbedByType);
-        animator.SetInteger("GrabbingEnemy", grabbingEnemyType);
-        animator.SetInteger("AttackAnim", (attackToAnimate == null) ? 0 : attackToAnimate.GetAnimationID());
+        if (animator != null)
+        {
+            animator.SetBool("Stunned", Stunned());
+            animator.SetBool("Blocking", blocking);
+            animator.SetBool("Attacking", attacking);
+            animator.SetBool("AttackStance", AttackStance());
+            animator.SetBool("StayDowned", unitStats.StaminaEmpty());
+            animator.SetInteger("Grabbed", grabbedByType);
+            animator.SetInteger("GrabbingEnemy", grabbingEnemyType);
+            animator.SetInteger("AttackAnim", (attackToAnimate == null) ? 0 : attackToAnimate.GetAnimationID());
+        }
     }
     public void OnDrawGizmos()
     {

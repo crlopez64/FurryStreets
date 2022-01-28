@@ -14,8 +14,6 @@ public class WolfStats : UnitStats
         maxHealth = 1000;
         maxMeter = 650;
         maxStun = 400;
-        statAttack = 3;
-        statDefense = 1;
     }
 
     
